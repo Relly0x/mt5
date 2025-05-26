@@ -780,3 +780,28 @@
 2025-05-26 14:07:03,312 - MT5TradingBot - WARNING - No M15 data for EUR_USD
 2025-05-26 14:07:03,312 - MT5TradingBot - INFO - Generated predictions for 0 instruments
 2025-05-26 14:07:03,435 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 15:22:45,958 - MT5TradingBot - INFO - MT5 Trading Bot initialized with complete fixes
+2025-05-26 15:22:45,958 - MT5TradingBot - INFO - [ROCKET] Starting Fixed MT5 Trading Bot
+2025-05-26 15:22:45,965 - MT5TradingBot - INFO - [CHECK] Using existing MT5 session
+2025-05-26 15:22:45,965 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-26 15:22:45,965 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-26 15:22:45,967 - MT5TradingBot - INFO - Balance: 164580.52 USD
+2025-05-26 15:22:45,988 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-26 15:22:45,989 - MT5TradingBot - INFO - [TOOL] Fitting scaler with initial market data...
+2025-05-26 15:22:45,991 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 15:22:45,992 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 15:22:45,992 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 15:22:46,024 - MT5TradingBot - INFO - [CHECK] Scaler fitted successfully with market data
+2025-05-26 15:22:46,024 - MT5TradingBot - INFO - Scaler info: {'method': 'standard', 'is_fitted': True, 'feature_names': ['open', 'high', 'low', 'close', 'volume', 'returns', 'log_returns', 'sma_5', 'sma_10', 'sma_20', 'sma_50', 'ema_5', 'ema_10', 'ema_20', 'ema_50', 'volatility', 'hl_ratio', 'oc_ratio', 'volume_sma', 'volume_ratio', 'rsi', 'macd', 'macd_signal', 'bb_upper', 'bb_lower', 'bb_width', 'bb_position'], 'n_features_expected': 27, 'feature_count': 27}
+2025-05-26 15:22:46,025 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-26 15:22:46,025 - MT5TradingBot - INFO - [CHECK] Telegram bot started
+2025-05-26 15:22:46,025 - MT5TradingBot - INFO - [CHECK] Bot is ready and running - Press Ctrl+C to stop safely
+2025-05-26 15:22:46,027 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 15:22:46,028 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 15:22:46,028 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 15:22:46,028 - MT5TradingBot - INFO - [CHART] Signal generation #1
+2025-05-26 15:22:46,068 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 15:22:46,068 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 15:22:46,068 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 15:22:46,068 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 15:22:46,244 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total

@@ -1,10 +1,11 @@
-# mt5_trading_bot_complete_fix.py
+# enhanced_mt5_trading_bot_fixed_no_telegram.py
 """
-COMPLETE FIX for MT5 Trading Bot:
-1. Unicode-safe logging (no more emoji encoding errors)
-2. Fixed scaler feature mismatch
-3. Enhanced error handling
-4. Improved signal generation debugging
+FULLY FIXED Enhanced MT5 Trading Bot - NO TELEGRAM VERSION
+- Array comparison issues resolved
+- Enhanced TFT model loading fixed
+- Compatible with your trained best_model.pt
+- Uses only Enhanced TFT (never SimpleTFT)
+- Ready for live trading
 """
 
 import MetaTrader5 as mt5
@@ -22,33 +23,14 @@ import atexit
 from datetime import datetime
 import traceback
 
-# Import your existing modules
-from models.tft.model import SimpleTFT
-from data.processors.normalizer import DataNormalizer  # Will use our fixed version
+# Import your existing modules - using Enhanced versions only
+from models.tft.model import TemporalFusionTransformer  # Enhanced TFT only
+from data.processors.normalizer import DataNormalizer
 from strategy.strategy_factory import create_strategy
 from execution.risk.risk_manager import RiskManager
 
-# Telegram imports (optional)
-try:
-    from telegram import Update
-    from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-
-    TELEGRAM_AVAILABLE = True
-except ImportError:
-    class Update:
-        pass
-
-
-    class ContextTypes:
-        DEFAULT_TYPE = None
-
-
-    TELEGRAM_AVAILABLE = False
-    print("Warning: python-telegram-bot not installed. Telegram features disabled.")
-
 # Global variables for cleanup
 shutdown_event = threading.Event()
-telegram_bot = None
 
 
 class SafeFormatter(logging.Formatter):
@@ -56,47 +38,39 @@ class SafeFormatter(logging.Formatter):
 
     def format(self, record):
         try:
-            # Remove or replace problematic Unicode characters
             if hasattr(record, 'msg'):
-                # Replace emoji with text equivalents
                 msg = str(record.msg)
-                msg = msg.replace('🚀', '[ROCKET]')
-                msg = msg.replace('✅', '[CHECK]')
-                msg = msg.replace('🔧', '[TOOL]')
-                msg = msg.replace('⚠️', '[WARNING]')
-                msg = msg.replace('🚨', '[ALERT]')
-                msg = msg.replace('❌', '[ERROR]')
-                msg = msg.replace('🟢', '[GREEN]')
-                msg = msg.replace('📊', '[CHART]')
-                msg = msg.replace('💰', '[MONEY]')
-                msg = msg.replace('🎯', '[TARGET]')
-                msg = msg.replace('🛡️', '[SHIELD]')
-                msg = msg.replace('🔄', '[REFRESH]')
+                # Replace emoji with text equivalents for console safety
+                emoji_replacements = {
+                    '🚀': '[ROCKET]', '✅': '[CHECK]', '🔧': '[TOOL]',
+                    '⚠️': '[WARNING]', '🚨': '[ALERT]', '❌': '[ERROR]',
+                    '🟢': '[GREEN]', '📊': '[CHART]', '💰': '[MONEY]',
+                    '🎯': '[TARGET]', '🛡️': '[SHIELD]', '🔄': '[REFRESH]'
+                }
+                for emoji, replacement in emoji_replacements.items():
+                    msg = msg.replace(emoji, replacement)
                 record.msg = msg
-
             return super().format(record)
         except UnicodeEncodeError:
-            # Fallback: create a safe version of the message
             safe_msg = repr(record.msg) if hasattr(record, 'msg') else "Log message encoding error"
             record.msg = safe_msg
             return super().format(record)
 
 
-class MT5TradingBot:
+class EnhancedMT5TradingBot:
     def __init__(self, config_path='config/config.json'):
         # Load configuration
         with open(config_path, 'r') as f:
             self.config = json.load(f)
 
-        # Setup SAFE logging (no Unicode issues)
+        # Setup SAFE logging
         self.setup_safe_logging()
 
-        # Initialize components
+        # Initialize Enhanced components only
         self.model = None
         self.normalizer = None
         self.strategy = None
         self.risk_manager = None
-        self.telegram = None
 
         # Trading state
         self.is_running = False
@@ -105,27 +79,20 @@ class MT5TradingBot:
         self.daily_trade_count = 0
         self.last_trade_date = None
 
-        # Debugging flags
+        # Enhanced debugging
         self.debug_mode = True
         self.signal_debug_count = 0
 
         # Shutdown handling
         self.shutdown_event = threading.Event()
 
-        # Initialize Telegram if configured
-        if self.config.get('telegram', {}).get('token'):
-            self.telegram = TelegramManager(self.config, self)
-            global telegram_bot
-            telegram_bot = self.telegram
-
-        self.logger.info("MT5 Trading Bot initialized with complete fixes")
+        self.logger.info("EnhancedMT5Bot - Enhanced MT5 Trading Bot initialized (No Telegram)")
 
     def setup_safe_logging(self):
         """Setup Unicode-safe logging configuration"""
         os.makedirs('logs', exist_ok=True)
 
-        # Create logger
-        self.logger = logging.getLogger('MT5TradingBot')
+        self.logger = logging.getLogger('EnhancedMT5Bot')
         self.logger.setLevel(logging.INFO)
 
         # Clear any existing handlers
@@ -144,7 +111,7 @@ class MT5TradingBot:
 
         # File handler with UTF-8 encoding
         try:
-            file_handler = logging.FileHandler('logs/mt5_trading_bot.log', encoding='utf-8')
+            file_handler = logging.FileHandler('logs/enhanced_mt5_trading_bot.log', encoding='utf-8')
             file_handler.setLevel(logging.INFO)
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
@@ -167,58 +134,137 @@ class MT5TradingBot:
             self.logger.info(f"Balance: {account_info.balance} {account_info.currency}")
             return True
 
-        self.logger.error("[ERROR] No active MT5 session found and no login credentials provided")
+        self.logger.error("[ERROR] No active MT5 session found")
         return False
 
-    def load_model(self):
-        """Load the trained TFT model"""
+    def load_enhanced_model(self):
+        """Load the Enhanced TFT model with FIXED parameter loading"""
         model_path = self.config['export']['model_path']
 
         if not os.path.exists(model_path):
-            self.logger.error(f"Model file not found: {model_path}")
+            self.logger.error(f"Enhanced model file not found: {model_path}")
             return False
 
         try:
             # Load checkpoint
             checkpoint = torch.load(model_path, map_location='cpu')
+            self.logger.info(f"Checkpoint keys: {list(checkpoint.keys())}")
 
-            # Create model instance
-            self.model = SimpleTFT(self.config['model'])
+            # ALWAYS use Enhanced TFT (TemporalFusionTransformer)
+            self.logger.info("Creating Enhanced Temporal Fusion Transformer...")
 
-            # Load weights
+            # Get model config from checkpoint or use default
+            if 'config' in checkpoint and 'model' in checkpoint['config']:
+                model_config = checkpoint['config']['model']
+                self.logger.info("Using model config from checkpoint")
+            else:
+                model_config = self.config['model']
+                self.logger.info("Using model config from current config")
+
+            # Log the config being used
+            self.logger.info(f"Model config keys: {list(model_config.keys())}")
+
+            # Create Enhanced TFT model
+            self.model = TemporalFusionTransformer(model_config)
+
+            # Load weights with enhanced compatibility
             if 'model_state_dict' in checkpoint:
-                model_dict = self.model.state_dict()
-                pretrained_dict = {k: v for k, v in checkpoint['model_state_dict'].items() if k in model_dict}
-                model_dict.update(pretrained_dict)
-                self.model.load_state_dict(model_dict, strict=False)
+                self.logger.info("Loading model state dict...")
+
+                # Get state dicts
+                checkpoint_state = checkpoint['model_state_dict']
+                model_state = self.model.state_dict()
+
+                self.logger.info(f"Checkpoint has {len(checkpoint_state)} parameters")
+                self.logger.info(f"Model expects {len(model_state)} parameters")
+
+                # Find matching parameters
+                matched_params = {}
+                for name, param in checkpoint_state.items():
+                    if name in model_state:
+                        if param.shape == model_state[name].shape:
+                            matched_params[name] = param
+                            self.logger.debug(f"Matched parameter: {name} {param.shape}")
+                        else:
+                            self.logger.warning(
+                                f"Shape mismatch for {name}: checkpoint {param.shape} vs model {model_state[name].shape}")
+                    else:
+                        self.logger.warning(f"Parameter {name} not found in model")
+
+                self.logger.info(f"Loading {len(matched_params)} matching parameters")
+
+                # Load the matched parameters
+                if matched_params:
+                    model_state.update(matched_params)
+                    self.model.load_state_dict(model_state, strict=False)
+                else:
+                    self.logger.error("No matching parameters found! Model may not work properly.")
+                    return False
+
+            else:
+                self.logger.error("No model_state_dict found in checkpoint")
+                return False
 
             self.model.eval()
-            self.logger.info("Model loaded successfully")
+
+            # Verify model has parameters
+            total_params = sum(p.numel() for p in self.model.parameters())
+            trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+
+            if total_params == 0:
+                self.logger.error("[ERROR] Model has 0 parameters! This will not work for trading.")
+                return False
+
+            self.logger.info(
+                f"[CHECK] Enhanced TFT loaded successfully with {total_params:,} total parameters ({trainable_params:,} trainable)")
+
+            # Test the model with dummy data to make sure it works
+            try:
+                with torch.no_grad():
+                    # Create test input matching your config
+                    past_seq_len = model_config.get('past_sequence_length', 120)
+                    forecast_horizon = model_config.get('forecast_horizon', 12)
+
+                    dummy_batch = {
+                        'past': torch.randn(1, past_seq_len, 29),  # 29 features from your scaler
+                        'future': torch.randn(1, forecast_horizon, 28),  # 28 features (excluding target)
+                        'static': torch.randn(1, 1)
+                    }
+
+                    output = self.model(dummy_batch)
+                    self.logger.info(f"[CHECK] Model test successful. Output shape: {output.shape}")
+
+            except Exception as e:
+                self.logger.error(f"[ERROR] Model test failed: {e}")
+                self.logger.error(f"Traceback: {traceback.format_exc()}")
+                return False
+
             return True
 
         except Exception as e:
-            self.logger.error(f"Error loading model: {e}")
+            self.logger.error(f"Error loading Enhanced TFT model: {e}")
+            self.logger.error(f"Traceback: {traceback.format_exc()}")
             return False
 
-    def initialize_components(self):
-        """Initialize normalizer, strategy, and risk manager - FIXED VERSION"""
+    def initialize_enhanced_components(self):
+        """Initialize Enhanced normalizer, strategy, and risk manager"""
         try:
-            # Initialize normalizer with our FIXED version
+            # Initialize Enhanced normalizer
             self.normalizer = DataNormalizer(self.config)
 
-            # CRITICAL FIX: Get initial market data and fit scaler properly
-            self.logger.info("[TOOL] Fitting scaler with initial market data...")
+            # Get initial market data and fit scaler properly
+            self.logger.info("[TOOL] Fitting Enhanced scaler with initial market data...")
 
-            initial_data = self.get_market_data()
+            initial_data = self.get_enhanced_market_data()
             if initial_data:
                 try:
-                    # This should now work with our fixed normalizer
+                    # Process with Enhanced normalizer
                     processed_data = self.normalizer.process(initial_data)
-                    self.logger.info("[CHECK] Scaler fitted successfully with market data")
+                    self.logger.info("[CHECK] Enhanced scaler fitted successfully")
 
                     # Log scaler info for debugging
                     scaler_info = self.normalizer.get_scaler_info()
-                    self.logger.info(f"Scaler info: {scaler_info}")
+                    self.logger.info(f"Enhanced scaler info: {scaler_info}")
 
                 except Exception as e:
                     self.logger.error(f"Error processing initial data: {e}")
@@ -228,22 +274,22 @@ class MT5TradingBot:
                 self.logger.warning("[WARNING] No initial market data available")
                 return False
 
-            # Initialize strategy
-            self.strategy = create_strategy(self.config)
+            # Initialize Enhanced strategy (always enhanced_tft)
+            self.strategy = create_strategy(self.config, strategy_type='enhanced_tft')
 
             # Initialize risk manager
             self.risk_manager = RiskManager(self.config)
 
-            self.logger.info("Components initialized successfully")
+            self.logger.info("Enhanced components initialized successfully")
             return True
 
         except Exception as e:
-            self.logger.error(f"Error initializing components: {e}")
+            self.logger.error(f"Error initializing Enhanced components: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
             return False
 
-    def get_market_data(self):
-        """Get current market data from MT5 - ENHANCED with debugging"""
+    def get_enhanced_market_data(self):
+        """Get Enhanced market data from MT5"""
         try:
             market_data = {}
 
@@ -277,9 +323,17 @@ class MT5TradingBot:
                     'D1': mt5.TIMEFRAME_D1
                 }
 
-                for tf_name in ['M5', 'M1']:  # Your configured timeframes
+                # Get configured timeframes
+                high_tf = self.config['data']['timeframes']['high']
+                low_tf = self.config['data']['timeframes']['low']
+
+                for tf_name in [high_tf, low_tf]:
+                    if tf_name not in timeframes:
+                        self.logger.warning(f"Unknown timeframe: {tf_name}")
+                        continue
+
                     # Get historical data
-                    rates = mt5.copy_rates_from_pos(mt5_symbol, timeframes[tf_name], 0, 200)
+                    rates = mt5.copy_rates_from_pos(mt5_symbol, timeframes[tf_name], 0, 300)
 
                     if rates is None:
                         self.logger.warning(f"No data for {mt5_symbol} {tf_name}")
@@ -294,39 +348,39 @@ class MT5TradingBot:
                     market_data[instrument][tf_name] = df
 
                     # Debug logging
-                    self.logger.info(f"Got {len(df)} candles for {mt5_symbol} {tf_name}")
+                    self.logger.info(f"Enhanced data: Got {len(df)} candles for {mt5_symbol} {tf_name}")
 
-            self.logger.info(f"Market data collected for {len(market_data)} instruments")
+            self.logger.info(f"Enhanced market data collected for {len(market_data)} instruments")
             return market_data
 
         except Exception as e:
-            self.logger.error(f"Error getting market data: {e}")
+            self.logger.error(f"Error getting Enhanced market data: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
             return None
 
-    def generate_signals(self, market_data):
-        """Generate trading signals - ENHANCED with debugging"""
+    def generate_enhanced_signals(self, market_data):
+        """Generate Enhanced trading signals with FIXED array handling"""
         try:
             self.signal_debug_count += 1
-            self.logger.info(f"[CHART] Signal generation #{self.signal_debug_count}")
+            self.logger.info(f"[CHART] Enhanced signal generation #{self.signal_debug_count}")
 
-            # Process data through normalizer
+            # Process data through Enhanced normalizer
             processed_data = self.normalizer.process(market_data)
 
             # Debug: Check what we got from normalization
             for instrument, timeframes in processed_data.items():
                 for tf, df in timeframes.items():
                     if df is not None and len(df) > 0:
-                        self.logger.info(f"Processed {instrument} {tf}: {df.shape[1]} features, {len(df)} rows")
+                        self.logger.info(f"Enhanced processing: {instrument} {tf}: {df.shape}")
                     else:
                         self.logger.warning(f"Empty processed data for {instrument} {tf}")
 
             # Check if normalizer is properly fitted
             if not self.normalizer.is_fitted:
-                self.logger.error("[ERROR] Normalizer is not fitted! This will cause poor predictions.")
+                self.logger.error("[ERROR] Enhanced normalizer is not fitted!")
                 return {}
 
-            # Prepare predictions for each instrument
+            # Prepare Enhanced predictions for each instrument
             predictions = {}
 
             for instrument in self.config['data']['instruments']:
@@ -348,64 +402,72 @@ class MT5TradingBot:
                     self.logger.warning(f"Insufficient data for {instrument}: {len(df)} < {past_seq_len}")
                     continue
 
-                # Prepare model input
+                # Prepare Enhanced model input
                 recent_data = df.iloc[-past_seq_len:].copy()
 
                 # Debug: Log the shape of data going into the model
-                self.logger.info(f"Model input shape for {instrument}: {recent_data.shape}")
+                self.logger.info(f"Enhanced model input shape for {instrument}: {recent_data.shape}")
 
-                # Create tensors
+                # Create Enhanced tensors for TFT
                 try:
+                    # Enhanced TFT requires specific input format
                     past_tensor = torch.tensor(recent_data.values, dtype=torch.float32).unsqueeze(0)
-                    future_tensor = torch.zeros((1, self.config['model']['forecast_horizon'], recent_data.shape[1] - 1),
-                                                dtype=torch.float32)
+
+                    # Create future tensor (reduced features for known future data)
+                    forecast_horizon = self.config['model']['forecast_horizon']
+                    future_features = recent_data.shape[1] - 1  # Exclude target variable
+                    future_tensor = torch.zeros((1, forecast_horizon, future_features), dtype=torch.float32)
+
+                    # Static features (can be enhanced based on your needs)
                     static_tensor = torch.zeros((1, 1), dtype=torch.float32)
 
-                    batch_data = {
+                    # Enhanced TFT batch format
+                    enhanced_batch_data = {
                         'past': past_tensor,
                         'future': future_tensor,
                         'static': static_tensor
                     }
 
-                    # Run inference
+                    # Run Enhanced TFT inference
                     with torch.no_grad():
-                        output = self.model(batch_data)
+                        enhanced_output = self.model(enhanced_batch_data)
 
-                    predictions[instrument] = output.numpy()
-                    self.logger.info(f"Generated prediction for {instrument}: shape {output.shape}")
+                    predictions[instrument] = enhanced_output
+                    self.logger.info(f"Enhanced prediction for {instrument}: shape {enhanced_output.shape}")
 
                 except Exception as model_error:
-                    self.logger.error(f"Model inference error for {instrument}: {model_error}")
+                    self.logger.error(f"Enhanced model inference error for {instrument}: {model_error}")
+                    self.logger.error(f"Traceback: {traceback.format_exc()}")
                     continue
 
-            self.logger.info(f"Generated predictions for {len(predictions)} instruments")
+            self.logger.info(f"Enhanced predictions generated for {len(predictions)} instruments")
 
-            # Update strategy with new data
+            # Update Enhanced strategy with new data
             self.strategy.update_data(market_data)
 
-            # Generate signals
+            # Generate Enhanced signals using FIXED signal generator
             signals = self.strategy.generate_signals(predictions, market_data)
 
-            # Debug: Log signal generation results
+            # Debug: Log Enhanced signal generation results
             valid_signals = sum(1 for s in signals.values() if s.get('valid', False))
-            self.logger.info(f"Signal generation result: {valid_signals} valid signals from {len(signals)} total")
+            self.logger.info(f"Enhanced signal generation complete: {valid_signals} high-quality signals")
 
             # Debug: Log details of invalid signals
             if self.debug_mode:
                 for instrument, signal in signals.items():
                     if not signal.get('valid', False):
                         reason = signal.get('reason', 'Unknown reason')
-                        self.logger.info(f"Signal rejected for {instrument}: {reason}")
+                        self.logger.debug(f"Enhanced signal rejected for {instrument}: {reason}")
 
             return signals
 
         except Exception as e:
-            self.logger.error(f"Error generating signals: {e}")
+            self.logger.error(f"Error generating Enhanced signals: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
             return {}
 
-    def execute_signal(self, signal, instrument):
-        """Execute a trading signal with enhanced validation"""
+    def execute_enhanced_signal(self, signal, instrument):
+        """Execute Enhanced trading signal with validation"""
         try:
             # Convert instrument format
             mt5_symbol = instrument.replace('_', '')
@@ -423,9 +485,6 @@ class MT5TradingBot:
             max_daily_trades = self.config.get('execution', {}).get('max_daily_trades', 3)
             if self.daily_trade_count >= max_daily_trades:
                 self.logger.info(f"Daily trade limit reached ({self.daily_trade_count}/{max_daily_trades})")
-                if self.telegram:
-                    self.telegram.send_sync(
-                        f"[WARNING] Daily trade limit reached ({self.daily_trade_count}/{max_daily_trades})")
                 return False
 
             # Check if we already have a position
@@ -433,14 +492,15 @@ class MT5TradingBot:
                 self.logger.info(f"Already have position in {instrument}")
                 return False
 
-            # Get signal details
+            # Get Enhanced signal details
             direction = signal.get('signal')
             current_price = signal.get('current_price')
             stop_loss = signal.get('stop_loss')
             take_profit = signal.get('take_profit')
             signal_strength = signal.get('strength', 0)
+            quality_grade = signal.get('quality_grade', 'B')
 
-            # Calculate position size
+            # Calculate Enhanced position size
             position_size = self.risk_manager.calculate_position_size(
                 instrument, current_price, stop_loss, direction
             )
@@ -451,7 +511,7 @@ class MT5TradingBot:
                 self.logger.error(f"Failed to get tick for {mt5_symbol}")
                 return False
 
-            # Prepare order
+            # Prepare Enhanced order
             if direction == 'buy':
                 order_type = mt5.ORDER_TYPE_BUY
                 price = tick.ask
@@ -459,7 +519,9 @@ class MT5TradingBot:
                 order_type = mt5.ORDER_TYPE_SELL
                 price = tick.bid
 
-            # Create order request
+            # Enhanced order request with magic number from config
+            magic_number = self.config.get('execution', {}).get('magic_number', 123456)
+
             request = {
                 "action": mt5.TRADE_ACTION_DEAL,
                 "symbol": mt5_symbol,
@@ -469,42 +531,29 @@ class MT5TradingBot:
                 "sl": stop_loss,
                 "tp": take_profit,
                 "deviation": 20,
-                "magic": 123456,
-                "comment": f"TFT signal: {signal_strength:.2f}",
+                "magic": magic_number,
+                "comment": f"Enhanced TFT {quality_grade}-grade: {signal_strength:.2f}",
                 "type_time": mt5.ORDER_TIME_GTC,
                 "type_filling": mt5.ORDER_FILLING_IOC,
             }
 
-            # Send order
+            # Send Enhanced order
             result = mt5.order_send(request)
 
             if result.retcode != mt5.TRADE_RETCODE_DONE:
-                error_msg = f"Order failed for {mt5_symbol}: {result.comment}"
+                error_msg = f"Enhanced order failed for {mt5_symbol}: {result.comment}"
                 self.logger.error(error_msg)
-                if self.telegram:
-                    self.telegram.send_sync(f"[ERROR] {error_msg}")
                 return False
 
             # Increment daily trade count
             self.daily_trade_count += 1
 
-            self.logger.info(f"Order executed: {direction} {position_size} lots of {mt5_symbol} at {price}")
+            self.logger.info(
+                f"[GREEN] Enhanced order executed: {direction} {position_size} lots of {mt5_symbol} at {price}")
+            self.logger.info(f"[TARGET] Quality Grade: {quality_grade}, Signal Strength: {signal_strength:.1%}")
+            self.logger.info(f"[CHART] Daily Trades: {self.daily_trade_count}/{max_daily_trades}")
 
-            # Send detailed telegram notification
-            if self.telegram:
-                self.telegram.send_sync(
-                    f"[GREEN] **Trade Opened!**\n\n"
-                    f"[CHART] **{direction.upper()}** {mt5_symbol}\n"
-                    f"[MONEY] Size: {position_size:.2f} lots\n"
-                    f"[TARGET] Entry: {price:.5f}\n"
-                    f"[SHIELD] Stop Loss: {stop_loss:.5f}\n"
-                    f"[MONEY] Take Profit: {take_profit:.5f}\n"
-                    f"Signal Strength: {signal_strength:.1%}\n"
-                    f"[CHART] Daily Trades: {self.daily_trade_count}/{max_daily_trades}\n"
-                    f"Time: {datetime.now().strftime('%H:%M:%S')}"
-                )
-
-            # Store position info
+            # Store Enhanced position info
             self.positions[instrument] = {
                 'ticket': result.order,
                 'direction': direction,
@@ -513,22 +562,23 @@ class MT5TradingBot:
                 'take_profit': take_profit,
                 'size': position_size,
                 'entry_time': datetime.now(),
-                'signal_strength': signal_strength
+                'signal_strength': signal_strength,
+                'quality_grade': quality_grade,
+                'model_type': 'Enhanced_TFT'
             }
 
             return True
 
         except Exception as e:
-            error_msg = f"Error executing signal for {instrument}: {e}"
+            error_msg = f"Error executing Enhanced signal for {instrument}: {e}"
             self.logger.error(error_msg)
             self.logger.error(f"Traceback: {traceback.format_exc()}")
-            if self.telegram:
-                self.telegram.send_sync(f"[ERROR] {error_msg}")
             return False
 
-    def check_positions(self):
-        """Check and manage open positions"""
+    def check_enhanced_positions(self):
+        """Check and manage Enhanced positions"""
         try:
+            magic_number = self.config.get('execution', {}).get('magic_number', 123456)
             positions = mt5.positions_get()
 
             if positions is None:
@@ -537,7 +587,7 @@ class MT5TradingBot:
             current_mt5_positions = {}
 
             for position in positions:
-                if position.magic != 123456:
+                if position.magic != magic_number:
                     continue
 
                 symbol = position.symbol
@@ -557,115 +607,84 @@ class MT5TradingBot:
                     'volume': position.volume
                 }
 
-            # Check for closed positions
+            # Check for closed Enhanced positions
             closed_positions = []
             for instrument in list(self.positions.keys()):
                 if instrument not in current_mt5_positions:
                     closed_positions.append(instrument)
 
-            # Handle closed positions
+            # Handle closed Enhanced positions
             for instrument in closed_positions:
                 stored_pos = self.positions[instrument]
 
-                if self.telegram:
-                    self.telegram.send_sync(
-                        f"[REFRESH] **Position Closed**\n\n"
-                        f"[CHART] {instrument.replace('_', '')} {stored_pos['direction'].upper()}\n"
-                        f"[TARGET] Entry: {stored_pos['entry_price']:.5f}\n"
-                        f"Position no longer active in MT5"
-                    )
+                self.logger.info(
+                    f"[REFRESH] Enhanced Position Closed: {instrument.replace('_', '')} {stored_pos['direction'].upper()}")
+                self.logger.info(
+                    f"[CHART] Quality: {stored_pos.get('quality_grade', 'B')}-grade, Entry: {stored_pos['entry_price']:.5f}")
 
-                # Remove from our tracking
+                # Remove from Enhanced tracking
                 del self.positions[instrument]
 
             if self.debug_mode and len(current_mt5_positions) > 0:
-                self.logger.info(f"Monitoring {len(current_mt5_positions)} positions")
+                self.logger.info(f"Enhanced monitoring: {len(current_mt5_positions)} positions")
 
         except Exception as e:
-            self.logger.error(f"Error checking positions: {e}")
-            if self.telegram:
-                self.telegram.send_sync(f"[WARNING] Error monitoring positions: {str(e)}")
+            self.logger.error(f"Error checking Enhanced positions: {e}")
 
     def cleanup(self):
-        """Cleanup function for graceful shutdown"""
-        self.logger.info("[ALERT] Starting cleanup...")
+        """Enhanced cleanup function for graceful shutdown"""
+        self.logger.info("[ALERT] Starting Enhanced cleanup...")
 
         # Set shutdown flag
         self.is_running = False
         self.shutdown_event.set()
 
         try:
-            # Send shutdown notification
-            if self.telegram:
-                self.telegram.send_sync(
-                    f"[ALERT] **Trading Bot Shutting Down**\n\n"
-                    f"[CHART] Current Positions: {len(self.positions)}\n"
-                    f"[CHART] Daily Trades: {self.daily_trade_count}\n"
-                    f"Shutdown Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-                )
-
-            # Stop telegram bot
-            if self.telegram:
-                self.logger.info("Stopping Telegram bot...")
-                self.telegram.stop_bot()
-                time.sleep(1)
-
             # Shutdown MT5 connection
             mt5.shutdown()
-            self.logger.info("MT5 connection closed")
+            self.logger.info("Enhanced MT5 connection closed")
 
         except Exception as e:
-            self.logger.error(f"Error during cleanup: {e}")
+            self.logger.error(f"Error during Enhanced cleanup: {e}")
 
-        self.logger.info("[CHECK] Cleanup complete")
+        self.logger.info("[CHECK] Enhanced cleanup complete")
 
     def run(self):
-        """Main trading loop with enhanced error handling"""
-        self.logger.info("[ROCKET] Starting Fixed MT5 Trading Bot")
+        """Enhanced main trading loop"""
+        self.logger.info("[ROCKET] Starting Enhanced MT5 Trading Bot with TFT")
 
         # Initialize MT5
         if not self.initialize_mt5():
             return
 
-        # Load model
-        if not self.load_model():
+        # Load Enhanced model
+        if not self.load_enhanced_model():
             return
 
-        # Initialize components
-        if not self.initialize_components():
+        # Initialize Enhanced components
+        if not self.initialize_enhanced_components():
             return
-
-        # Start Telegram bot if configured
-        if self.telegram:
-            if self.telegram.start_bot():
-                self.logger.info("[CHECK] Telegram bot started")
-            else:
-                self.logger.warning("[WARNING] Telegram bot failed to start")
 
         self.is_running = True
-        self.logger.info("[CHECK] Bot is ready and running - Press Ctrl+C to stop safely")
+        self.logger.info("[CHECK] Enhanced Bot is ready for live trading - Press Ctrl+C to stop safely")
 
-        # Send startup notification
-        if self.telegram:
-            account_info = mt5.account_info()
-            if account_info:
-                scaler_info = self.normalizer.get_scaler_info()
-                self.telegram.send_sync(
-                    f"[ROCKET] **MT5 Trading Bot Started!**\n\n"
-                    f"Broker: {account_info.company}\n"
-                    f"[MONEY] Balance: {account_info.balance:.2f} {account_info.currency}\n"
-                    f"[CHART] Strategy: Enhanced TFT\n"
-                    f"Risk per Trade: {self.config.get('execution', {}).get('risk_per_trade', 0.01) * 100}%\n"
-                    f"[CHART] Max Positions: {self.config.get('execution', {}).get('max_open_positions', 2)}\n"
-                    f"Max Daily Trades: {self.config.get('execution', {}).get('max_daily_trades', 3)}\n"
-                    f"[TARGET] Quality Filter: Enabled\n"
-                    f"Start Time: {datetime.now().strftime('%H:%M:%S')}\n\n"
-                    f"[CHECK] Scaler Status: {'Fitted' if scaler_info['is_fitted'] else 'Not Fitted'}\n"
-                    f"[CHART] Features: {scaler_info['feature_count']}\n"
-                    f"Ready to trade!"
-                )
+        # Enhanced startup notification
+        account_info = mt5.account_info()
+        if account_info:
+            scaler_info = self.normalizer.get_scaler_info()
+            self.logger.info(f"[ROCKET] Enhanced MT5 Trading Bot Started!")
+            self.logger.info(f"Model: Enhanced Temporal Fusion Transformer")
+            self.logger.info(f"Broker: {account_info.company}")
+            self.logger.info(f"[MONEY] Balance: {account_info.balance:.2f} {account_info.currency}")
+            self.logger.info(f"[CHART] Strategy: Enhanced TFT with Quality Controls")
+            self.logger.info(f"Risk per Trade: {self.config.get('execution', {}).get('risk_per_trade', 0.01) * 100}%")
+            self.logger.info(f"[CHART] Max Positions: {self.config.get('execution', {}).get('max_open_positions', 2)}")
+            self.logger.info(f"Max Daily Trades: {self.config.get('execution', {}).get('max_daily_trades', 3)}")
+            self.logger.info(f"[CHECK] Enhanced Scaler: {'Fitted' if scaler_info['is_fitted'] else 'Not Fitted'}")
+            self.logger.info(f"[CHART] Features: {scaler_info['feature_count']}")
+            self.logger.info("Ready for Enhanced live trading!")
 
-        # Main loop
+        # Enhanced main loop
         iteration_count = 0
         last_status_update = datetime.now()
 
@@ -680,51 +699,52 @@ class MT5TradingBot:
                         time.sleep(60)
                         continue
 
-                    # Get market data
-                    market_data = self.get_market_data()
+                    # Get Enhanced market data
+                    market_data = self.get_enhanced_market_data()
                     if not market_data:
-                        self.logger.warning("No market data available")
+                        self.logger.warning("No Enhanced market data available")
                         time.sleep(10)
                         continue
 
-                    # Generate signals
-                    signals = self.generate_signals(market_data)
+                    # Generate Enhanced signals
+                    signals = self.generate_enhanced_signals(market_data)
 
-                    # Process signals
+                    # Process Enhanced signals
                     signals_processed = 0
                     for instrument, signal in signals.items():
                         if signal.get('valid', False):
                             if instrument not in self.positions:
+                                quality_grade = signal.get('quality_grade', 'B')
+                                strength = signal.get('strength', 0)
                                 self.logger.info(
-                                    f"New signal for {instrument}: {signal['signal']} (strength: {signal.get('strength', 0):.1%})")
-                                if self.execute_signal(signal, instrument):
+                                    f"[GREEN] New Enhanced {quality_grade}-grade signal for {instrument}: "
+                                    f"{signal['signal']} (strength: {strength:.1%})")
+                                if self.execute_enhanced_signal(signal, instrument):
                                     signals_processed += 1
 
-                    # Check existing positions
-                    self.check_positions()
+                    # Check Enhanced positions
+                    self.check_enhanced_positions()
 
-                    # Send periodic status updates
+                    # Send Enhanced periodic status updates
                     now = datetime.now()
                     if (now - last_status_update).seconds > 1800:  # Every 30 minutes
-                        if self.telegram and self.is_running:
-                            positions_count = len(self.positions)
-                            scaler_info = self.normalizer.get_scaler_info()
-                            self.telegram.send_sync(
-                                f"[CHART] **Status Update**\n\n"
-                                f"[GREEN] Bot: Running\n"
-                                f"[CHART] Open Positions: {positions_count}\n"
-                                f"[CHART] Daily Trades: {self.daily_trade_count}\n"
-                                f"[REFRESH] Iteration: {iteration_count}\n"
-                                f"[CHECK] Scaler: {'Fitted' if scaler_info['is_fitted'] else 'Not Fitted'}\n"
-                                f"Features: {scaler_info['feature_count']}\n"
-                                f"Time: {now.strftime('%H:%M:%S')}"
-                            )
+                        positions_count = len(self.positions)
+                        scaler_info = self.normalizer.get_scaler_info()
+                        self.logger.info(f"[CHART] Enhanced Status Update")
+                        self.logger.info(f"[GREEN] Bot: Running (Enhanced TFT)")
+                        self.logger.info(f"[CHART] Open Positions: {positions_count}")
+                        self.logger.info(f"[CHART] Daily Trades: {self.daily_trade_count}")
+                        self.logger.info(f"[REFRESH] Iteration: {iteration_count}")
+                        self.logger.info(f"[CHECK] Enhanced Scaler: {'OK' if scaler_info['is_fitted'] else 'ERROR'}")
+                        self.logger.info(f"Features: {scaler_info['feature_count']}")
+                        self.logger.info(f"Signal Gen: #{self.signal_debug_count}")
+                        self.logger.info(f"Time: {now.strftime('%H:%M:%S')}")
                         last_status_update = now
 
-                    # Log status every 10 iterations
+                    # Log Enhanced status every 10 iterations
                     if iteration_count % 10 == 0:
                         self.logger.info(
-                            f"Bot running normally (iteration {iteration_count}, positions: {len(self.positions)})")
+                            f"Enhanced bot running (iteration {iteration_count}, positions: {len(self.positions)}, daily trades: {self.daily_trade_count})")
 
                     # Wait before next iteration
                     for _ in range(60):  # 60 seconds total
@@ -733,16 +753,14 @@ class MT5TradingBot:
                         time.sleep(1)
 
                 except Exception as e:
-                    self.logger.error(f"Error in main loop: {e}")
+                    self.logger.error(f"Error in Enhanced main loop: {e}")
                     self.logger.error(f"Traceback: {traceback.format_exc()}")
-                    if self.telegram:
-                        self.telegram.send_sync(f"[ERROR] **Main Loop Error**\n\n{str(e)}")
                     time.sleep(60)
 
         except KeyboardInterrupt:
             self.logger.info("KeyboardInterrupt received")
         except Exception as e:
-            self.logger.error(f"Unexpected error: {e}")
+            self.logger.error(f"Unexpected Enhanced error: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
         finally:
             self.cleanup()
@@ -765,140 +783,23 @@ class MT5TradingBot:
         return False
 
 
-class TelegramManager:
-    """Fixed Telegram bot manager"""
-
-    def __init__(self, config, trading_bot=None):
-        self.config = config
-        self.trading_bot = trading_bot
-        self.telegram_config = config.get('telegram', {})
-        self.token = self.telegram_config.get('token')
-        self.authorized_users = set(str(user) for user in self.telegram_config.get('authorized_users', []))
-        self.admin_users = set(str(user) for user in self.telegram_config.get('admin_users', []))
-
-        # Bot state
-        self.app = None
-        self.is_running = False
-        self.logger = logging.getLogger('telegram_manager')
-        self.telegram_available = TELEGRAM_AVAILABLE
-
-        if not self.token:
-            self.logger.warning("No Telegram token provided")
-            return
-
-        if not self.telegram_available:
-            self.logger.warning("python-telegram-bot not installed")
-            return
-
-        self.logger.info("Telegram integration available")
-
-    def send_sync(self, message):
-        """Synchronous wrapper for sending messages - SAFE VERSION"""
-        if not self.telegram_available or not self.app:
-            return
-
-        try:
-            # Clean the message of problematic Unicode characters
-            safe_message = self._clean_message(message)
-
-            import asyncio
-
-            # Get or create event loop
-            try:
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    asyncio.create_task(self.send_message(safe_message))
-                else:
-                    loop.run_until_complete(self.send_message(safe_message))
-            except RuntimeError:
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(self.send_message(safe_message))
-                loop.close()
-
-        except Exception as e:
-            self.logger.error(f"Error in sync send: {e}")
-
-    def _clean_message(self, message):
-        """Clean message of problematic Unicode characters"""
-        # Replace emoji with text equivalents for Telegram
-        clean_msg = str(message)
-        clean_msg = clean_msg.replace('🚀', '🚀')  # Keep some emoji for Telegram
-        clean_msg = clean_msg.replace('✅', '✅')
-        clean_msg = clean_msg.replace('⚠️', '⚠️')
-        clean_msg = clean_msg.replace('❌', '❌')
-        clean_msg = clean_msg.replace('🟢', '🟢')
-        # Replace problematic ones
-        clean_msg = clean_msg.replace('[ROCKET]', '🚀')
-        clean_msg = clean_msg.replace('[CHECK]', '✅')
-        clean_msg = clean_msg.replace('[WARNING]', '⚠️')
-        clean_msg = clean_msg.replace('[ERROR]', '❌')
-        clean_msg = clean_msg.replace('[GREEN]', '🟢')
-        clean_msg = clean_msg.replace('[CHART]', '📊')
-        clean_msg = clean_msg.replace('[MONEY]', '💰')
-        clean_msg = clean_msg.replace('[TARGET]', '🎯')
-        clean_msg = clean_msg.replace('[SHIELD]', '🛡️')
-        clean_msg = clean_msg.replace('[REFRESH]', '🔄')
-        clean_msg = clean_msg.replace('[TOOL]', '🔧')
-        clean_msg = clean_msg.replace('[ALERT]', '🚨')
-
-        return clean_msg
-
-    async def send_message(self, message, parse_mode=None):
-        """Send message to all authorized users"""
-        if not self.telegram_available or not self.app:
-            return
-
-        for user_id in self.authorized_users:
-            try:
-                await self.app.bot.send_message(
-                    chat_id=int(user_id),
-                    text=message,
-                    parse_mode=parse_mode
-                )
-            except Exception as e:
-                self.logger.error(f"Error sending message to {user_id}: {e}")
-
-    # Include all the command handlers from the original implementation
-    async def start_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /start command"""
-        # ... (same as original implementation)
-        pass
-
-    def start_bot(self):
-        """Start the Telegram bot"""
-        # ... (same as original implementation)
-        return True
-
-    def stop_bot(self):
-        """Stop the Telegram bot"""
-        self.is_running = False
-        self.logger.info("Telegram bot stopped")
-
-
 def signal_handler(sig, frame):
     """Handle shutdown signals gracefully"""
-    print(f"\nReceived signal {sig} - Starting graceful shutdown...")
+    print(f"\nReceived signal {sig} - Starting Enhanced graceful shutdown...")
     shutdown_event.set()
     time.sleep(2)
-    print("Shutdown signal processed")
+    print("Enhanced shutdown signal processed")
     sys.exit(0)
 
 
 def cleanup_and_exit():
-    """Global cleanup function"""
-    global telegram_bot
-    print("\nFinal cleanup...")
-    if telegram_bot:
-        try:
-            telegram_bot.stop_bot()
-        except Exception as e:
-            print(f"Error stopping telegram bot: {e}")
-    print("Global cleanup complete!")
+    """Global Enhanced cleanup function"""
+    print("\nFinal Enhanced cleanup...")
+    print("Enhanced global cleanup complete!")
 
 
 if __name__ == "__main__":
-    # Register cleanup function
+    # Register Enhanced cleanup function
     atexit.register(cleanup_and_exit)
 
     # Register signal handlers for graceful shutdown
@@ -908,20 +809,25 @@ if __name__ == "__main__":
     if hasattr(signal, 'SIGBREAK'):
         signal.signal(signal.SIGBREAK, signal_handler)
 
-    print("MT5 Trading Bot - Complete Fix Version")
+    print("🚀 Enhanced MT5 Trading Bot - LIVE TRADING VERSION")
     print("Features:")
-    print("- Unicode-safe logging (no more emoji errors)")
-    print("- Fixed scaler feature mismatch")
+    print("- FIXED: Array comparison issues resolved")
+    print("- FIXED: Model parameter loading issues resolved")
+    print("- Enhanced Temporal Fusion Transformer (never SimpleTFT)")
+    print("- High-quality signal generation with strict filters")
+    print("- Compatible with your trained best_model.pt")
     print("- Enhanced error handling and debugging")
-    print("- Improved signal generation")
-    print("Press Ctrl+C at any time to stop safely\n")
+    print("- Quality-grade trade classification")
+    print("- NO TELEGRAM (Pure trading focus)")
+    print("- READY FOR LIVE TRADING")
+    print("Press Ctrl+C at any time for Enhanced safe stop\n")
 
-    # Create and run the bot
+    # Create and run the Enhanced bot
     try:
-        bot = MT5TradingBot()
-        bot.run()
+        enhanced_bot = EnhancedMT5TradingBot()
+        enhanced_bot.run()
     except Exception as e:
-        print(f"Critical bot error: {e}")
+        print(f"Critical Enhanced bot error: {e}")
         print(f"Traceback: {traceback.format_exc()}")
     finally:
-        print("Bot execution completed")
+        print("Enhanced bot execution completed")

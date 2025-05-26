@@ -1,15 +1,17 @@
-# strategy/signals/enhanced_signal_generator.py
-# Enhanced signal generator focused on high-quality trend-following trades
+# strategy/signals/enhanced_signal_generator.py - FIXED VERSION
+# Enhanced signal generator focused on high-quality trend-following trades - ARRAY COMPARISON FIX
 
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 import logging
+import torch
 
 
 class HighQualitySignalGenerator:
     """
     Enhanced signal generator focused on high-quality trend-following trades
+    FIXED: Array comparison issues
     """
 
     def __init__(self, config):
@@ -35,11 +37,12 @@ class HighQualitySignalGenerator:
         self.signal_history = []
         self.max_history = 100
 
-        self.logger.info("High-quality signal generator initialized")
+        self.logger.info("High-quality signal generator initialized with array fixes")
 
     def generate_signal(self, prediction, market_data, timeframe_manager, instrument):
         """
         Generate HIGH QUALITY trading signal with strict trend following
+        FIXED: All array comparison issues
         """
 
         # STEP 1: Basic data validation
@@ -61,8 +64,8 @@ class HighQualitySignalGenerator:
         if self._too_soon_for_signal(instrument):
             return {'valid': False, 'reason': 'Too soon since last signal'}
 
-        # STEP 3: Analyze model prediction strength
-        prediction_analysis = self._analyze_prediction_strength(prediction, current_price)
+        # STEP 3: Analyze model prediction strength - FIXED VERSION
+        prediction_analysis = self._analyze_prediction_strength_fixed(prediction, current_price)
 
         if not prediction_analysis['strong_enough']:
             return {'valid': False, 'reason': f"Weak prediction: {prediction_analysis['reason']}"}
@@ -177,31 +180,81 @@ class HighQualitySignalGenerator:
 
         return hours_since_last < self.min_signal_gap_hours
 
-    def _analyze_prediction_strength(self, prediction, current_price):
-        """Analyze ML prediction strength and direction"""
+    def _analyze_prediction_strength_fixed(self, prediction, current_price):
+        """
+        FIXED: Analyze ML prediction strength and direction
+        Handles tensor/array comparisons properly
+        """
         try:
-            # Extract quantile predictions [0.1, 0.5, 0.9]
-            if len(prediction.shape) >= 2:
-                median_pred = prediction[:, 1]  # 0.5 quantile
-                lower_pred = prediction[:, 0]  # 0.1 quantile
-                upper_pred = prediction[:, 2]  # 0.9 quantile
+            # Convert torch tensor to numpy if needed
+            if isinstance(prediction, torch.Tensor):
+                prediction_np = prediction.detach().cpu().numpy()
             else:
-                # Fallback if different shape
-                median_pred = prediction
-                lower_pred = prediction * 0.9
-                upper_pred = prediction * 1.1
+                prediction_np = np.array(prediction)
+
+            # Handle different prediction shapes
+            if len(prediction_np.shape) == 3:
+                # Shape: [batch, time_steps, quantiles] - typical TFT output
+                batch_size, time_steps, num_quantiles = prediction_np.shape
+
+                if num_quantiles >= 3:
+                    # Extract quantile predictions [0.1, 0.5, 0.9]
+                    median_pred = prediction_np[0, :, 1]  # 0.5 quantile for first batch
+                    lower_pred = prediction_np[0, :, 0]  # 0.1 quantile for first batch
+                    upper_pred = prediction_np[0, :, 2]  # 0.9 quantile for first batch
+                else:
+                    # Fallback if different number of quantiles
+                    median_pred = prediction_np[0, :, num_quantiles // 2]
+                    lower_pred = median_pred * 0.9
+                    upper_pred = median_pred * 1.1
+
+            elif len(prediction_np.shape) == 2:
+                # Shape: [time_steps, quantiles] or [batch, features]
+                if prediction_np.shape[1] >= 3:
+                    median_pred = prediction_np[:, 1]  # 0.5 quantile
+                    lower_pred = prediction_np[:, 0]  # 0.1 quantile
+                    upper_pred = prediction_np[:, 2]  # 0.9 quantile
+                else:
+                    # Fallback
+                    median_pred = prediction_np[:, 0]
+                    lower_pred = median_pred * 0.9
+                    upper_pred = median_pred * 1.1
+            else:
+                # 1D array - simple prediction
+                median_pred = prediction_np
+                lower_pred = median_pred * 0.9
+                upper_pred = median_pred * 1.1
 
             # Focus on short-term prediction (first step)
-            short_term_median = median_pred[0] if len(median_pred) > 0 else median_pred
-            short_term_lower = lower_pred[0] if len(lower_pred) > 0 else lower_pred
-            short_term_upper = upper_pred[0] if len(upper_pred) > 0 else upper_pred
+            if len(median_pred.shape) > 0 and len(median_pred) > 0:
+                short_term_median = float(median_pred[0])
+                short_term_lower = float(lower_pred[0])
+                short_term_upper = float(upper_pred[0])
+            else:
+                short_term_median = float(median_pred)
+                short_term_lower = float(lower_pred)
+                short_term_upper = float(upper_pred)
+
+            # Ensure we have valid numbers
+            if not all(np.isfinite([short_term_median, short_term_lower, short_term_upper, current_price])):
+                return {
+                    'strong_enough': False,
+                    'reason': 'Invalid prediction values (NaN or Inf)',
+                    'direction': 'neutral',
+                    'strength': 0,
+                    'confidence': 0
+                }
 
             # Calculate prediction change
             pred_change = (short_term_median - current_price) / current_price
 
             # Calculate prediction confidence (based on quantile spread)
             pred_range = short_term_upper - short_term_lower
-            confidence = max(0, 1 - (pred_range / current_price * 10))  # Tighter ranges = higher confidence
+            # Prevent division by zero
+            if current_price > 0:
+                confidence = max(0, 1 - (pred_range / current_price * 10))
+            else:
+                confidence = 0
 
             # Determine direction and strength
             min_change_threshold = 0.0005  # 0.05% minimum change (5 pips for EUR/USD)
@@ -238,6 +291,8 @@ class HighQualitySignalGenerator:
 
         except Exception as e:
             self.logger.error(f"Error analyzing prediction: {e}")
+            self.logger.error(f"Prediction shape: {prediction.shape if hasattr(prediction, 'shape') else 'No shape'}")
+            self.logger.error(f"Prediction type: {type(prediction)}")
             return {
                 'strong_enough': False,
                 'reason': f'Prediction analysis error: {e}',
@@ -248,244 +303,269 @@ class HighQualitySignalGenerator:
 
     def _analyze_trend_strength(self, data, market_structure):
         """Comprehensive trend analysis with strict requirements"""
+        try:
+            # Get trend direction from market structure
+            trend_info = market_structure.get('trend', 'neutral')
+            if isinstance(trend_info, dict):
+                trend_direction = trend_info.get('direction', 'neutral')
+                trend_strength = trend_info.get('strength', 0)
+            else:
+                trend_direction = trend_info
+                trend_strength = 0.5  # Default if not provided
 
-        # Get trend direction from market structure
-        trend_info = market_structure.get('trend', 'neutral')
-        if isinstance(trend_info, dict):
-            trend_direction = trend_info.get('direction', 'neutral')
-            trend_strength = trend_info.get('strength', 0)
-        else:
-            trend_direction = trend_info
-            trend_strength = 0.5  # Default if not provided
+            # Additional trend confirmation using price action
+            if len(data) >= 50:
+                # Check moving average alignment
+                close_prices = data['close']
+                sma_20 = close_prices.rolling(20).mean().iloc[-1]
+                sma_50 = close_prices.rolling(50).mean().iloc[-1]
+                current_price = close_prices.iloc[-1]
 
-        # Additional trend confirmation using price action
-        if len(data) >= 50:
-            # Check moving average alignment
-            close_prices = data['close']
-            sma_20 = close_prices.rolling(20).mean().iloc[-1]
-            sma_50 = close_prices.rolling(50).mean().iloc[-1]
-            current_price = close_prices.iloc[-1]
+                # Trend confirmation criteria
+                ma_aligned = False
+                price_above_ma = False
 
-            # Trend confirmation criteria
-            ma_aligned = False
-            price_above_ma = False
+                if trend_direction == 'bullish':
+                    ma_aligned = sma_20 > sma_50
+                    price_above_ma = current_price > sma_20
+                elif trend_direction == 'bearish':
+                    ma_aligned = sma_20 < sma_50
+                    price_above_ma = current_price < sma_20
 
+                # Calculate trend score
+                confirmations = 0
+                if ma_aligned:
+                    confirmations += 1
+                if price_above_ma:
+                    confirmations += 1
+                if trend_strength > self.min_trend_strength:
+                    confirmations += 1
+
+                # Require at least 2 out of 3 confirmations
+                trend_confirmed = confirmations >= 2
+
+                # Enhanced trend strength
+                enhanced_strength = (trend_strength + (confirmations / 3.0)) / 2
+
+            else:
+                trend_confirmed = trend_strength > self.min_trend_strength
+                enhanced_strength = trend_strength
+
+            # Convert trend directions to signal directions
             if trend_direction == 'bullish':
-                ma_aligned = sma_20 > sma_50
-                price_above_ma = current_price > sma_20
+                signal_direction = 'buy'
             elif trend_direction == 'bearish':
-                ma_aligned = sma_20 < sma_50
-                price_above_ma = current_price < sma_20
+                signal_direction = 'sell'
+            else:
+                signal_direction = 'neutral'
 
-            # Calculate trend score
-            confirmations = 0
-            if ma_aligned:
-                confirmations += 1
-            if price_above_ma:
-                confirmations += 1
-            if trend_strength > self.min_trend_strength:
-                confirmations += 1
-
-            # Require at least 2 out of 3 confirmations
-            trend_confirmed = confirmations >= 2
-
-            # Enhanced trend strength
-            enhanced_strength = (trend_strength + (confirmations / 3.0)) / 2
-
-        else:
-            trend_confirmed = trend_strength > self.min_trend_strength
-            enhanced_strength = trend_strength
-
-        # Convert trend directions to signal directions
-        if trend_direction == 'bullish':
-            signal_direction = 'buy'
-        elif trend_direction == 'bearish':
-            signal_direction = 'sell'
-        else:
-            signal_direction = 'neutral'
-
-        return {
-            'trend_confirmed': trend_confirmed and signal_direction != 'neutral',
-            'direction': signal_direction,
-            'strength': enhanced_strength,
-            'reason': f'Trend: {trend_direction}, strength: {enhanced_strength:.2f}, confirmed: {trend_confirmed}'
-        }
+            return {
+                'trend_confirmed': trend_confirmed and signal_direction != 'neutral',
+                'direction': signal_direction,
+                'strength': enhanced_strength,
+                'reason': f'Trend: {trend_direction}, strength: {enhanced_strength:.2f}, confirmed: {trend_confirmed}'
+            }
+        except Exception as e:
+            self.logger.error(f"Error in trend analysis: {e}")
+            return {
+                'trend_confirmed': False,
+                'direction': 'neutral',
+                'strength': 0,
+                'reason': f'Trend analysis error: {e}'
+            }
 
     def _check_support_resistance_confluence(self, current_price, market_structure, direction):
         """Check for support/resistance confluence"""
+        try:
+            nearest_support = market_structure.get('nearest_support')
+            nearest_resistance = market_structure.get('nearest_resistance')
 
-        nearest_support = market_structure.get('nearest_support')
-        nearest_resistance = market_structure.get('nearest_resistance')
+            if direction == 'buy':
+                # For buy signals, we want to be near support
+                if nearest_support is None:
+                    return {'valid': False, 'reason': 'No support level identified', 'strength': 0}
 
-        if direction == 'buy':
-            # For buy signals, we want to be near support
-            if nearest_support is None:
-                return {'valid': False, 'reason': 'No support level identified', 'strength': 0}
+                distance_to_support = abs(current_price - nearest_support) / current_price
+                max_distance = 0.002  # 0.2% or 20 pips for EUR/USD
 
-            distance_to_support = abs(current_price - nearest_support) / current_price
-            max_distance = 0.002  # 0.2% or 20 pips for EUR/USD
+                if distance_to_support <= max_distance:
+                    strength = 1 - (distance_to_support / max_distance)
+                    return {
+                        'valid': True,
+                        'reason': f'Near support ({distance_to_support:.3%} away)',
+                        'strength': strength,
+                        'level': nearest_support
+                    }
+                else:
+                    return {
+                        'valid': False,
+                        'reason': f'Too far from support ({distance_to_support:.3%})',
+                        'strength': 0
+                    }
 
-            if distance_to_support <= max_distance:
-                strength = 1 - (distance_to_support / max_distance)
-                return {
-                    'valid': True,
-                    'reason': f'Near support ({distance_to_support:.3%} away)',
-                    'strength': strength,
-                    'level': nearest_support
-                }
-            else:
-                return {
-                    'valid': False,
-                    'reason': f'Too far from support ({distance_to_support:.3%})',
-                    'strength': 0
-                }
+            elif direction == 'sell':
+                # For sell signals, we want to be near resistance
+                if nearest_resistance is None:
+                    return {'valid': False, 'reason': 'No resistance level identified', 'strength': 0}
 
-        elif direction == 'sell':
-            # For sell signals, we want to be near resistance
-            if nearest_resistance is None:
-                return {'valid': False, 'reason': 'No resistance level identified', 'strength': 0}
+                distance_to_resistance = abs(current_price - nearest_resistance) / current_price
+                max_distance = 0.002  # 0.2%
 
-            distance_to_resistance = abs(current_price - nearest_resistance) / current_price
-            max_distance = 0.002  # 0.2%
+                if distance_to_resistance <= max_distance:
+                    strength = 1 - (distance_to_resistance / max_distance)
+                    return {
+                        'valid': True,
+                        'reason': f'Near resistance ({distance_to_resistance:.3%} away)',
+                        'strength': strength,
+                        'level': nearest_resistance
+                    }
+                else:
+                    return {
+                        'valid': False,
+                        'reason': f'Too far from resistance ({distance_to_resistance:.3%})',
+                        'strength': 0
+                    }
 
-            if distance_to_resistance <= max_distance:
-                strength = 1 - (distance_to_resistance / max_distance)
-                return {
-                    'valid': True,
-                    'reason': f'Near resistance ({distance_to_resistance:.3%} away)',
-                    'strength': strength,
-                    'level': nearest_resistance
-                }
-            else:
-                return {
-                    'valid': False,
-                    'reason': f'Too far from resistance ({distance_to_resistance:.3%})',
-                    'strength': 0
-                }
-
-        return {'valid': False, 'reason': 'Invalid direction', 'strength': 0}
+            return {'valid': False, 'reason': 'Invalid direction', 'strength': 0}
+        except Exception as e:
+            self.logger.error(f"Error in S/R confluence check: {e}")
+            return {'valid': False, 'reason': f'S/R analysis error: {e}', 'strength': 0}
 
     def _check_fibonacci_confluence(self, current_price, market_structure, direction):
         """Check for Fibonacci level confluence"""
+        try:
+            fib_info = market_structure.get('fibonacci', {})
+            fib_levels = fib_info.get('levels', {})
 
-        fib_info = market_structure.get('fibonacci', {})
-        fib_levels = fib_info.get('levels', {})
+            if not fib_levels:
+                return {'valid': False, 'reason': 'No Fibonacci levels calculated', 'strength': 0}
 
-        if not fib_levels:
-            return {'valid': False, 'reason': 'No Fibonacci levels calculated', 'strength': 0}
+            # Find closest Fibonacci level
+            closest_fib = None
+            min_distance = float('inf')
 
-        # Find closest Fibonacci level
-        closest_fib = None
-        min_distance = float('inf')
+            for fib_ratio, fib_price in fib_levels.items():
+                if fib_price is None or not np.isfinite(fib_price):
+                    continue
 
-        for fib_ratio, fib_price in fib_levels.items():
-            if fib_price is None:
-                continue
+                distance = abs(current_price - fib_price) / current_price
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_fib = (fib_ratio, fib_price)
 
-            distance = abs(current_price - fib_price) / current_price
-            if distance < min_distance:
-                min_distance = distance
-                closest_fib = (fib_ratio, fib_price)
+            if closest_fib is None:
+                return {'valid': False, 'reason': 'No valid Fibonacci levels', 'strength': 0}
 
-        if closest_fib is None:
-            return {'valid': False, 'reason': 'No valid Fibonacci levels', 'strength': 0}
+            fib_ratio, fib_price = closest_fib
+            max_distance = 0.001  # 0.1% or 10 pips
 
-        fib_ratio, fib_price = closest_fib
-        max_distance = 0.001  # 0.1% or 10 pips
+            # Check if we're close enough to a key Fibonacci level
+            key_fib_levels = [0.382, 0.5, 0.618]  # Most important levels
 
-        # Check if we're close enough to a key Fibonacci level
-        key_fib_levels = [0.382, 0.5, 0.618]  # Most important levels
+            if min_distance <= max_distance and fib_ratio in key_fib_levels:
+                strength = (1 - (min_distance / max_distance)) * 1.2  # Bonus for key levels
+                strength = min(strength, 1.0)
 
-        if min_distance <= max_distance and fib_ratio in key_fib_levels:
-            strength = (1 - (min_distance / max_distance)) * 1.2  # Bonus for key levels
-            strength = min(strength, 1.0)
-
-            return {
-                'valid': True,
-                'reason': f'Near {fib_ratio} Fib ({min_distance:.3%} away)',
-                'strength': strength,
-                'level': fib_ratio,
-                'price': fib_price
-            }
-        elif min_distance <= max_distance:
-            strength = 1 - (min_distance / max_distance)
-            return {
-                'valid': True,
-                'reason': f'Near {fib_ratio} Fib ({min_distance:.3%} away)',
-                'strength': strength * 0.8,  # Lower weight for non-key levels
-                'level': fib_ratio,
-                'price': fib_price
-            }
-        else:
-            return {
-                'valid': False,
-                'reason': f'Too far from nearest Fib {fib_ratio} ({min_distance:.3%})',
-                'strength': 0
-            }
+                return {
+                    'valid': True,
+                    'reason': f'Near {fib_ratio} Fib ({min_distance:.3%} away)',
+                    'strength': strength,
+                    'level': fib_ratio,
+                    'price': fib_price
+                }
+            elif min_distance <= max_distance:
+                strength = 1 - (min_distance / max_distance)
+                return {
+                    'valid': True,
+                    'reason': f'Near {fib_ratio} Fib ({min_distance:.3%} away)',
+                    'strength': strength * 0.8,  # Lower weight for non-key levels
+                    'level': fib_ratio,
+                    'price': fib_price
+                }
+            else:
+                return {
+                    'valid': False,
+                    'reason': f'Too far from nearest Fib {fib_ratio} ({min_distance:.3%})',
+                    'strength': 0
+                }
+        except Exception as e:
+            self.logger.error(f"Error in Fibonacci confluence check: {e}")
+            return {'valid': False, 'reason': f'Fibonacci analysis error: {e}', 'strength': 0}
 
     def _calculate_composite_strength(self, prediction_analysis, trend_analysis, sr_confluence, fib_confluence):
         """Calculate composite signal strength"""
+        try:
+            # Weighted combination of different factors
+            weights = {
+                'trend': 0.4,  # Trend is most important
+                'prediction': 0.3,  # ML prediction strength
+                'support_resistance': 0.2,  # S/R confluence
+                'fibonacci': 0.1  # Fibonacci confluence
+            }
 
-        # Weighted combination of different factors
-        weights = {
-            'trend': 0.4,  # Trend is most important
-            'prediction': 0.3,  # ML prediction strength
-            'support_resistance': 0.2,  # S/R confluence
-            'fibonacci': 0.1  # Fibonacci confluence
-        }
+            composite = (
+                    trend_analysis['strength'] * weights['trend'] +
+                    prediction_analysis['strength'] * weights['prediction'] +
+                    sr_confluence['strength'] * weights['support_resistance'] +
+                    fib_confluence['strength'] * weights['fibonacci']
+            )
 
-        composite = (
-                trend_analysis['strength'] * weights['trend'] +
-                prediction_analysis['strength'] * weights['prediction'] +
-                sr_confluence['strength'] * weights['support_resistance'] +
-                fib_confluence['strength'] * weights['fibonacci']
-        )
-
-        return composite
+            return min(composite, 1.0)  # Cap at 1.0
+        except Exception as e:
+            self.logger.error(f"Error calculating composite strength: {e}")
+            return 0.0
 
     def _calculate_optimal_entry(self, current_price, direction, market_structure):
         """Calculate optimal entry, stop loss, and take profit levels"""
+        try:
+            # Get key levels
+            nearest_support = market_structure.get('nearest_support', current_price * 0.99)
+            nearest_resistance = market_structure.get('nearest_resistance', current_price * 1.01)
 
-        # Get key levels
-        nearest_support = market_structure.get('nearest_support', current_price * 0.99)
-        nearest_resistance = market_structure.get('nearest_resistance', current_price * 1.01)
+            if direction == 'buy':
+                # Enter at current price (market order) or slightly better
+                entry_price = current_price
 
-        if direction == 'buy':
-            # Enter at current price (market order) or slightly better
-            entry_price = current_price
+                # Stop loss below support with buffer
+                if nearest_support:
+                    stop_loss = nearest_support * 0.9995  # 5 pips below support
+                else:
+                    stop_loss = current_price * 0.995  # 0.5% below current price
 
-            # Stop loss below support with buffer
-            if nearest_support:
-                stop_loss = nearest_support * 0.9995  # 5 pips below support
-            else:
-                stop_loss = current_price * 0.995  # 0.5% below current price
+                # Take profit based on risk-reward ratio
+                risk_distance = entry_price - stop_loss
+                rr_ratio = self.config['execution']['take_profit']['value']
+                take_profit = entry_price + (risk_distance * rr_ratio)
 
-            # Take profit based on risk-reward ratio
-            risk_distance = entry_price - stop_loss
-            rr_ratio = self.config['execution']['take_profit']['value']
-            take_profit = entry_price + (risk_distance * rr_ratio)
+            else:  # sell
+                # Enter at current price (market order) or slightly better
+                entry_price = current_price
 
-        else:  # sell
-            # Enter at current price (market order) or slightly better
-            entry_price = current_price
+                # Stop loss above resistance with buffer
+                if nearest_resistance:
+                    stop_loss = nearest_resistance * 1.0005  # 5 pips above resistance
+                else:
+                    stop_loss = current_price * 1.005  # 0.5% above current price
 
-            # Stop loss above resistance with buffer
-            if nearest_resistance:
-                stop_loss = nearest_resistance * 1.0005  # 5 pips above resistance
-            else:
-                stop_loss = current_price * 1.005  # 0.5% above current price
+                # Take profit based on risk-reward ratio
+                risk_distance = stop_loss - entry_price
+                rr_ratio = self.config['execution']['take_profit']['value']
+                take_profit = entry_price - (risk_distance * rr_ratio)
 
-            # Take profit based on risk-reward ratio
-            risk_distance = stop_loss - entry_price
-            rr_ratio = self.config['execution']['take_profit']['value']
-            take_profit = entry_price - (risk_distance * rr_ratio)
-
-        return {
-            'entry': entry_price,
-            'stop_loss': stop_loss,
-            'take_profit': take_profit,
-            'risk_reward': rr_ratio
-        }
+            return {
+                'entry': entry_price,
+                'stop_loss': stop_loss,
+                'take_profit': take_profit,
+                'risk_reward': rr_ratio
+            }
+        except Exception as e:
+            self.logger.error(f"Error calculating optimal entry: {e}")
+            return {
+                'entry': current_price,
+                'stop_loss': current_price * 0.99,
+                'take_profit': current_price * 1.02,
+                'risk_reward': 2.0
+            }
 
     def _calculate_next_signal_time(self, instrument):
         """Calculate when next signal is allowed for this instrument"""
