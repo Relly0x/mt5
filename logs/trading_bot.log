@@ -1,0 +1,536 @@
+2025-05-23 05:20:32,226 - tft_trading_bot - INFO - Starting TFT Trading Bot in train mode
+2025-05-23 05:20:37,170 - tft_trading_bot - INFO - Collecting data from OANDA...
+2025-05-23 05:20:37,452 - oandapyV20.oandapyV20 - INFO - setting up API-client for environment practice
+2025-05-23 05:20:37,452 - oanda_collector - INFO - OANDA Data Collector initialized
+2025-05-23 05:20:37,453 - oanda_collector - INFO - Collecting data for EUR_USD M15
+2025-05-23 05:20:37,453 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:20:37,782 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M15
+2025-05-23 05:20:37,784 - oanda_collector - INFO - Collecting data for EUR_USD M1
+2025-05-23 05:20:37,784 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:20:37,940 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M1
+2025-05-23 05:20:37,941 - tft_trading_bot - INFO - Processing and normalizing data...
+2025-05-23 05:20:37,942 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 05:20:37,942 - data_normalizer - INFO - Creating features for EUR_USD M15
+2025-05-23 05:20:37,971 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-23 05:20:37,990 - data_normalizer - INFO - Normalizer fitted on data with shape (4999, 27)
+2025-05-23 05:20:37,990 - data_normalizer - INFO - Scaler fitted on combined data with 4999 samples
+2025-05-23 05:20:37,990 - data_normalizer - INFO - Normalizing EUR_USD M15
+2025-05-23 05:20:37,996 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-23 05:20:37,999 - tft_trading_bot - INFO - Creating datasets...
+2025-05-23 05:20:37,999 - dataset_creator - INFO - Creating datasets with ratios - Train: 0.7, Val: 0.15, Test: 0.15
+2025-05-23 05:20:38,000 - dataset_creator - INFO - EUR_USD M15: Train=3499, Val=750, Test=750
+2025-05-23 05:20:38,001 - dataset_creator - INFO - EUR_USD M1: Train=3499, Val=750, Test=750
+2025-05-23 05:20:40,666 - tft_dataset - INFO - Created 3368 samples for training
+2025-05-23 05:20:41,161 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:20:41,616 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:20:41,620 - dataset_creator - INFO - Created data loaders - Train: 14 batches, Val: 3 batches, Test: 3 batches
+2025-05-23 05:20:41,620 - tft_trading_bot - INFO - Initializing model...
+2025-05-23 05:20:41,642 - tft_trading_bot - INFO - Starting training...
+2025-05-23 05:20:41,648 - tft_trainer - INFO - Using device: cpu
+2025-05-23 05:20:44,679 - tft_trainer - INFO - TFT Trainer initialized
+2025-05-23 05:20:44,679 - tft_trainer - INFO - Starting training...
+2025-05-23 05:20:44,679 - tft_trainer - INFO - Epoch 1/100
+2025-05-23 05:20:47,221 - tft_trainer - INFO - Epoch 1: Train Loss=0.501732, Val Loss=0.249611, LR=0.00100000
+2025-05-23 05:20:47,235 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:20:47,235 - tft_trainer - INFO - New best model saved with validation loss: 0.249611
+2025-05-23 05:20:47,235 - tft_trainer - INFO - Epoch 2/100
+2025-05-23 05:20:49,545 - tft_trainer - INFO - Epoch 2: Train Loss=0.394126, Val Loss=0.222497, LR=0.00100000
+2025-05-23 05:20:49,554 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:20:49,554 - tft_trainer - INFO - New best model saved with validation loss: 0.222497
+2025-05-23 05:20:49,554 - tft_trainer - INFO - Epoch 3/100
+2025-05-23 05:20:52,103 - tft_trainer - INFO - Epoch 3: Train Loss=0.227089, Val Loss=0.147238, LR=0.00100000
+2025-05-23 05:20:52,113 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:20:52,113 - tft_trainer - INFO - New best model saved with validation loss: 0.147238
+2025-05-23 05:20:52,114 - tft_trainer - INFO - Epoch 4/100
+2025-05-23 05:21:08,587 - tft_trading_bot - INFO - Starting TFT Trading Bot in train mode
+2025-05-23 05:21:11,569 - tft_trading_bot - INFO - Collecting data from OANDA...
+2025-05-23 05:21:11,664 - oandapyV20.oandapyV20 - INFO - setting up API-client for environment practice
+2025-05-23 05:21:11,664 - oanda_collector - INFO - OANDA Data Collector initialized
+2025-05-23 05:21:11,664 - oanda_collector - INFO - Collecting data for EUR_USD M15
+2025-05-23 05:21:11,664 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:21:11,936 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M15
+2025-05-23 05:21:11,939 - oanda_collector - INFO - Collecting data for EUR_USD M1
+2025-05-23 05:21:11,940 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:21:12,108 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M1
+2025-05-23 05:21:12,110 - tft_trading_bot - INFO - Processing and normalizing data...
+2025-05-23 05:21:12,110 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 05:21:12,110 - data_normalizer - INFO - Creating features for EUR_USD M15
+2025-05-23 05:21:12,131 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-23 05:21:12,158 - data_normalizer - INFO - Normalizer fitted on data with shape (4999, 27)
+2025-05-23 05:21:12,158 - data_normalizer - INFO - Scaler fitted on combined data with 4999 samples
+2025-05-23 05:21:12,158 - data_normalizer - INFO - Normalizing EUR_USD M15
+2025-05-23 05:21:12,163 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-23 05:21:12,165 - tft_trading_bot - INFO - Creating datasets...
+2025-05-23 05:21:12,165 - dataset_creator - INFO - Creating datasets with ratios - Train: 0.7, Val: 0.15, Test: 0.15
+2025-05-23 05:21:12,167 - dataset_creator - INFO - EUR_USD M15: Train=3499, Val=750, Test=750
+2025-05-23 05:21:12,169 - dataset_creator - INFO - EUR_USD M1: Train=3499, Val=750, Test=750
+2025-05-23 05:21:14,815 - tft_dataset - INFO - Created 3368 samples for training
+2025-05-23 05:21:15,315 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:21:15,770 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:21:15,770 - dataset_creator - INFO - Created data loaders - Train: 14 batches, Val: 3 batches, Test: 3 batches
+2025-05-23 05:21:15,770 - tft_trading_bot - INFO - Initializing model...
+2025-05-23 05:21:15,771 - tft_trading_bot - INFO - Starting training...
+2025-05-23 05:21:15,771 - tft_trainer - INFO - Using device: cpu
+2025-05-23 05:21:17,805 - tft_trainer - INFO - TFT Trainer initialized
+2025-05-23 05:21:17,805 - tft_trainer - INFO - Starting training...
+2025-05-23 05:21:17,805 - tft_trainer - INFO - Epoch 1/100
+2025-05-23 05:21:20,022 - tft_trainer - INFO - Epoch 1: Train Loss=0.508825, Val Loss=0.255677, LR=0.00100000
+2025-05-23 05:21:20,032 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:20,033 - tft_trainer - INFO - New best model saved with validation loss: 0.255677
+2025-05-23 05:21:20,034 - tft_trainer - INFO - Epoch 2/100
+2025-05-23 05:21:22,189 - tft_trainer - INFO - Epoch 2: Train Loss=0.439821, Val Loss=0.211114, LR=0.00100000
+2025-05-23 05:21:22,195 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:22,195 - tft_trainer - INFO - New best model saved with validation loss: 0.211114
+2025-05-23 05:21:22,195 - tft_trainer - INFO - Epoch 3/100
+2025-05-23 05:21:24,608 - tft_trainer - INFO - Epoch 3: Train Loss=0.253540, Val Loss=0.123260, LR=0.00100000
+2025-05-23 05:21:24,618 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:24,618 - tft_trainer - INFO - New best model saved with validation loss: 0.123260
+2025-05-23 05:21:24,618 - tft_trainer - INFO - Epoch 4/100
+2025-05-23 05:21:27,055 - tft_trainer - INFO - Epoch 4: Train Loss=0.111885, Val Loss=0.097056, LR=0.00100000
+2025-05-23 05:21:27,062 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:27,062 - tft_trainer - INFO - New best model saved with validation loss: 0.097056
+2025-05-23 05:21:27,062 - tft_trainer - INFO - Epoch 5/100
+2025-05-23 05:21:29,191 - tft_trainer - INFO - Epoch 5: Train Loss=0.075382, Val Loss=0.053411, LR=0.00100000
+2025-05-23 05:21:29,198 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:29,198 - tft_trainer - INFO - New best model saved with validation loss: 0.053411
+2025-05-23 05:21:29,198 - tft_trainer - INFO - Epoch 6/100
+2025-05-23 05:21:31,447 - tft_trainer - INFO - Epoch 6: Train Loss=0.058192, Val Loss=0.055155, LR=0.00100000
+2025-05-23 05:21:31,447 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:21:31,447 - tft_trainer - INFO - Epoch 7/100
+2025-05-23 05:21:33,887 - tft_trainer - INFO - Epoch 7: Train Loss=0.049806, Val Loss=0.052620, LR=0.00100000
+2025-05-23 05:21:33,915 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:33,915 - tft_trainer - INFO - New best model saved with validation loss: 0.052620
+2025-05-23 05:21:33,915 - tft_trainer - INFO - Epoch 8/100
+2025-05-23 05:21:36,149 - tft_trainer - INFO - Epoch 8: Train Loss=0.043481, Val Loss=0.052319, LR=0.00100000
+2025-05-23 05:21:36,156 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:36,156 - tft_trainer - INFO - New best model saved with validation loss: 0.052319
+2025-05-23 05:21:36,156 - tft_trainer - INFO - Epoch 9/100
+2025-05-23 05:21:38,849 - tft_trainer - INFO - Epoch 9: Train Loss=0.041700, Val Loss=0.044843, LR=0.00100000
+2025-05-23 05:21:38,854 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:38,856 - tft_trainer - INFO - New best model saved with validation loss: 0.044843
+2025-05-23 05:21:38,856 - tft_trainer - INFO - Epoch 10/100
+2025-05-23 05:21:40,931 - tft_trainer - INFO - Epoch 10: Train Loss=0.039826, Val Loss=0.042648, LR=0.00100000
+2025-05-23 05:21:40,940 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:40,942 - tft_trainer - INFO - New best model saved with validation loss: 0.042648
+2025-05-23 05:21:40,954 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_10.pt
+2025-05-23 05:21:40,955 - tft_trainer - INFO - Epoch 11/100
+2025-05-23 05:21:42,949 - tft_trainer - INFO - Epoch 11: Train Loss=0.038797, Val Loss=0.040351, LR=0.00100000
+2025-05-23 05:21:42,956 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:42,956 - tft_trainer - INFO - New best model saved with validation loss: 0.040351
+2025-05-23 05:21:42,957 - tft_trainer - INFO - Epoch 12/100
+2025-05-23 05:21:45,399 - tft_trainer - INFO - Epoch 12: Train Loss=0.037549, Val Loss=0.036736, LR=0.00100000
+2025-05-23 05:21:45,407 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:45,407 - tft_trainer - INFO - New best model saved with validation loss: 0.036736
+2025-05-23 05:21:45,407 - tft_trainer - INFO - Epoch 13/100
+2025-05-23 05:21:48,618 - tft_trainer - INFO - Epoch 13: Train Loss=0.037317, Val Loss=0.040582, LR=0.00100000
+2025-05-23 05:21:48,618 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:21:48,618 - tft_trainer - INFO - Epoch 14/100
+2025-05-23 05:21:52,052 - tft_trainer - INFO - Epoch 14: Train Loss=0.035959, Val Loss=0.037366, LR=0.00100000
+2025-05-23 05:21:52,052 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:21:52,052 - tft_trainer - INFO - Epoch 15/100
+2025-05-23 05:21:54,569 - tft_trainer - INFO - Epoch 15: Train Loss=0.036382, Val Loss=0.043410, LR=0.00100000
+2025-05-23 05:21:54,569 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:21:54,569 - tft_trainer - INFO - Epoch 16/100
+2025-05-23 05:21:57,685 - tft_trainer - INFO - Epoch 16: Train Loss=0.036492, Val Loss=0.031591, LR=0.00100000
+2025-05-23 05:21:57,695 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:21:57,695 - tft_trainer - INFO - New best model saved with validation loss: 0.031591
+2025-05-23 05:21:57,695 - tft_trainer - INFO - Epoch 17/100
+2025-05-23 05:22:00,789 - tft_trainer - INFO - Epoch 17: Train Loss=0.036050, Val Loss=0.036865, LR=0.00100000
+2025-05-23 05:22:00,789 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:22:00,789 - tft_trainer - INFO - Epoch 18/100
+2025-05-23 05:22:03,279 - tft_trainer - INFO - Epoch 18: Train Loss=0.035231, Val Loss=0.035653, LR=0.00100000
+2025-05-23 05:22:03,279 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:22:03,279 - tft_trainer - INFO - Epoch 19/100
+2025-05-23 05:22:05,792 - tft_trainer - INFO - Epoch 19: Train Loss=0.034531, Val Loss=0.036255, LR=0.00100000
+2025-05-23 05:22:05,793 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:22:05,793 - tft_trainer - INFO - Epoch 20/100
+2025-05-23 05:22:09,012 - tft_trainer - INFO - Epoch 20: Train Loss=0.034301, Val Loss=0.041871, LR=0.00100000
+2025-05-23 05:22:09,013 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:22:09,020 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_20.pt
+2025-05-23 05:22:09,020 - tft_trainer - INFO - Epoch 21/100
+2025-05-23 05:22:11,535 - tft_trainer - INFO - Epoch 21: Train Loss=0.033940, Val Loss=0.034256, LR=0.00100000
+2025-05-23 05:22:11,536 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:22:11,536 - tft_trainer - INFO - Epoch 22/100
+2025-05-23 05:22:13,779 - tft_trainer - INFO - Epoch 22: Train Loss=0.033451, Val Loss=0.039914, LR=0.00050000
+2025-05-23 05:22:13,779 - tft_trainer - INFO - No improvement. Patience: 6/10
+2025-05-23 05:22:13,779 - tft_trainer - INFO - Epoch 23/100
+2025-05-23 05:22:16,276 - tft_trainer - INFO - Epoch 23: Train Loss=0.033438, Val Loss=0.036940, LR=0.00050000
+2025-05-23 05:22:16,276 - tft_trainer - INFO - No improvement. Patience: 7/10
+2025-05-23 05:22:16,276 - tft_trainer - INFO - Epoch 24/100
+2025-05-23 05:22:18,503 - tft_trainer - INFO - Epoch 24: Train Loss=0.032900, Val Loss=0.038238, LR=0.00050000
+2025-05-23 05:22:18,503 - tft_trainer - INFO - No improvement. Patience: 8/10
+2025-05-23 05:22:18,503 - tft_trainer - INFO - Epoch 25/100
+2025-05-23 05:22:20,671 - tft_trainer - INFO - Epoch 25: Train Loss=0.033247, Val Loss=0.037814, LR=0.00050000
+2025-05-23 05:22:20,671 - tft_trainer - INFO - No improvement. Patience: 9/10
+2025-05-23 05:22:20,671 - tft_trainer - INFO - Epoch 26/100
+2025-05-23 05:22:22,972 - tft_trainer - INFO - Epoch 26: Train Loss=0.032848, Val Loss=0.035223, LR=0.00050000
+2025-05-23 05:22:22,972 - tft_trainer - INFO - No improvement. Patience: 10/10
+2025-05-23 05:22:22,972 - tft_trainer - INFO - Early stopping triggered after 26 epochs
+2025-05-23 05:22:22,972 - tft_trainer - INFO - Evaluating on test set...
+2025-05-23 05:22:23,074 - tft_trainer - INFO - Test Loss: 0.033673
+2025-05-23 05:22:23,074 - tft_trading_bot - INFO - Training completed. Test metrics: {'train_loss': 0.0328477941719549, 'val_loss': 0.031591140354673065, 'test_loss': 0.033673335487643875, 'epochs_trained': 26}
+2025-05-23 05:22:23,195 - onnx_exporter - INFO - Exporting model to ONNX format...
+2025-05-23 05:22:23,196 - onnx_exporter - INFO - Input shapes: past=torch.Size([256, 120, 27]), future=torch.Size([256, 12, 26]), static=torch.Size([256, 1])
+2025-05-23 05:22:23,472 - onnx_exporter - INFO - Model successfully exported and validated: exported_models\model.onnx
+2025-05-23 05:22:24,032 - onnx_exporter - INFO - ONNX model test successful. Output shape: (256, 12, 3)
+2025-05-23 05:22:24,037 - tft_trading_bot - INFO - Model exported to exported_models\model.onnx
+2025-05-23 05:30:25,668 - tft_trading_bot - INFO - Starting Enhanced TFT Trading Bot in train mode
+2025-05-23 05:30:29,571 - tft_trading_bot - INFO - Collecting data from OANDA...
+2025-05-23 05:30:29,696 - oandapyV20.oandapyV20 - INFO - setting up API-client for environment practice
+2025-05-23 05:30:29,696 - oanda_collector - INFO - OANDA Data Collector initialized
+2025-05-23 05:30:29,696 - oanda_collector - INFO - Collecting data for EUR_USD M15
+2025-05-23 05:30:29,696 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:30:30,050 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M15
+2025-05-23 05:30:30,051 - oanda_collector - INFO - Collecting data for EUR_USD M1
+2025-05-23 05:30:30,051 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:30:30,214 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M1
+2025-05-23 05:30:30,214 - tft_trading_bot - INFO - Processing and normalizing data...
+2025-05-23 05:30:30,214 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 05:30:30,214 - data_normalizer - INFO - Creating features for EUR_USD M15
+2025-05-23 05:30:30,241 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-23 05:30:30,259 - data_normalizer - INFO - Normalizer fitted on data with shape (4999, 27)
+2025-05-23 05:30:30,259 - data_normalizer - INFO - Scaler fitted on combined data with 4999 samples
+2025-05-23 05:30:30,259 - data_normalizer - INFO - Normalizing EUR_USD M15
+2025-05-23 05:30:30,263 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-23 05:30:30,265 - tft_trading_bot - INFO - Creating datasets...
+2025-05-23 05:30:30,265 - dataset_creator - INFO - Creating datasets with ratios - Train: 0.7, Val: 0.15, Test: 0.15
+2025-05-23 05:30:30,266 - dataset_creator - INFO - EUR_USD M15: Train=3499, Val=750, Test=750
+2025-05-23 05:30:30,266 - dataset_creator - INFO - EUR_USD M1: Train=3499, Val=750, Test=750
+2025-05-23 05:30:32,451 - tft_dataset - INFO - Created 3368 samples for training
+2025-05-23 05:30:32,886 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:30:33,289 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:30:33,289 - dataset_creator - INFO - Created data loaders - Train: 14 batches, Val: 3 batches, Test: 3 batches
+2025-05-23 05:30:33,289 - tft_trading_bot - INFO - Initializing Enhanced Temporal Fusion Transformer...
+2025-05-23 05:30:33,289 - tft_trading_bot - INFO - Model initialized with 0 total parameters (0 trainable)
+2025-05-23 05:30:33,289 - tft_trading_bot - INFO - Starting training with Enhanced TFT...
+2025-05-23 05:30:33,293 - tft_trainer - INFO - Using device: cpu
+2025-05-23 05:30:33,293 - tft_trading_bot - ERROR - Training error: optimizer got an empty parameter list
+2025-05-23 05:31:32,345 - tft_trading_bot - INFO - Starting Enhanced TFT Trading Bot in train mode
+2025-05-23 05:31:34,779 - tft_trading_bot - INFO - Collecting data from OANDA...
+2025-05-23 05:31:34,864 - oandapyV20.oandapyV20 - INFO - setting up API-client for environment practice
+2025-05-23 05:31:34,864 - oanda_collector - INFO - OANDA Data Collector initialized
+2025-05-23 05:31:34,864 - oanda_collector - INFO - Collecting data for EUR_USD M15
+2025-05-23 05:31:34,865 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:31:35,055 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M15
+2025-05-23 05:31:35,057 - oanda_collector - INFO - Collecting data for EUR_USD M1
+2025-05-23 05:31:35,057 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:31:35,311 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M1
+2025-05-23 05:31:35,311 - tft_trading_bot - INFO - Processing and normalizing data...
+2025-05-23 05:31:35,311 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 05:31:35,311 - data_normalizer - INFO - Creating features for EUR_USD M15
+2025-05-23 05:31:35,326 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-23 05:31:35,343 - data_normalizer - INFO - Normalizer fitted on data with shape (4999, 27)
+2025-05-23 05:31:35,344 - data_normalizer - INFO - Scaler fitted on combined data with 4999 samples
+2025-05-23 05:31:35,344 - data_normalizer - INFO - Normalizing EUR_USD M15
+2025-05-23 05:31:35,347 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-23 05:31:35,350 - tft_trading_bot - INFO - Creating datasets...
+2025-05-23 05:31:35,350 - dataset_creator - INFO - Creating datasets with ratios - Train: 0.7, Val: 0.15, Test: 0.15
+2025-05-23 05:31:35,350 - dataset_creator - INFO - EUR_USD M15: Train=3499, Val=750, Test=750
+2025-05-23 05:31:35,351 - dataset_creator - INFO - EUR_USD M1: Train=3499, Val=750, Test=750
+2025-05-23 05:31:37,618 - tft_dataset - INFO - Created 3368 samples for training
+2025-05-23 05:31:38,030 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:31:38,412 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:31:38,412 - dataset_creator - INFO - Created data loaders - Train: 14 batches, Val: 3 batches, Test: 3 batches
+2025-05-23 05:31:38,413 - tft_trading_bot - INFO - Initializing Enhanced Temporal Fusion Transformer...
+2025-05-23 05:31:38,413 - tft_trading_bot - INFO - Initializing model layers with sample data...
+2025-05-23 05:31:38,965 - tft_trading_bot - INFO - Model layers successfully initialized
+2025-05-23 05:31:38,965 - tft_trading_bot - INFO - Model initialized with 157,763 total parameters (157,763 trainable)
+2025-05-23 05:31:38,965 - tft_trading_bot - INFO - Starting training with TemporalFusionTransformer...
+2025-05-23 05:31:38,966 - tft_trainer - INFO - Using device: cpu
+2025-05-23 05:31:40,814 - tft_trainer - INFO - TFT Trainer initialized
+2025-05-23 05:31:40,816 - tft_trainer - INFO - Starting training...
+2025-05-23 05:31:40,816 - tft_trainer - INFO - Epoch 1/100
+2025-05-23 05:31:48,090 - tft_trainer - INFO - Epoch 1: Train Loss=0.514563, Val Loss=0.237722, LR=0.00100000
+2025-05-23 05:31:48,112 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:31:48,112 - tft_trainer - INFO - New best model saved with validation loss: 0.237722
+2025-05-23 05:31:48,112 - tft_trainer - INFO - Epoch 2/100
+2025-05-23 05:31:56,388 - tft_trainer - INFO - Epoch 2: Train Loss=0.426336, Val Loss=0.238076, LR=0.00100000
+2025-05-23 05:31:56,388 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:31:56,388 - tft_trainer - INFO - Epoch 3/100
+2025-05-23 05:32:03,323 - tft_trainer - INFO - Epoch 3: Train Loss=0.285280, Val Loss=0.276742, LR=0.00100000
+2025-05-23 05:32:03,323 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:32:03,323 - tft_trainer - INFO - Epoch 4/100
+2025-05-23 05:32:10,175 - tft_trainer - INFO - Epoch 4: Train Loss=0.272204, Val Loss=0.243052, LR=0.00100000
+2025-05-23 05:32:10,175 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:32:10,175 - tft_trainer - INFO - Epoch 5/100
+2025-05-23 05:32:17,677 - tft_trainer - INFO - Epoch 5: Train Loss=0.269886, Val Loss=0.251677, LR=0.00100000
+2025-05-23 05:32:17,677 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:32:17,677 - tft_trainer - INFO - Epoch 6/100
+2025-05-23 05:32:26,646 - tft_trainer - INFO - Epoch 6: Train Loss=0.266818, Val Loss=0.265458, LR=0.00100000
+2025-05-23 05:32:26,648 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:32:26,648 - tft_trainer - INFO - Epoch 7/100
+2025-05-23 05:32:36,512 - tft_trainer - INFO - Epoch 7: Train Loss=0.261302, Val Loss=0.261346, LR=0.00050000
+2025-05-23 05:32:36,513 - tft_trainer - INFO - No improvement. Patience: 6/10
+2025-05-23 05:32:36,513 - tft_trainer - INFO - Epoch 8/100
+2025-05-23 05:32:43,709 - tft_trainer - INFO - Epoch 8: Train Loss=0.256707, Val Loss=0.255678, LR=0.00050000
+2025-05-23 05:32:43,709 - tft_trainer - INFO - No improvement. Patience: 7/10
+2025-05-23 05:32:43,709 - tft_trainer - INFO - Epoch 9/100
+2025-05-23 05:32:50,353 - tft_trainer - INFO - Epoch 9: Train Loss=0.250761, Val Loss=0.244220, LR=0.00050000
+2025-05-23 05:32:50,353 - tft_trainer - INFO - No improvement. Patience: 8/10
+2025-05-23 05:32:50,353 - tft_trainer - INFO - Epoch 10/100
+2025-05-23 05:32:57,911 - tft_trainer - INFO - Epoch 10: Train Loss=0.240466, Val Loss=0.228369, LR=0.00050000
+2025-05-23 05:32:57,922 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:32:57,922 - tft_trainer - INFO - New best model saved with validation loss: 0.228369
+2025-05-23 05:32:57,935 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_10.pt
+2025-05-23 05:32:57,936 - tft_trainer - INFO - Epoch 11/100
+2025-05-23 05:33:06,222 - tft_trainer - INFO - Epoch 11: Train Loss=0.232928, Val Loss=0.219812, LR=0.00050000
+2025-05-23 05:33:06,235 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:06,235 - tft_trainer - INFO - New best model saved with validation loss: 0.219812
+2025-05-23 05:33:06,235 - tft_trainer - INFO - Epoch 12/100
+2025-05-23 05:33:13,028 - tft_trainer - INFO - Epoch 12: Train Loss=0.228993, Val Loss=0.210979, LR=0.00050000
+2025-05-23 05:33:13,041 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:13,041 - tft_trainer - INFO - New best model saved with validation loss: 0.210979
+2025-05-23 05:33:13,041 - tft_trainer - INFO - Epoch 13/100
+2025-05-23 05:33:19,999 - tft_trainer - INFO - Epoch 13: Train Loss=0.225894, Val Loss=0.201247, LR=0.00050000
+2025-05-23 05:33:20,040 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:20,040 - tft_trainer - INFO - New best model saved with validation loss: 0.201247
+2025-05-23 05:33:20,040 - tft_trainer - INFO - Epoch 14/100
+2025-05-23 05:33:28,102 - tft_trainer - INFO - Epoch 14: Train Loss=0.221696, Val Loss=0.196093, LR=0.00050000
+2025-05-23 05:33:28,115 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:28,115 - tft_trainer - INFO - New best model saved with validation loss: 0.196093
+2025-05-23 05:33:28,115 - tft_trainer - INFO - Epoch 15/100
+2025-05-23 05:33:35,069 - tft_trainer - INFO - Epoch 15: Train Loss=0.218809, Val Loss=0.179480, LR=0.00050000
+2025-05-23 05:33:35,081 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:35,081 - tft_trainer - INFO - New best model saved with validation loss: 0.179480
+2025-05-23 05:33:35,081 - tft_trainer - INFO - Epoch 16/100
+2025-05-23 05:33:43,958 - tft_trainer - INFO - Epoch 16: Train Loss=0.208082, Val Loss=0.157106, LR=0.00050000
+2025-05-23 05:33:43,970 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:43,970 - tft_trainer - INFO - New best model saved with validation loss: 0.157106
+2025-05-23 05:33:43,970 - tft_trainer - INFO - Epoch 17/100
+2025-05-23 05:33:51,558 - tft_trainer - INFO - Epoch 17: Train Loss=0.195905, Val Loss=0.128076, LR=0.00050000
+2025-05-23 05:33:51,573 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:33:51,573 - tft_trainer - INFO - New best model saved with validation loss: 0.128076
+2025-05-23 05:33:51,573 - tft_trainer - INFO - Epoch 18/100
+2025-05-23 05:34:01,674 - tft_trainer - INFO - Epoch 18: Train Loss=0.165171, Val Loss=0.095334, LR=0.00050000
+2025-05-23 05:34:01,686 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:34:01,688 - tft_trainer - INFO - New best model saved with validation loss: 0.095334
+2025-05-23 05:34:01,688 - tft_trainer - INFO - Epoch 19/100
+2025-05-23 05:34:08,774 - tft_trainer - INFO - Epoch 19: Train Loss=0.115608, Val Loss=0.095709, LR=0.00050000
+2025-05-23 05:34:08,774 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:34:08,776 - tft_trainer - INFO - Epoch 20/100
+2025-05-23 05:34:16,416 - tft_trainer - INFO - Epoch 20: Train Loss=0.100306, Val Loss=0.097708, LR=0.00050000
+2025-05-23 05:34:16,416 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:34:16,431 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_20.pt
+2025-05-23 05:34:16,431 - tft_trainer - INFO - Epoch 21/100
+2025-05-23 05:34:24,114 - tft_trainer - INFO - Epoch 21: Train Loss=0.090818, Val Loss=0.104831, LR=0.00050000
+2025-05-23 05:34:24,114 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:34:24,114 - tft_trainer - INFO - Epoch 22/100
+2025-05-23 05:34:32,333 - tft_trainer - INFO - Epoch 22: Train Loss=0.082330, Val Loss=0.105456, LR=0.00050000
+2025-05-23 05:34:32,333 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:34:32,333 - tft_trainer - INFO - Epoch 23/100
+2025-05-23 05:34:40,733 - tft_trainer - INFO - Epoch 23: Train Loss=0.074277, Val Loss=0.100305, LR=0.00050000
+2025-05-23 05:34:40,735 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:34:40,735 - tft_trainer - INFO - Epoch 24/100
+2025-05-23 05:34:47,540 - tft_trainer - INFO - Epoch 24: Train Loss=0.066605, Val Loss=0.101256, LR=0.00025000
+2025-05-23 05:34:47,540 - tft_trainer - INFO - No improvement. Patience: 6/10
+2025-05-23 05:34:47,540 - tft_trainer - INFO - Epoch 25/100
+2025-05-23 05:34:54,596 - tft_trainer - INFO - Epoch 25: Train Loss=0.062972, Val Loss=0.094046, LR=0.00025000
+2025-05-23 05:34:54,607 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:34:54,607 - tft_trainer - INFO - New best model saved with validation loss: 0.094046
+2025-05-23 05:34:54,609 - tft_trainer - INFO - Epoch 26/100
+2025-05-23 05:35:02,181 - tft_trainer - INFO - Epoch 26: Train Loss=0.059933, Val Loss=0.091958, LR=0.00025000
+2025-05-23 05:35:02,193 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:35:02,193 - tft_trainer - INFO - New best model saved with validation loss: 0.091958
+2025-05-23 05:35:02,193 - tft_trainer - INFO - Epoch 27/100
+2025-05-23 05:35:09,079 - tft_trainer - INFO - Epoch 27: Train Loss=0.056800, Val Loss=0.090359, LR=0.00025000
+2025-05-23 05:35:09,092 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:35:09,092 - tft_trainer - INFO - New best model saved with validation loss: 0.090359
+2025-05-23 05:35:09,092 - tft_trainer - INFO - Epoch 28/100
+2025-05-23 05:35:16,088 - tft_trainer - INFO - Epoch 28: Train Loss=0.054788, Val Loss=0.081829, LR=0.00025000
+2025-05-23 05:35:16,098 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:35:16,098 - tft_trainer - INFO - New best model saved with validation loss: 0.081829
+2025-05-23 05:35:16,098 - tft_trainer - INFO - Epoch 29/100
+2025-05-23 05:35:23,661 - tft_trainer - INFO - Epoch 29: Train Loss=0.052889, Val Loss=0.086587, LR=0.00025000
+2025-05-23 05:35:23,661 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:35:23,661 - tft_trainer - INFO - Epoch 30/100
+2025-05-23 05:35:31,198 - tft_trainer - INFO - Epoch 30: Train Loss=0.050992, Val Loss=0.088176, LR=0.00025000
+2025-05-23 05:35:31,199 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:35:31,210 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_30.pt
+2025-05-23 05:35:31,211 - tft_trainer - INFO - Epoch 31/100
+2025-05-23 05:35:38,302 - tft_trainer - INFO - Epoch 31: Train Loss=0.050212, Val Loss=0.084862, LR=0.00025000
+2025-05-23 05:35:38,302 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:35:38,302 - tft_trainer - INFO - Epoch 32/100
+2025-05-23 05:35:45,402 - tft_trainer - INFO - Epoch 32: Train Loss=0.049213, Val Loss=0.090175, LR=0.00025000
+2025-05-23 05:35:45,403 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:35:45,403 - tft_trainer - INFO - Epoch 33/100
+2025-05-23 05:35:52,375 - tft_trainer - INFO - Epoch 33: Train Loss=0.048478, Val Loss=0.085453, LR=0.00025000
+2025-05-23 05:35:52,375 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:35:52,375 - tft_trainer - INFO - Epoch 34/100
+2025-05-23 05:35:59,865 - tft_trainer - INFO - Epoch 34: Train Loss=0.047633, Val Loss=0.074827, LR=0.00025000
+2025-05-23 05:35:59,876 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:35:59,876 - tft_trainer - INFO - New best model saved with validation loss: 0.074827
+2025-05-23 05:35:59,876 - tft_trainer - INFO - Epoch 35/100
+2025-05-23 05:36:06,820 - tft_trainer - INFO - Epoch 35: Train Loss=0.047620, Val Loss=0.078176, LR=0.00025000
+2025-05-23 05:36:06,820 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:36:06,820 - tft_trainer - INFO - Epoch 36/100
+2025-05-23 05:36:13,814 - tft_trainer - INFO - Epoch 36: Train Loss=0.047121, Val Loss=0.083141, LR=0.00025000
+2025-05-23 05:36:13,816 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:36:13,816 - tft_trainer - INFO - Epoch 37/100
+2025-05-23 05:36:20,976 - tft_trainer - INFO - Epoch 37: Train Loss=0.046998, Val Loss=0.081815, LR=0.00025000
+2025-05-23 05:36:20,976 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:36:20,976 - tft_trainer - INFO - Epoch 38/100
+2025-05-23 05:36:28,460 - tft_trainer - INFO - Epoch 38: Train Loss=0.046936, Val Loss=0.081095, LR=0.00025000
+2025-05-23 05:36:28,460 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:36:28,461 - tft_trainer - INFO - Epoch 39/100
+2025-05-23 05:36:35,482 - tft_trainer - INFO - Epoch 39: Train Loss=0.046081, Val Loss=0.083010, LR=0.00025000
+2025-05-23 05:36:35,482 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:36:35,482 - tft_trainer - INFO - Epoch 40/100
+2025-05-23 05:36:42,226 - tft_trainer - INFO - Epoch 40: Train Loss=0.046232, Val Loss=0.085162, LR=0.00012500
+2025-05-23 05:36:42,226 - tft_trainer - INFO - No improvement. Patience: 6/10
+2025-05-23 05:36:42,236 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_40.pt
+2025-05-23 05:36:42,236 - tft_trainer - INFO - Epoch 41/100
+2025-05-23 05:36:50,354 - tft_trainer - INFO - Epoch 41: Train Loss=0.045698, Val Loss=0.076599, LR=0.00012500
+2025-05-23 05:36:50,354 - tft_trainer - INFO - No improvement. Patience: 7/10
+2025-05-23 05:36:50,354 - tft_trainer - INFO - Epoch 42/100
+2025-05-23 05:36:58,128 - tft_trainer - INFO - Epoch 42: Train Loss=0.046353, Val Loss=0.082572, LR=0.00012500
+2025-05-23 05:36:58,128 - tft_trainer - INFO - No improvement. Patience: 8/10
+2025-05-23 05:36:58,128 - tft_trainer - INFO - Epoch 43/100
+2025-05-23 05:37:04,966 - tft_trainer - INFO - Epoch 43: Train Loss=0.045712, Val Loss=0.086351, LR=0.00012500
+2025-05-23 05:37:04,966 - tft_trainer - INFO - No improvement. Patience: 9/10
+2025-05-23 05:37:04,966 - tft_trainer - INFO - Epoch 44/100
+2025-05-23 05:37:12,633 - tft_trainer - INFO - Epoch 44: Train Loss=0.045769, Val Loss=0.080355, LR=0.00012500
+2025-05-23 05:37:12,633 - tft_trainer - INFO - No improvement. Patience: 10/10
+2025-05-23 05:37:12,633 - tft_trainer - INFO - Early stopping triggered after 44 epochs
+2025-05-23 05:37:12,633 - tft_trainer - INFO - Evaluating on test set...
+2025-05-23 05:37:12,842 - tft_trainer - INFO - Test Loss: 0.078943
+2025-05-23 05:37:12,844 - tft_trading_bot - INFO - Training completed. Test metrics: {'train_loss': 0.04576857654111726, 'val_loss': 0.07482747671504815, 'test_loss': 0.07894335687160492, 'epochs_trained': 44}
+2025-05-23 05:37:12,995 - onnx_exporter - INFO - Exporting model to ONNX format...
+2025-05-23 05:37:12,996 - onnx_exporter - INFO - Input shapes: past=torch.Size([256, 120, 27]), future=torch.Size([256, 12, 26]), static=torch.Size([256, 1])
+2025-05-23 05:37:13,391 - onnx_exporter - INFO - Model successfully exported and validated: exported_models\enhanced_tft_model.onnx
+2025-05-23 05:37:13,650 - onnx_exporter - INFO - ONNX model test successful. Output shape: (256, 12, 3)
+2025-05-23 05:37:13,664 - tft_trading_bot - INFO - Enhanced TFT model exported to exported_models\enhanced_tft_model.onnx
+2025-05-23 05:41:12,344 - tft_trading_bot - INFO - Starting Enhanced TFT Trading Bot in train mode
+2025-05-23 05:41:15,138 - tft_trading_bot - INFO - Collecting data from OANDA...
+2025-05-23 05:41:15,228 - oandapyV20.oandapyV20 - INFO - setting up API-client for environment practice
+2025-05-23 05:41:15,228 - oanda_collector - INFO - OANDA Data Collector initialized
+2025-05-23 05:41:15,228 - oanda_collector - INFO - Collecting data for EUR_USD M15
+2025-05-23 05:41:15,228 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:41:15,454 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M15
+2025-05-23 05:41:15,456 - oanda_collector - INFO - Collecting data for EUR_USD M1
+2025-05-23 05:41:15,456 - oandapyV20.oandapyV20 - INFO - performing request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles
+2025-05-23 05:41:15,646 - oanda_collector - INFO - Collected 4999 candles for EUR_USD M1
+2025-05-23 05:41:15,648 - tft_trading_bot - INFO - Processing and normalizing data...
+2025-05-23 05:41:15,648 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 05:41:15,648 - data_normalizer - INFO - Creating features for EUR_USD M15
+2025-05-23 05:41:15,664 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-23 05:41:15,685 - data_normalizer - INFO - Normalizer fitted on data with shape (4999, 27)
+2025-05-23 05:41:15,685 - data_normalizer - INFO - Scaler fitted on combined data with 4999 samples
+2025-05-23 05:41:15,685 - data_normalizer - INFO - Normalizing EUR_USD M15
+2025-05-23 05:41:15,690 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-23 05:41:15,693 - tft_trading_bot - INFO - Creating datasets...
+2025-05-23 05:41:15,693 - dataset_creator - INFO - Creating datasets with ratios - Train: 0.7, Val: 0.15, Test: 0.15
+2025-05-23 05:41:15,694 - dataset_creator - INFO - EUR_USD M15: Train=3499, Val=750, Test=750
+2025-05-23 05:41:15,696 - dataset_creator - INFO - EUR_USD M1: Train=3499, Val=750, Test=750
+2025-05-23 05:41:18,274 - tft_dataset - INFO - Created 3368 samples for training
+2025-05-23 05:41:18,757 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:41:19,173 - tft_dataset - INFO - Created 619 samples for validation
+2025-05-23 05:41:19,174 - dataset_creator - INFO - Created data loaders - Train: 14 batches, Val: 3 batches, Test: 3 batches
+2025-05-23 05:41:19,174 - tft_trading_bot - INFO - Initializing Enhanced Temporal Fusion Transformer...
+2025-05-23 05:41:19,174 - tft_trading_bot - INFO - Initializing model layers with sample data...
+2025-05-23 05:41:19,595 - tft_trading_bot - INFO - Model layers successfully initialized
+2025-05-23 05:41:19,595 - tft_trading_bot - INFO - Model initialized with 157,763 total parameters (157,763 trainable)
+2025-05-23 05:41:19,596 - tft_trading_bot - INFO - Starting training with TemporalFusionTransformer...
+2025-05-23 05:41:19,596 - tft_trainer - INFO - Using device: cpu
+2025-05-23 05:41:21,092 - tft_trainer - INFO - TFT Trainer initialized
+2025-05-23 05:41:21,092 - tft_trainer - INFO - Starting training...
+2025-05-23 05:41:21,092 - tft_trainer - INFO - Epoch 1/100
+2025-05-23 05:41:29,962 - tft_trainer - INFO - Epoch 1: Train Loss=0.507680, Val Loss=0.228504, LR=0.00100000
+2025-05-23 05:41:29,977 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:41:29,978 - tft_trainer - INFO - New best model saved with validation loss: 0.228504
+2025-05-23 05:41:29,978 - tft_trainer - INFO - Epoch 2/100
+2025-05-23 05:41:37,535 - tft_trainer - INFO - Epoch 2: Train Loss=0.431649, Val Loss=0.210873, LR=0.00100000
+2025-05-23 05:41:37,545 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:41:37,545 - tft_trainer - INFO - New best model saved with validation loss: 0.210873
+2025-05-23 05:41:37,545 - tft_trainer - INFO - Epoch 3/100
+2025-05-23 05:41:45,947 - tft_trainer - INFO - Epoch 3: Train Loss=0.291270, Val Loss=0.268750, LR=0.00100000
+2025-05-23 05:41:45,947 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:41:45,947 - tft_trainer - INFO - Epoch 4/100
+2025-05-23 05:41:53,617 - tft_trainer - INFO - Epoch 4: Train Loss=0.273670, Val Loss=0.245498, LR=0.00100000
+2025-05-23 05:41:53,617 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:41:53,617 - tft_trainer - INFO - Epoch 5/100
+2025-05-23 05:42:00,963 - tft_trainer - INFO - Epoch 5: Train Loss=0.268058, Val Loss=0.250075, LR=0.00100000
+2025-05-23 05:42:00,963 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:42:00,963 - tft_trainer - INFO - Epoch 6/100
+2025-05-23 05:42:08,163 - tft_trainer - INFO - Epoch 6: Train Loss=0.262506, Val Loss=0.262958, LR=0.00100000
+2025-05-23 05:42:08,164 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:42:08,164 - tft_trainer - INFO - Epoch 7/100
+2025-05-23 05:42:15,232 - tft_trainer - INFO - Epoch 7: Train Loss=0.256216, Val Loss=0.256652, LR=0.00100000
+2025-05-23 05:42:15,232 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:42:15,232 - tft_trainer - INFO - Epoch 8/100
+2025-05-23 05:42:22,730 - tft_trainer - INFO - Epoch 8: Train Loss=0.244301, Val Loss=0.233620, LR=0.00050000
+2025-05-23 05:42:22,730 - tft_trainer - INFO - No improvement. Patience: 6/10
+2025-05-23 05:42:22,730 - tft_trainer - INFO - Epoch 9/100
+2025-05-23 05:42:30,570 - tft_trainer - INFO - Epoch 9: Train Loss=0.232796, Val Loss=0.221011, LR=0.00050000
+2025-05-23 05:42:30,570 - tft_trainer - INFO - No improvement. Patience: 7/10
+2025-05-23 05:42:30,570 - tft_trainer - INFO - Epoch 10/100
+2025-05-23 05:42:38,796 - tft_trainer - INFO - Epoch 10: Train Loss=0.227626, Val Loss=0.211275, LR=0.00050000
+2025-05-23 05:42:38,796 - tft_trainer - INFO - No improvement. Patience: 8/10
+2025-05-23 05:42:38,813 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_10.pt
+2025-05-23 05:42:38,814 - tft_trainer - INFO - Epoch 11/100
+2025-05-23 05:42:50,205 - tft_trainer - INFO - Epoch 11: Train Loss=0.223816, Val Loss=0.202691, LR=0.00050000
+2025-05-23 05:42:50,217 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:42:50,218 - tft_trainer - INFO - New best model saved with validation loss: 0.202691
+2025-05-23 05:42:50,218 - tft_trainer - INFO - Epoch 12/100
+2025-05-23 05:43:00,948 - tft_trainer - INFO - Epoch 12: Train Loss=0.220307, Val Loss=0.198938, LR=0.00050000
+2025-05-23 05:43:00,976 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:43:00,977 - tft_trainer - INFO - New best model saved with validation loss: 0.198938
+2025-05-23 05:43:00,977 - tft_trainer - INFO - Epoch 13/100
+2025-05-23 05:43:09,273 - tft_trainer - INFO - Epoch 13: Train Loss=0.215160, Val Loss=0.179019, LR=0.00050000
+2025-05-23 05:43:09,287 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:43:09,287 - tft_trainer - INFO - New best model saved with validation loss: 0.179019
+2025-05-23 05:43:09,288 - tft_trainer - INFO - Epoch 14/100
+2025-05-23 05:43:16,567 - tft_trainer - INFO - Epoch 14: Train Loss=0.202664, Val Loss=0.158264, LR=0.00050000
+2025-05-23 05:43:16,580 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:43:16,581 - tft_trainer - INFO - New best model saved with validation loss: 0.158264
+2025-05-23 05:43:16,581 - tft_trainer - INFO - Epoch 15/100
+2025-05-23 05:43:24,148 - tft_trainer - INFO - Epoch 15: Train Loss=0.183695, Val Loss=0.125972, LR=0.00050000
+2025-05-23 05:43:24,162 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:43:24,162 - tft_trainer - INFO - New best model saved with validation loss: 0.125972
+2025-05-23 05:43:24,162 - tft_trainer - INFO - Epoch 16/100
+2025-05-23 05:43:31,849 - tft_trainer - INFO - Epoch 16: Train Loss=0.146483, Val Loss=0.098201, LR=0.00050000
+2025-05-23 05:43:31,862 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:43:31,862 - tft_trainer - INFO - New best model saved with validation loss: 0.098201
+2025-05-23 05:43:31,862 - tft_trainer - INFO - Epoch 17/100
+2025-05-23 05:43:38,839 - tft_trainer - INFO - Epoch 17: Train Loss=0.097041, Val Loss=0.087000, LR=0.00050000
+2025-05-23 05:43:38,851 - tft_trainer - INFO - Best model saved to models/checkpoints\best_model.pt
+2025-05-23 05:43:38,851 - tft_trainer - INFO - New best model saved with validation loss: 0.087000
+2025-05-23 05:43:38,851 - tft_trainer - INFO - Epoch 18/100
+2025-05-23 05:43:46,491 - tft_trainer - INFO - Epoch 18: Train Loss=0.081810, Val Loss=0.097599, LR=0.00050000
+2025-05-23 05:43:46,491 - tft_trainer - INFO - No improvement. Patience: 1/10
+2025-05-23 05:43:46,491 - tft_trainer - INFO - Epoch 19/100
+2025-05-23 05:43:53,917 - tft_trainer - INFO - Epoch 19: Train Loss=0.071889, Val Loss=0.099360, LR=0.00050000
+2025-05-23 05:43:53,917 - tft_trainer - INFO - No improvement. Patience: 2/10
+2025-05-23 05:43:53,917 - tft_trainer - INFO - Epoch 20/100
+2025-05-23 05:44:01,437 - tft_trainer - INFO - Epoch 20: Train Loss=0.062732, Val Loss=0.098371, LR=0.00050000
+2025-05-23 05:44:01,437 - tft_trainer - INFO - No improvement. Patience: 3/10
+2025-05-23 05:44:01,449 - tft_trainer - INFO - Checkpoint saved to models/checkpoints\checkpoint_epoch_20.pt
+2025-05-23 05:44:01,450 - tft_trainer - INFO - Epoch 21/100
+2025-05-23 05:44:08,585 - tft_trainer - INFO - Epoch 21: Train Loss=0.055646, Val Loss=0.097398, LR=0.00050000
+2025-05-23 05:44:08,585 - tft_trainer - INFO - No improvement. Patience: 4/10
+2025-05-23 05:44:08,585 - tft_trainer - INFO - Epoch 22/100
+2025-05-23 05:44:15,929 - tft_trainer - INFO - Epoch 22: Train Loss=0.053529, Val Loss=0.100032, LR=0.00050000
+2025-05-23 05:44:15,929 - tft_trainer - INFO - No improvement. Patience: 5/10
+2025-05-23 05:44:15,929 - tft_trainer - INFO - Epoch 23/100
+2025-05-23 05:44:23,041 - tft_trainer - INFO - Epoch 23: Train Loss=0.051313, Val Loss=0.094955, LR=0.00025000
+2025-05-23 05:44:23,041 - tft_trainer - INFO - No improvement. Patience: 6/10
+2025-05-23 05:44:23,041 - tft_trainer - INFO - Epoch 24/100
+2025-05-23 05:44:30,719 - tft_trainer - INFO - Epoch 24: Train Loss=0.049356, Val Loss=0.100242, LR=0.00025000
+2025-05-23 05:44:30,720 - tft_trainer - INFO - No improvement. Patience: 7/10
+2025-05-23 05:44:30,720 - tft_trainer - INFO - Epoch 25/100
+2025-05-23 05:44:38,280 - tft_trainer - INFO - Epoch 25: Train Loss=0.048894, Val Loss=0.094168, LR=0.00025000
+2025-05-23 05:44:38,280 - tft_trainer - INFO - No improvement. Patience: 8/10
+2025-05-23 05:44:38,280 - tft_trainer - INFO - Epoch 26/100
+2025-05-23 05:44:45,655 - tft_trainer - INFO - Epoch 26: Train Loss=0.048260, Val Loss=0.100141, LR=0.00025000
+2025-05-23 05:44:45,656 - tft_trainer - INFO - No improvement. Patience: 9/10
+2025-05-23 05:44:45,656 - tft_trainer - INFO - Epoch 27/100
+2025-05-23 05:44:53,820 - tft_trainer - INFO - Epoch 27: Train Loss=0.047415, Val Loss=0.087858, LR=0.00025000
+2025-05-23 05:44:53,820 - tft_trainer - INFO - No improvement. Patience: 10/10
+2025-05-23 05:44:53,820 - tft_trainer - INFO - Early stopping triggered after 27 epochs
+2025-05-23 05:44:53,820 - tft_trainer - INFO - Evaluating on test set...
+2025-05-23 05:44:54,048 - tft_trainer - INFO - Test Loss: 0.081316
+2025-05-23 05:44:54,048 - tft_trading_bot - INFO - Training completed. Test metrics: {'train_loss': 0.04741538369229862, 'val_loss': 0.08699956163764, 'test_loss': 0.081316323330005, 'epochs_trained': 27}
+2025-05-23 05:44:54,131 - onnx_exporter - INFO - Exporting model to ONNX format...
+2025-05-23 05:44:54,131 - onnx_exporter - INFO - Input shapes: past=torch.Size([256, 120, 27]), future=torch.Size([256, 12, 26]), static=torch.Size([256, 1])
+2025-05-23 05:44:54,539 - onnx_exporter - INFO - Model successfully exported and validated: exported_models\enhanced_tft_model.onnx
+2025-05-23 05:44:54,690 - onnx_exporter - INFO - ONNX model test successful. Output shape: (256, 12, 3)
+2025-05-23 05:44:54,708 - tft_trading_bot - INFO - Enhanced TFT model exported to exported_models\enhanced_tft_model.onnx

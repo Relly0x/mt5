@@ -1,0 +1,782 @@
+2025-05-23 05:51:21,925 - telegram_manager - INFO - Telegram integration available
+2025-05-23 05:51:21,925 - MT5TradingBot - INFO - MT5 Trading Bot initialized with enhanced shutdown handling
+2025-05-23 05:51:21,986 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-23 05:51:21,986 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-23 05:51:21,986 - MT5TradingBot - INFO - Balance: 164563.62 USD
+2025-05-23 05:51:22,036 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-23 05:51:22,036 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 05:51:22,038 - event_system - INFO - Event system initialized
+2025-05-23 05:51:22,038 - enhanced_tft_strategy - INFO - Enhanced TFT Strategy initialized with quality controls
+2025-05-23 05:51:22,039 - risk_manager - INFO - Risk manager initialized
+2025-05-23 05:51:22,039 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-23 06:03:55,813 - MT5TradingBot - INFO - MT5 connection closed
+2025-05-23 06:03:55,820 - telegram_manager - INFO - Telegram bot stopped
+2025-05-23 06:04:02,385 - telegram_manager - INFO - Telegram integration available
+2025-05-23 06:04:02,386 - MT5TradingBot - INFO - MT5 Trading Bot initialized with enhanced shutdown handling
+2025-05-23 06:04:02,399 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-23 06:04:02,399 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-23 06:04:02,399 - MT5TradingBot - INFO - Balance: 164563.27 USD
+2025-05-23 06:04:02,429 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-23 06:04:02,429 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 06:04:02,430 - event_system - INFO - Event system initialized
+2025-05-23 06:04:02,430 - enhanced_tft_strategy - INFO - Enhanced TFT Strategy initialized with quality controls
+2025-05-23 06:04:02,430 - risk_manager - INFO - Risk manager initialized
+2025-05-23 06:04:02,430 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-23 06:34:13,215 - telegram_manager - INFO - Telegram integration available
+2025-05-23 06:34:13,216 - MT5TradingBot - INFO - MT5 Trading Bot initialized with enhanced shutdown handling
+2025-05-23 06:34:13,232 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-23 06:34:13,232 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-23 06:34:13,232 - MT5TradingBot - INFO - Balance: 164563.27 USD
+2025-05-23 06:34:13,272 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-23 06:34:13,274 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-23 06:34:13,274 - event_system - INFO - Event system initialized
+2025-05-23 06:34:13,274 - enhanced_tft_strategy - INFO - Enhanced TFT Strategy initialized with quality controls
+2025-05-23 06:34:13,275 - risk_manager - INFO - Risk manager initialized
+2025-05-23 06:34:13,275 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-26 12:32:27,302 - telegram_manager - INFO - Telegram integration available
+2025-05-26 12:32:27,303 - MT5TradingBot - INFO - MT5 Trading Bot initialized with enhanced shutdown handling
+2025-05-26 12:32:32,488 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-26 12:32:32,488 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-26 12:32:32,488 - MT5TradingBot - INFO - Balance: 164580.52 USD
+2025-05-26 12:32:32,564 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-26 12:32:32,566 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-26 12:32:32,568 - event_system - INFO - Event system initialized
+2025-05-26 12:32:32,568 - enhanced_tft_strategy - INFO - Enhanced TFT Strategy initialized with quality controls
+2025-05-26 12:32:32,568 - risk_manager - INFO - Risk manager initialized
+2025-05-26 12:32:32,568 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-26 12:32:32,597 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:32:32,621 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:32:32,642 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:32:32,642 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:32:32,642 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:32:32,642 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:32:32,642 - enhanced_tft_strategy - INFO - Daily counters reset for 2025-05-26
+2025-05-26 12:32:32,984 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:33:33,428 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:33:33,439 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:33:33,452 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:33:33,452 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:33:33,452 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:33:33,452 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:33:33,583 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:34:34,066 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:34:34,078 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:34:34,089 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:34:34,089 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:34:34,089 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:34:34,089 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:34:34,217 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:35:34,688 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:35:34,699 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:35:34,711 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:35:34,711 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:35:34,711 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:35:34,711 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:35:34,835 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:36:35,284 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:36:35,296 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:36:35,308 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:36:35,308 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:36:35,308 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:36:35,308 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:36:35,432 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:37:35,857 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:37:35,868 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:37:35,879 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:37:35,881 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:37:35,881 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:37:35,881 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:37:36,011 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:38:36,398 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:38:36,410 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:38:36,422 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:38:36,422 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:38:36,422 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:38:36,422 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:38:36,562 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:39:37,035 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:39:37,046 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:39:37,058 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:39:37,058 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:39:37,058 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:39:37,058 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:39:37,192 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:40:37,616 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:40:37,627 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:40:37,639 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:40:37,639 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:40:37,639 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:40:37,639 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:40:37,763 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:41:38,172 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:41:38,183 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:41:38,194 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:41:38,194 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:41:38,194 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:41:38,194 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:41:38,317 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:41:38,317 - MT5TradingBot - INFO - Bot running normally (iteration 10)
+2025-05-26 12:42:38,788 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:42:38,800 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:42:38,814 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:42:38,814 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:42:38,814 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:42:38,814 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:42:38,957 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:43:39,399 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:43:39,412 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:43:39,425 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:43:39,425 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:43:39,425 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:43:39,425 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:43:39,567 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:44:40,006 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:44:40,018 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:44:40,029 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:44:40,029 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:44:40,030 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:44:40,030 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:44:40,160 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:45:40,609 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:45:40,619 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:45:40,630 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:45:40,630 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:45:40,630 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:45:40,630 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:45:40,759 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:46:41,223 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:46:41,233 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:46:41,246 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:46:41,247 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:46:41,247 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:46:41,247 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:46:41,377 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:47:41,785 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:47:41,797 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:47:41,809 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:47:41,809 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:47:41,810 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:47:41,810 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:47:41,949 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:48:42,439 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:48:42,452 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:48:42,465 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:48:42,465 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:48:42,465 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:48:42,465 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:48:42,601 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:49:43,074 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:49:43,086 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:49:43,098 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:49:43,098 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:49:43,098 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:49:43,098 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:49:43,230 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:50:43,665 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:50:43,677 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:50:43,690 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:50:43,690 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:50:43,690 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:50:43,690 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:50:43,833 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:51:44,305 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:51:44,316 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:51:44,328 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:51:44,328 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:51:44,328 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:51:44,328 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:51:44,451 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:51:44,452 - MT5TradingBot - INFO - Bot running normally (iteration 20)
+2025-05-26 12:52:44,878 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:52:44,890 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:52:44,904 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:52:44,904 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:52:44,904 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:52:44,904 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:52:45,038 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:53:45,503 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:53:45,514 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:53:45,525 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:53:45,525 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:53:45,525 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:53:45,525 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:53:45,647 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:54:46,116 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:54:46,128 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:54:46,140 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:54:46,140 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:54:46,140 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:54:46,140 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:54:46,268 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:55:46,763 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:55:46,774 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:55:46,786 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:55:46,786 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:55:46,786 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:55:46,786 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:55:46,915 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:56:47,479 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:56:47,490 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:56:47,502 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:56:47,502 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:56:47,502 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:56:47,502 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:56:47,626 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:57:48,106 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:57:48,119 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:57:48,130 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:57:48,130 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:57:48,130 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:57:48,130 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:57:48,264 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:58:48,735 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:58:48,745 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:58:48,756 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:58:48,756 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:58:48,756 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:58:48,756 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:58:48,879 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 12:59:49,419 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 12:59:49,431 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 12:59:49,444 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 12:59:49,444 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:59:49,444 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 12:59:49,444 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 12:59:49,603 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:00:50,038 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:00:50,049 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:00:50,060 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:00:50,060 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:00:50,060 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:00:50,060 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:00:50,186 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:01:50,610 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:01:50,621 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:01:50,632 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:01:50,632 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:01:50,632 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:01:50,632 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:01:50,764 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:01:50,764 - MT5TradingBot - INFO - Bot running normally (iteration 30)
+2025-05-26 13:02:51,214 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:02:51,227 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:02:51,239 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:02:51,239 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:02:51,239 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:02:51,239 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:02:51,389 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:03:51,834 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:03:51,849 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:03:51,861 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:03:51,861 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:03:51,862 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:03:51,862 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:03:52,001 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:04:52,437 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:04:52,450 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:04:52,465 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:04:52,465 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:04:52,465 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:04:52,465 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:04:52,635 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:05:53,125 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:05:53,142 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:05:53,154 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:05:53,154 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:05:53,154 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:05:53,154 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:05:53,308 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:06:53,768 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:06:53,779 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:06:53,793 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:06:53,793 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:06:53,793 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:06:53,793 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:06:53,928 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:07:54,409 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:07:54,421 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:07:54,432 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:07:54,432 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:07:54,432 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:07:54,432 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:07:54,601 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:08:55,124 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:08:55,135 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:08:55,149 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:08:55,149 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:08:55,149 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:08:55,149 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:08:55,283 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:09:55,794 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:09:55,805 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:09:55,817 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:09:55,817 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:09:55,817 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:09:55,817 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:09:55,944 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:10:56,463 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:10:56,474 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:10:56,486 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:10:56,486 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:10:56,486 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:10:56,486 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:10:56,608 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:11:57,097 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:11:57,140 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:11:57,179 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:11:57,179 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:11:57,179 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:11:57,179 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:11:57,529 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:11:57,530 - MT5TradingBot - INFO - Bot running normally (iteration 40)
+2025-05-26 13:12:58,083 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:12:58,114 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:12:58,143 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:12:58,143 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:12:58,143 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:12:58,145 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:12:58,425 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:13:58,955 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:13:58,996 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:13:59,024 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:13:59,024 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:13:59,024 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:13:59,024 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:13:59,358 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:14:59,965 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:15:00,009 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:15:00,056 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:15:00,057 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:15:00,057 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:15:00,057 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:15:00,461 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:16:01,005 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:16:01,035 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:16:01,058 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:16:01,058 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:16:01,058 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:16:01,058 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:16:01,416 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:17:01,911 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:17:01,936 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:17:01,973 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:17:01,974 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:17:01,974 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:17:01,974 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:17:02,342 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:18:02,893 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:18:02,933 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:18:02,970 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:18:02,970 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:18:02,970 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:18:02,970 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:18:03,346 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:19:04,049 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:19:04,075 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:19:04,104 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:19:04,106 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:19:04,106 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:19:04,106 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:19:04,498 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:20:05,039 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:20:05,114 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:20:05,155 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:20:05,156 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:20:05,156 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:20:05,156 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:20:05,458 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:21:05,999 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:21:06,027 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:21:06,058 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:21:06,058 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:21:06,058 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:21:06,058 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:21:06,362 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:22:06,916 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:22:06,951 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:22:06,974 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:22:06,974 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:22:06,974 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:22:06,974 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:22:07,290 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:22:07,292 - MT5TradingBot - INFO - Bot running normally (iteration 50)
+2025-05-26 13:23:07,759 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:23:07,788 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:23:07,815 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:23:07,815 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:23:07,816 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:23:07,816 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:23:08,183 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:24:08,699 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:24:08,711 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:24:08,725 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:24:08,725 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:24:08,725 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:24:08,725 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:24:08,889 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:25:09,415 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:25:09,426 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:25:09,439 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:25:09,439 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:25:09,439 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:25:09,439 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:25:09,572 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:26:10,746 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:26:10,760 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:26:10,771 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:26:10,771 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:26:10,771 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:26:10,771 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:26:10,914 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:27:11,694 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:27:11,707 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:27:11,718 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:27:11,718 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:27:11,718 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:27:11,718 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:27:11,837 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:28:12,283 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:28:12,294 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:28:12,307 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:28:12,307 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:28:12,307 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:28:12,307 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:28:12,445 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:29:12,936 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:29:12,947 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:29:12,960 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:29:12,960 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:29:12,960 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:29:12,960 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:29:13,082 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:30:13,585 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:30:13,596 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:30:13,610 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:30:13,610 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:30:13,610 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:30:13,610 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:30:13,748 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:31:14,244 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:31:14,260 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:31:14,270 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:31:14,270 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:31:14,270 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:31:14,270 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:31:14,387 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:32:14,936 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:32:14,947 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:32:14,958 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:32:14,958 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:32:14,958 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:32:14,958 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:32:15,082 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:32:15,082 - MT5TradingBot - INFO - Bot running normally (iteration 60)
+2025-05-26 13:33:15,514 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:33:15,526 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:33:15,539 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:33:15,539 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:33:15,539 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:33:15,539 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:33:15,670 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:34:16,219 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:34:16,230 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:34:16,241 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:34:16,241 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:34:16,241 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:34:16,241 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:34:16,361 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:35:16,843 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:35:16,857 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:35:16,870 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:35:16,870 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:35:16,870 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:35:16,870 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:35:17,015 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:36:17,432 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:36:17,444 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:36:17,457 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:36:17,457 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:36:17,457 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:36:17,457 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:36:17,588 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:37:18,159 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:37:18,171 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:37:18,182 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:37:18,182 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:37:18,182 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:37:18,182 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:37:18,312 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:38:18,857 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:38:18,871 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:38:18,883 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:38:18,883 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:38:18,883 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:38:18,883 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:38:19,018 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:39:19,471 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:39:19,493 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:39:19,514 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:39:19,514 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:39:19,514 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:39:19,514 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:39:19,750 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:40:20,168 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:40:20,180 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:40:20,192 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:40:20,192 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:40:20,193 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:40:20,193 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:40:20,347 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:41:21,066 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:41:21,092 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:41:21,134 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:41:21,134 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:41:21,134 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:41:21,134 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:41:21,986 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:42:22,442 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:42:22,454 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:42:22,465 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:42:22,465 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:42:22,466 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:42:22,466 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:42:22,598 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:42:22,598 - MT5TradingBot - INFO - Bot running normally (iteration 70)
+2025-05-26 13:43:23,212 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:43:23,231 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:43:23,251 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:43:23,251 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:43:23,251 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:43:23,251 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:43:23,455 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:44:23,882 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:44:23,899 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:44:23,942 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:44:23,942 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:44:23,942 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:44:23,942 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:44:24,113 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:45:24,622 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:45:24,637 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:45:24,651 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:45:24,652 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:45:24,652 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:45:24,652 - data_normalizer - WARNING - Scaler not fitted, skipping normalization
+2025-05-26 13:45:24,820 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:45:50,812 - telegram_manager - INFO - Telegram integration available
+2025-05-26 13:45:50,812 - MT5TradingBot - INFO - MT5 Trading Bot initialized with enhanced shutdown handling
+2025-05-26 13:45:55,970 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-26 13:45:55,970 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-26 13:45:55,970 - MT5TradingBot - INFO - Balance: 164580.52 USD
+2025-05-26 13:45:56,003 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-26 13:45:56,003 - data_normalizer - INFO - Data normalizer initialized with standard scaling
+2025-05-26 13:45:56,006 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:45:56,021 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:45:56,050 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:45:56,058 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:45:56,058 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:45:56,062 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:45:56,065 - event_system - INFO - Event system initialized
+2025-05-26 13:45:56,065 - enhanced_tft_strategy - INFO - Enhanced TFT Strategy initialized with quality controls
+2025-05-26 13:45:56,065 - risk_manager - INFO - Risk manager initialized
+2025-05-26 13:45:56,065 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-26 13:45:56,355 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7539840895:AAGRLwp6LnABgOCYkg1S-50FftFOOi4WMhk/getMe "HTTP/1.1 200 OK"
+2025-05-26 13:45:56,355 - telegram.ext.Application - INFO - Application started
+2025-05-26 13:45:56,380 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7539840895:AAGRLwp6LnABgOCYkg1S-50FftFOOi4WMhk/deleteWebhook "HTTP/1.1 200 OK"
+2025-05-26 13:45:56,571 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7539840895:AAGRLwp6LnABgOCYkg1S-50FftFOOi4WMhk/sendMessage "HTTP/1.1 200 OK"
+2025-05-26 13:46:03,243 - telegram_manager - ERROR - Error sending message to 362813632: Timed out
+2025-05-26 13:46:03,246 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:46:03,263 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:46:03,273 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:46:03,274 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:46:03,276 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:46:03,276 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:46:03,278 - enhanced_tft_strategy - INFO - Daily counters reset for 2025-05-26
+2025-05-26 13:46:03,443 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:47:04,010 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:47:04,022 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:47:04,033 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:47:04,035 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:47:04,035 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:47:04,036 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:47:04,157 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:48:04,576 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:48:04,593 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:48:04,605 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:48:04,606 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:48:04,606 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:48:04,608 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:48:04,738 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:49:05,276 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:49:05,294 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:49:05,306 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:49:05,307 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:49:05,307 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:49:05,308 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:49:05,441 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:50:05,875 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:50:05,887 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:50:05,898 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:50:05,899 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:50:05,899 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:50:05,901 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:50:06,033 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:51:06,561 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:51:06,581 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:51:06,594 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:51:06,596 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:51:06,596 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:51:06,597 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:51:06,726 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:52:07,205 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:52:07,216 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:52:07,230 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:52:07,231 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:52:07,231 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:52:07,233 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:52:07,383 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:53:07,872 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:53:07,883 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:53:07,896 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:53:07,898 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:53:07,898 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:53:07,899 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:53:08,035 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:54:08,568 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:54:08,580 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:54:08,592 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:54:08,594 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:54:08,594 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:54:08,595 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:54:08,738 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:55:09,269 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:55:09,288 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:55:09,301 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:55:09,304 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:55:09,304 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:55:09,306 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:55:09,473 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:55:09,473 - MT5TradingBot - INFO - Bot running normally (iteration 10, positions: 0)
+2025-05-26 13:56:09,850 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:56:09,862 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:56:09,874 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:56:09,876 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:56:09,876 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:56:09,878 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:56:10,005 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:57:10,489 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:57:10,501 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:57:10,514 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:57:10,515 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:57:10,515 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:57:10,517 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:57:10,647 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:58:11,461 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:58:11,472 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:58:11,485 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:58:11,487 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:58:11,487 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:58:11,487 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:58:11,618 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 13:59:12,104 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 13:59:12,116 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 13:59:12,127 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 13:59:12,128 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:59:12,128 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 13:59:12,130 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 13:59:12,253 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 14:00:12,708 - data_normalizer - INFO - Creating features for EUR_USD M5
+2025-05-26 14:00:12,721 - data_normalizer - INFO - Creating features for EUR_USD M1
+2025-05-26 14:00:12,737 - data_normalizer - INFO - Normalizing EUR_USD M5
+2025-05-26 14:00:12,738 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 14:00:12,738 - data_normalizer - INFO - Normalizing EUR_USD M1
+2025-05-26 14:00:12,740 - data_normalizer - ERROR - Error normalizing data: X has 29 features, but StandardScaler is expecting 17 features as input.
+2025-05-26 14:00:12,911 - enhanced_tft_strategy - INFO - Signal generation complete: 0 valid signals from 0 instruments
+2025-05-26 14:00:44,070 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7539840895:AAGRLwp6LnABgOCYkg1S-50FftFOOi4WMhk/getUpdates "HTTP/1.1 200 OK"
+2025-05-26 14:00:44,092 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7539840895:AAGRLwp6LnABgOCYkg1S-50FftFOOi4WMhk/getUpdates "HTTP/1.1 200 OK"
+2025-05-26 14:00:44,094 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2025-05-26 14:00:44,094 - telegram.ext.Application - INFO - Application.stop() complete
+2025-05-26 14:00:45,941 - telegram_manager - ERROR - Error sending message to 362813632: Unknown error in HTTP implementation: RuntimeError('This HTTPXRequest is not initialized!')
+2025-05-26 14:00:45,941 - MT5TradingBot - INFO - Stopping Telegram bot...
+2025-05-26 14:00:45,941 - telegram_manager - INFO - Telegram bot stopped
+2025-05-26 14:00:46,952 - MT5TradingBot - INFO - MT5 connection closed
+2025-05-26 14:00:46,957 - telegram_manager - INFO - Telegram bot stopped
+2025-05-26 14:00:59,039 - MT5TradingBot - INFO - MT5 Trading Bot initialized with complete fixes
+2025-05-26 14:00:59,039 - MT5TradingBot - INFO - [ROCKET] Starting Fixed MT5 Trading Bot
+2025-05-26 14:00:59,046 - MT5TradingBot - INFO - [CHECK] Using existing MT5 session
+2025-05-26 14:00:59,046 - MT5TradingBot - INFO - Connected to account: 52283866
+2025-05-26 14:00:59,046 - MT5TradingBot - INFO - Broker: Raw Trading Ltd
+2025-05-26 14:00:59,046 - MT5TradingBot - INFO - Balance: 164580.52 USD
+2025-05-26 14:00:59,068 - MT5TradingBot - INFO - Model loaded successfully
+2025-05-26 14:00:59,068 - MT5TradingBot - INFO - [TOOL] Fitting scaler with initial market data...
+2025-05-26 14:00:59,070 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:00:59,071 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:00:59,071 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:00:59,107 - MT5TradingBot - INFO - [CHECK] Scaler fitted successfully with market data
+2025-05-26 14:00:59,107 - MT5TradingBot - INFO - Scaler info: {'method': 'standard', 'is_fitted': True, 'feature_names': ['open', 'high', 'low', 'close', 'volume', 'returns', 'log_returns', 'sma_5', 'sma_10', 'sma_20', 'sma_50', 'ema_5', 'ema_10', 'ema_20', 'ema_50', 'volatility', 'hl_ratio', 'oc_ratio', 'volume_sma', 'volume_ratio', 'rsi', 'macd', 'macd_signal', 'bb_upper', 'bb_lower', 'bb_width', 'bb_position'], 'n_features_expected': 27, 'feature_count': 27}
+2025-05-26 14:00:59,109 - MT5TradingBot - INFO - Components initialized successfully
+2025-05-26 14:00:59,109 - MT5TradingBot - INFO - [CHECK] Telegram bot started
+2025-05-26 14:00:59,109 - MT5TradingBot - INFO - [CHECK] Bot is ready and running - Press Ctrl+C to stop safely
+2025-05-26 14:00:59,110 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:00:59,111 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:00:59,111 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:00:59,111 - MT5TradingBot - INFO - [CHART] Signal generation #1
+2025-05-26 14:00:59,141 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:00:59,141 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:00:59,141 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:00:59,141 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:00:59,291 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 14:01:59,784 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:01:59,785 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:01:59,785 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:01:59,785 - MT5TradingBot - INFO - [CHART] Signal generation #2
+2025-05-26 14:01:59,817 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:01:59,817 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:01:59,817 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:01:59,817 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:01:59,951 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 14:03:00,667 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:03:00,669 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:03:00,669 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:03:00,669 - MT5TradingBot - INFO - [CHART] Signal generation #3
+2025-05-26 14:03:00,702 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:03:00,702 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:03:00,702 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:03:00,702 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:03:00,866 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 14:04:01,340 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:04:01,340 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:04:01,340 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:04:01,342 - MT5TradingBot - INFO - [CHART] Signal generation #4
+2025-05-26 14:04:01,371 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:04:01,372 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:04:01,372 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:04:01,372 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:04:01,507 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 14:05:02,040 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:05:02,042 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:05:02,042 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:05:02,043 - MT5TradingBot - INFO - [CHART] Signal generation #5
+2025-05-26 14:05:02,073 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:05:02,073 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:05:02,073 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:05:02,073 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:05:02,202 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 14:06:02,644 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:06:02,644 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:06:02,644 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:06:02,644 - MT5TradingBot - INFO - [CHART] Signal generation #6
+2025-05-26 14:06:02,674 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:06:02,674 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:06:02,674 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:06:02,674 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:06:02,796 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
+2025-05-26 14:07:03,282 - MT5TradingBot - INFO - Got 200 candles for EURUSD M5
+2025-05-26 14:07:03,283 - MT5TradingBot - INFO - Got 200 candles for EURUSD M1
+2025-05-26 14:07:03,284 - MT5TradingBot - INFO - Market data collected for 1 instruments
+2025-05-26 14:07:03,284 - MT5TradingBot - INFO - [CHART] Signal generation #7
+2025-05-26 14:07:03,312 - MT5TradingBot - INFO - Processed EUR_USD M5: 27 features, 200 rows
+2025-05-26 14:07:03,312 - MT5TradingBot - INFO - Processed EUR_USD M1: 27 features, 200 rows
+2025-05-26 14:07:03,312 - MT5TradingBot - WARNING - No M15 data for EUR_USD
+2025-05-26 14:07:03,312 - MT5TradingBot - INFO - Generated predictions for 0 instruments
+2025-05-26 14:07:03,435 - MT5TradingBot - INFO - Signal generation result: 0 valid signals from 0 total
