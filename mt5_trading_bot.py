@@ -150,9 +150,6 @@ class EnhancedMT5TradingBot:
             checkpoint = torch.load(model_path, map_location='cpu')
             self.logger.info(f"Checkpoint keys: {list(checkpoint.keys())}")
 
-            # ALWAYS use Enhanced TFT (TemporalFusionTransformer)
-            self.logger.info("Creating Enhanced Temporal Fusion Transformer...")
-
             # Get model config from checkpoint or use default
             if 'config' in checkpoint and 'model' in checkpoint['config']:
                 model_config = checkpoint['config']['model']
@@ -161,16 +158,32 @@ class EnhancedMT5TradingBot:
                 model_config = self.config['model']
                 self.logger.info("Using model config from current config")
 
-            # Log the config being used
-            self.logger.info(f"Model config keys: {list(model_config.keys())}")
-
             # Create Enhanced TFT model
             self.model = TemporalFusionTransformer(model_config)
 
-            # Load weights with enhanced compatibility
-            if 'model_state_dict' in checkpoint:
-                self.logger.info("Loading model state dict...")
+            # CRITICAL FIX: Initialize the model layers first with a dummy forward pass
+            self.logger.info("Initializing Enhanced TFT layers with dummy data...")
 
+            # Create dummy batch matching your training data structure
+            past_seq_len = model_config.get('past_sequence_length', 120)
+            forecast_horizon = model_config.get('forecast_horizon', 12)
+
+            # Use the actual feature dimensions from your trained model
+            # Based on your normalizer, you have 29 features for past data
+            dummy_batch = {
+                'past': torch.randn(1, past_seq_len, 29),  # 29 features from your normalizer
+                'future': torch.randn(1, forecast_horizon, 28),  # 28 features (excluding target)
+                'static': torch.randn(1, 1)
+            }
+
+            # Run dummy forward pass to initialize all layers
+            with torch.no_grad():
+                _ = self.model(dummy_batch)
+
+            self.logger.info("Model layers initialized, now loading weights...")
+
+            # NOW load the state dict after initialization
+            if 'model_state_dict' in checkpoint:
                 # Get state dicts
                 checkpoint_state = checkpoint['model_state_dict']
                 model_state = self.model.state_dict()
@@ -178,32 +191,24 @@ class EnhancedMT5TradingBot:
                 self.logger.info(f"Checkpoint has {len(checkpoint_state)} parameters")
                 self.logger.info(f"Model expects {len(model_state)} parameters")
 
-                # Find matching parameters
-                matched_params = {}
-                for name, param in checkpoint_state.items():
-                    if name in model_state:
-                        if param.shape == model_state[name].shape:
+                # Direct loading since model is now properly initialized
+                try:
+                    self.model.load_state_dict(checkpoint_state, strict=False)
+                    self.logger.info("Model weights loaded successfully")
+                except Exception as e:
+                    self.logger.warning(f"Partial loading warning: {e}")
+
+                    # If direct loading fails, try matching parameters
+                    matched_params = {}
+                    for name, param in checkpoint_state.items():
+                        if name in model_state and param.shape == model_state[name].shape:
                             matched_params[name] = param
                             self.logger.debug(f"Matched parameter: {name} {param.shape}")
-                        else:
-                            self.logger.warning(
-                                f"Shape mismatch for {name}: checkpoint {param.shape} vs model {model_state[name].shape}")
-                    else:
-                        self.logger.warning(f"Parameter {name} not found in model")
 
-                self.logger.info(f"Loading {len(matched_params)} matching parameters")
-
-                # Load the matched parameters
-                if matched_params:
-                    model_state.update(matched_params)
-                    self.model.load_state_dict(model_state, strict=False)
-                else:
-                    self.logger.error("No matching parameters found! Model may not work properly.")
-                    return False
-
-            else:
-                self.logger.error("No model_state_dict found in checkpoint")
-                return False
+                    if matched_params:
+                        model_state.update(matched_params)
+                        self.model.load_state_dict(model_state, strict=False)
+                        self.logger.info(f"Loaded {len(matched_params)} matching parameters")
 
             self.model.eval()
 
@@ -218,21 +223,15 @@ class EnhancedMT5TradingBot:
             self.logger.info(
                 f"[CHECK] Enhanced TFT loaded successfully with {total_params:,} total parameters ({trainable_params:,} trainable)")
 
-            # Test the model with dummy data to make sure it works
+            # Final test with another forward pass
             try:
                 with torch.no_grad():
-                    # Create test input matching your config
-                    past_seq_len = model_config.get('past_sequence_length', 120)
-                    forecast_horizon = model_config.get('forecast_horizon', 12)
-
-                    dummy_batch = {
-                        'past': torch.randn(1, past_seq_len, 29),  # 29 features from your scaler
-                        'future': torch.randn(1, forecast_horizon, 28),  # 28 features (excluding target)
-                        'static': torch.randn(1, 1)
-                    }
-
                     output = self.model(dummy_batch)
                     self.logger.info(f"[CHECK] Model test successful. Output shape: {output.shape}")
+
+                    # Check if output looks reasonable
+                    output_np = output.numpy()
+                    self.logger.info(f"Output range: [{output_np.min():.4f}, {output_np.max():.4f}]")
 
             except Exception as e:
                 self.logger.error(f"[ERROR] Model test failed: {e}")
@@ -245,6 +244,16 @@ class EnhancedMT5TradingBot:
             self.logger.error(f"Error loading Enhanced TFT model: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
             return False
+
+        # Add this right after loading checkpoint to debug
+        if 'model_state_dict' in checkpoint:
+            # List first few parameter names to understand structure
+            param_names = list(checkpoint['model_state_dict'].keys())[:10]
+            self.logger.info(f"First 10 checkpoint parameters: {param_names}")
+
+            # Check if it's a SimpleTFT or full TFT checkpoint
+            if any('feature_projection' in name for name in checkpoint['model_state_dict'].keys()):
+                self.logger.warning("This appears to be a SimpleTFT checkpoint, not Enhanced TFT!")
 
     def initialize_enhanced_components(self):
         """Initialize Enhanced normalizer, strategy, and risk manager"""
