@@ -150,6 +150,16 @@ class EnhancedMT5TradingBot:
             checkpoint = torch.load(model_path, map_location='cpu')
             self.logger.info(f"Checkpoint keys: {list(checkpoint.keys())}")
 
+            # Add this right after loading checkpoint to debug
+            if 'model_state_dict' in checkpoint:
+                # List first few parameter names to understand structure
+                param_names = list(checkpoint['model_state_dict'].keys())[:10]
+                self.logger.info(f"First 10 checkpoint parameters: {param_names}")
+
+                # Check if it's a SimpleTFT or full TFT checkpoint
+                if any('feature_projection' in name for name in checkpoint['model_state_dict'].keys()):
+                    self.logger.warning("This appears to be a SimpleTFT checkpoint, not Enhanced TFT!")
+
             # Get model config from checkpoint or use default
             if 'config' in checkpoint and 'model' in checkpoint['config']:
                 model_config = checkpoint['config']['model']
@@ -244,16 +254,6 @@ class EnhancedMT5TradingBot:
             self.logger.error(f"Error loading Enhanced TFT model: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
             return False
-
-        # Add this right after loading checkpoint to debug
-        if 'model_state_dict' in checkpoint:
-            # List first few parameter names to understand structure
-            param_names = list(checkpoint['model_state_dict'].keys())[:10]
-            self.logger.info(f"First 10 checkpoint parameters: {param_names}")
-
-            # Check if it's a SimpleTFT or full TFT checkpoint
-            if any('feature_projection' in name for name in checkpoint['model_state_dict'].keys()):
-                self.logger.warning("This appears to be a SimpleTFT checkpoint, not Enhanced TFT!")
 
     def initialize_enhanced_components(self):
         """Initialize Enhanced normalizer, strategy, and risk manager"""
@@ -735,7 +735,7 @@ class EnhancedMT5TradingBot:
                     self.check_enhanced_positions()
 
                     # Send Enhanced periodic status updates
-                    now = datetime.now()
+                    now = datetime.now(self.timezone)
                     if (now - last_status_update).seconds > 1800:  # Every 30 minutes
                         positions_count = len(self.positions)
                         scaler_info = self.normalizer.get_scaler_info()
@@ -775,8 +775,9 @@ class EnhancedMT5TradingBot:
             self.cleanup()
 
     def _is_market_open(self):
-        """Check if market is open based on trading hours"""
-        now = datetime.now()
+        import pytz  # ✅ Will work after pip install
+        tz = pytz.timezone(self.config['trading_hours']['timezone'])
+        now = datetime.now(tz)
         current_hour = now.hour
         current_day = now.strftime('%A')
 
