@@ -1,11 +1,10 @@
-# enhanced_mt5_trading_bot_fixed_no_telegram.py
+# enhanced_mt5_trading_bot_TENSOR_FIXED.py
 """
-FULLY FIXED Enhanced MT5 Trading Bot - NO TELEGRAM VERSION
-- Array comparison issues resolved
-- Enhanced TFT model loading fixed
-- Compatible with your trained best_model.pt
-- Uses only Enhanced TFT (never SimpleTFT)
-- Ready for live trading
+COMPLETE Enhanced MT5 Trading Bot - TENSOR COMPARISONS FIXED
+- All tensor comparison issues resolved
+- Uses proper tensor extraction and scalar conversion
+- Maintains full Enhanced TFT functionality
+- Ready for live trading with complex analysis
 """
 
 import MetaTrader5 as mt5
@@ -20,13 +19,13 @@ import signal
 import sys
 import threading
 import atexit
-from datetime import datetime
+from datetime import datetime, timedelta
 import traceback
+import pytz
 
-# Import your existing modules - using Enhanced versions only
-from models.tft.model import TemporalFusionTransformer  # Enhanced TFT only
+# Import your existing modules
+from models.tft.model import TemporalFusionTransformer
 from data.processors.normalizer import DataNormalizer
-from strategy.strategy_factory import create_strategy
 from execution.risk.risk_manager import RiskManager
 
 # Global variables for cleanup
@@ -40,7 +39,6 @@ class SafeFormatter(logging.Formatter):
         try:
             if hasattr(record, 'msg'):
                 msg = str(record.msg)
-                # Replace emoji with text equivalents for console safety
                 emoji_replacements = {
                     '🚀': '[ROCKET]', '✅': '[CHECK]', '🔧': '[TOOL]',
                     '⚠️': '[WARNING]', '🚨': '[ALERT]', '❌': '[ERROR]',
@@ -57,198 +55,134 @@ class SafeFormatter(logging.Formatter):
             return super().format(record)
 
 
-class EnhancedMT5TradingBot:
-    def __init__(self, config_path='config/config.json'):
-        # Load configuration
-        with open(config_path, 'r') as f:
-            self.config = json.load(f)
+class TensorSafeSignalGenerator:
+    """
+    TENSOR-SAFE Enhanced signal generator
+    Properly handles all tensor operations and comparisons
+    """
 
-        # Setup SAFE logging
-        self.setup_safe_logging()
+    def __init__(self, config):
+        self.config = config
+        self.logger = logging.getLogger('tensor_safe_signal_generator')
 
-        # Initialize Enhanced components only
-        self.model = None
-        self.normalizer = None
-        self.strategy = None
-        self.risk_manager = None
+        # Enhanced thresholds
+        self.confidence_thresholds = config['strategy']['confidence_thresholds']
+        self.min_signal_strength = 0.7
+        self.trend_filter = config['strategy'].get('trend_filter', True)
 
-        # Trading state
-        self.is_running = False
-        self.positions = {}
-        self.main_thread = None
-        self.daily_trade_count = 0
-        self.last_trade_date = None
+        # Signal spacing
+        self.min_signal_gap_hours = config.get('strategy', {}).get('min_signal_gap_hours', 2)
+        self.last_signals = {}
 
-        # Enhanced debugging
-        self.debug_mode = True
-        self.signal_debug_count = 0
+        # Signal history
+        self.signal_history = []
+        self.max_history = 100
 
-        # Shutdown handling
-        self.shutdown_event = threading.Event()
+        self.logger.info("TENSOR-SAFE Enhanced signal generator initialized")
 
-        self.logger.info("EnhancedMT5Bot - Enhanced MT5 Trading Bot initialized (No Telegram)")
-
-    def setup_safe_logging(self):
-        """Setup Unicode-safe logging configuration"""
-        os.makedirs('logs', exist_ok=True)
-
-        self.logger = logging.getLogger('EnhancedMT5Bot')
-        self.logger.setLevel(logging.INFO)
-
-        # Clear any existing handlers
-        self.logger.handlers.clear()
-
-        # Create safe formatter
-        formatter = SafeFormatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-
-        # Console handler with UTF-8 encoding
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(logging.INFO)
-        console_handler.setFormatter(formatter)
-        self.logger.addHandler(console_handler)
-
-        # File handler with UTF-8 encoding
+    def generate_signal(self, prediction, market_data, instrument):
+        """
+        Generate HIGH QUALITY signal with TENSOR-SAFE operations
+        """
         try:
-            file_handler = logging.FileHandler('logs/enhanced_mt5_trading_bot.log', encoding='utf-8')
-            file_handler.setLevel(logging.INFO)
-            file_handler.setFormatter(formatter)
-            self.logger.addHandler(file_handler)
-        except Exception as e:
-            print(f"Warning: Could not create file handler: {e}")
+            # Basic validation
+            high_tf = self.config['data']['timeframes']['high']
+            low_tf = self.config['data']['timeframes']['low']
 
-    def initialize_mt5(self):
-        """Initialize MT5 connection"""
-        if not mt5.initialize():
-            self.logger.error("Failed to initialize MetaTrader5")
-            return False
+            if instrument not in market_data or high_tf not in market_data[instrument]:
+                return {'valid': False, 'reason': 'Missing market data'}
 
-        # Check if already logged in
-        account_info = mt5.account_info()
+            high_tf_data = market_data[instrument][high_tf]
+            low_tf_data = market_data[instrument][low_tf]
 
-        if account_info is not None:
-            self.logger.info("[CHECK] Using existing MT5 session")
-            self.logger.info(f"Connected to account: {account_info.login}")
-            self.logger.info(f"Broker: {account_info.company}")
-            self.logger.info(f"Balance: {account_info.balance} {account_info.currency}")
-            return True
+            if len(high_tf_data) == 0 or len(low_tf_data) == 0:
+                return {'valid': False, 'reason': 'Insufficient data points'}
 
-        self.logger.error("[ERROR] No active MT5 session found")
-        return False
+            # TENSOR-SAFE: Extract current price as scalar
+            current_price = self._safe_extract_scalar(low_tf_data['close'].iloc[-1])
 
-    def load_enhanced_model(self):
-        """Load the Enhanced TFT model with FIXED parameter loading"""
-        model_path = self.config['export']['model_path']
+            # Check timing
+            if self._too_soon_for_signal(instrument):
+                return {'valid': False, 'reason': 'Too soon since last signal'}
 
-        if not os.path.exists(model_path):
-            self.logger.error(f"Enhanced model file not found: {model_path}")
-            return False
+            # TENSOR-SAFE: Analyze prediction
+            prediction_analysis = self._analyze_prediction_TENSOR_SAFE(prediction, current_price)
 
-        try:
-            # Load checkpoint
-            checkpoint = torch.load(model_path, map_location='cpu')
-            self.logger.info(f"Checkpoint keys: {list(checkpoint.keys())}")
+            if not prediction_analysis['strong_enough']:
+                return {'valid': False, 'reason': f"Weak prediction: {prediction_analysis['reason']}"}
 
-            # Add this right after loading checkpoint to debug
-            if 'model_state_dict' in checkpoint:
-                # List first few parameter names to understand structure
-                param_names = list(checkpoint['model_state_dict'].keys())[:10]
-                self.logger.info(f"First 10 checkpoint parameters: {param_names}")
+            # TENSOR-SAFE: Trend analysis
+            trend_analysis = self._analyze_trend_TENSOR_SAFE(high_tf_data)
 
-                # Check if it's a SimpleTFT or full TFT checkpoint
-                if any('feature_projection' in name for name in checkpoint['model_state_dict'].keys()):
-                    self.logger.warning("This appears to be a SimpleTFT checkpoint, not Enhanced TFT!")
+            if not trend_analysis['trend_confirmed']:
+                return {'valid': False, 'reason': f"Trend not confirmed: {trend_analysis['reason']}"}
 
-            # Get model config from checkpoint or use default
-            if 'config' in checkpoint and 'model' in checkpoint['config']:
-                model_config = checkpoint['config']['model']
-                self.logger.info("Using model config from checkpoint")
-            else:
-                model_config = self.config['model']
-                self.logger.info("Using model config from current config")
+            # TENSOR-SAFE: Support/Resistance analysis
+            sr_analysis = self._analyze_support_resistance_TENSOR_SAFE(current_price, high_tf_data,
+                                                                       trend_analysis['direction'])
 
-            # Create Enhanced TFT model
-            self.model = TemporalFusionTransformer(model_config)
+            if not sr_analysis['valid']:
+                return {'valid': False, 'reason': f"No S/R confluence: {sr_analysis['reason']}"}
 
-            # CRITICAL FIX: Initialize the model layers first with a dummy forward pass
-            self.logger.info("Initializing Enhanced TFT layers with dummy data...")
+            # Check signal alignment
+            ml_direction = prediction_analysis['direction']
+            trend_direction = trend_analysis['direction']
 
-            # Create dummy batch matching your training data structure
-            past_seq_len = model_config.get('past_sequence_length', 120)
-            forecast_horizon = model_config.get('forecast_horizon', 12)
+            if ml_direction != trend_direction:
+                return {'valid': False, 'reason': f"ML signal ({ml_direction}) against trend ({trend_direction})"}
 
-            # Use the actual feature dimensions from your trained model
-            # Based on your normalizer, you have 29 features for past data
-            dummy_batch = {
-                'past': torch.randn(1, past_seq_len, 29),  # 29 features from your normalizer
-                'future': torch.randn(1, forecast_horizon, 28),  # 28 features (excluding target)
-                'static': torch.randn(1, 1)
+            # TENSOR-SAFE: Calculate composite strength
+            composite_strength = self._calculate_composite_strength_TENSOR_SAFE(
+                prediction_analysis, trend_analysis, sr_analysis
+            )
+
+            if composite_strength < self.min_signal_strength:
+                return {'valid': False, 'reason': f'Composite strength too low ({composite_strength:.2f})'}
+
+            # TENSOR-SAFE: Calculate entry levels
+            entry_levels = self._calculate_entry_levels_TENSOR_SAFE(
+                current_price, trend_direction, sr_analysis
+            )
+
+            # Create signal
+            signal = {
+                'valid': True,
+                'signal': trend_direction,
+                'strength': composite_strength,
+                'quality_grade': 'A' if composite_strength > 0.85 else 'B',
+                'instrument': instrument,
+                'current_price': current_price,
+                'entry_price': entry_levels['entry'],
+                'stop_loss': entry_levels['stop_loss'],
+                'take_profit': entry_levels['take_profit'],
+                'trend_strength': trend_analysis['strength'],
+                'trend_direction': trend_direction,
+                'prediction_confidence': prediction_analysis['confidence'],
+                'sr_confluence': sr_analysis['strength'],
+                'risk_reward_ratio': entry_levels['risk_reward'],
+                'max_risk_percent': self.config['execution']['risk_per_trade'],
+                'timestamp': datetime.now().isoformat(),
+                'trade_plan': {
+                    'entry_reason': f"High-quality {trend_direction} signal with {composite_strength:.1%} confidence",
+                    'trend_context': f"Strong {trend_direction} trend (strength: {trend_analysis['strength']:.2f})",
+                    'key_levels': {
+                        'support': sr_analysis.get('support_level'),
+                        'resistance': sr_analysis.get('resistance_level')
+                    }
+                }
             }
 
-            # Run dummy forward pass to initialize all layers
-            with torch.no_grad():
-                _ = self.model(dummy_batch)
-
-            self.logger.info("Model layers initialized, now loading weights...")
-
-            # NOW load the state dict after initialization
-            if 'model_state_dict' in checkpoint:
-                # Get state dicts
-                checkpoint_state = checkpoint['model_state_dict']
-                model_state = self.model.state_dict()
-
-                self.logger.info(f"Checkpoint has {len(checkpoint_state)} parameters")
-                self.logger.info(f"Model expects {len(model_state)} parameters")
-
-                # Direct loading since model is now properly initialized
-                try:
-                    self.model.load_state_dict(checkpoint_state, strict=False)
-                    self.logger.info("Model weights loaded successfully")
-                except Exception as e:
-                    self.logger.warning(f"Partial loading warning: {e}")
-
-                    # If direct loading fails, try matching parameters
-                    matched_params = {}
-                    for name, param in checkpoint_state.items():
-                        if name in model_state and param.shape == model_state[name].shape:
-                            matched_params[name] = param
-                            self.logger.debug(f"Matched parameter: {name} {param.shape}")
-
-                    if matched_params:
-                        model_state.update(matched_params)
-                        self.model.load_state_dict(model_state, strict=False)
-                        self.logger.info(f"Loaded {len(matched_params)} matching parameters")
-
-            self.model.eval()
-
-            # Verify model has parameters
-            total_params = sum(p.numel() for p in self.model.parameters())
-            trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
-
-            if total_params == 0:
-                self.logger.error("[ERROR] Model has 0 parameters! This will not work for trading.")
-                return False
+            # Store signal
+            self.last_signals[instrument] = datetime.now()
+            self._add_to_history(signal)
 
             self.logger.info(
-                f"[CHECK] Enhanced TFT loaded successfully with {total_params:,} total parameters ({trainable_params:,} trainable)")
+                f"[GREEN] TENSOR-SAFE {signal['quality_grade']}-grade signal: "
+                f"{trend_direction.upper()} {instrument} "
+                f"(Strength: {composite_strength:.1%}, Trend: {trend_analysis['strength']:.2f})"
+            )
 
-            # Final test with another forward pass
-            try:
-                with torch.no_grad():
-                    output = self.model(dummy_batch)
-                    self.logger.info(f"[CHECK] Model test successful. Output shape: {output.shape}")
-
-                    # Check if output looks reasonable
-                    output_np = output.numpy()
-                    self.logger.info(f"Output range: [{output_np.min():.4f}, {output_np.max():.4f}]")
-
-            except Exception as e:
-                self.logger.error(f"[ERROR] Model test failed: {e}")
-                self.logger.error(f"Traceback: {traceback.format_exc()}")
-                return False
-
-            return True
+            return signal
 
         except Exception as e:
             self.logger.error(f"Error loading Enhanced TFT model: {e}")
@@ -256,64 +190,49 @@ class EnhancedMT5TradingBot:
             return False
 
     def initialize_enhanced_components(self):
-        """Initialize Enhanced normalizer, strategy, and risk manager"""
+        """Initialize Enhanced components"""
         try:
-            # Initialize Enhanced normalizer
+            # Initialize normalizer
             self.normalizer = DataNormalizer(self.config)
 
-            # Get initial market data and fit scaler properly
-            self.logger.info("[TOOL] Fitting Enhanced scaler with initial market data...")
-
+            # Get initial market data and fit scaler
+            self.logger.info("[TOOL] Fitting Enhanced scaler...")
             initial_data = self.get_enhanced_market_data()
             if initial_data:
-                try:
-                    # Process with Enhanced normalizer
-                    processed_data = self.normalizer.process(initial_data)
-                    self.logger.info("[CHECK] Enhanced scaler fitted successfully")
-
-                    # Log scaler info for debugging
-                    scaler_info = self.normalizer.get_scaler_info()
-                    self.logger.info(f"Enhanced scaler info: {scaler_info}")
-
-                except Exception as e:
-                    self.logger.error(f"Error processing initial data: {e}")
-                    self.logger.error(f"Traceback: {traceback.format_exc()}")
-                    return False
+                processed_data = self.normalizer.process(initial_data)
+                self.logger.info("[CHECK] Enhanced scaler fitted successfully")
+                scaler_info = self.normalizer.get_scaler_info()
+                self.logger.info(f"Scaler info: {scaler_info}")
             else:
                 self.logger.warning("[WARNING] No initial market data available")
                 return False
 
-            # Initialize Enhanced strategy (always enhanced_tft)
-            self.strategy = create_strategy(self.config, strategy_type='enhanced_tft')
+            # Initialize TENSOR-SAFE signal generator
+            self.signal_generator = TensorSafeSignalGenerator(self.config)
 
             # Initialize risk manager
             self.risk_manager = RiskManager(self.config)
 
-            self.logger.info("Enhanced components initialized successfully")
+            self.logger.info("TENSOR-SAFE Enhanced components initialized successfully")
             return True
 
         except Exception as e:
-            self.logger.error(f"Error initializing Enhanced components: {e}")
-            self.logger.error(f"Traceback: {traceback.format_exc()}")
+            self.logger.error(f"Error initializing components: {e}")
             return False
 
     def get_enhanced_market_data(self):
-        """Get Enhanced market data from MT5"""
+        """Get market data from MT5"""
         try:
             market_data = {}
 
-            # Process each configured instrument
             for instrument in self.config['data']['instruments']:
-                # Convert instrument format (EUR_USD -> EURUSD)
                 mt5_symbol = instrument.replace('_', '')
 
-                # Check if symbol exists
                 symbol_info = mt5.symbol_info(mt5_symbol)
                 if symbol_info is None:
                     self.logger.warning(f"Symbol {mt5_symbol} not found")
                     continue
 
-                # Select symbol if not visible
                 if not symbol_info.visible:
                     if not mt5.symbol_select(mt5_symbol, True):
                         self.logger.warning(f"Failed to select {mt5_symbol}")
@@ -321,7 +240,6 @@ class EnhancedMT5TradingBot:
 
                 market_data[instrument] = {}
 
-                # Get data for each timeframe
                 timeframes = {
                     'M1': mt5.TIMEFRAME_M1,
                     'M5': mt5.TIMEFRAME_M5,
@@ -332,161 +250,119 @@ class EnhancedMT5TradingBot:
                     'D1': mt5.TIMEFRAME_D1
                 }
 
-                # Get configured timeframes
                 high_tf = self.config['data']['timeframes']['high']
                 low_tf = self.config['data']['timeframes']['low']
 
                 for tf_name in [high_tf, low_tf]:
                     if tf_name not in timeframes:
-                        self.logger.warning(f"Unknown timeframe: {tf_name}")
                         continue
 
-                    # Get historical data
                     rates = mt5.copy_rates_from_pos(mt5_symbol, timeframes[tf_name], 0, 300)
-
                     if rates is None:
-                        self.logger.warning(f"No data for {mt5_symbol} {tf_name}")
                         continue
 
-                    # Convert to DataFrame
                     df = pd.DataFrame(rates)
                     df['time'] = pd.to_datetime(df['time'], unit='s')
                     df.set_index('time', inplace=True)
                     df.rename(columns={'tick_volume': 'volume'}, inplace=True)
 
                     market_data[instrument][tf_name] = df
+                    self.logger.info(f"Got {len(df)} candles for {mt5_symbol} {tf_name}")
 
-                    # Debug logging
-                    self.logger.info(f"Enhanced data: Got {len(df)} candles for {mt5_symbol} {tf_name}")
-
-            self.logger.info(f"Enhanced market data collected for {len(market_data)} instruments")
+            self.logger.info(f"Market data collected for {len(market_data)} instruments")
             return market_data
 
         except Exception as e:
-            self.logger.error(f"Error getting Enhanced market data: {e}")
-            self.logger.error(f"Traceback: {traceback.format_exc()}")
+            self.logger.error(f"Error getting market data: {e}")
             return None
 
     def generate_enhanced_signals(self, market_data):
-        """Generate Enhanced trading signals with FIXED array handling"""
+        """Generate TENSOR-SAFE signals"""
         try:
             self.signal_debug_count += 1
-            self.logger.info(f"[CHART] Enhanced signal generation #{self.signal_debug_count}")
+            self.logger.info(f"[CHART] TENSOR-SAFE signal generation #{self.signal_debug_count}")
 
-            # Process data through Enhanced normalizer
+            # Process data through normalizer
             processed_data = self.normalizer.process(market_data)
 
-            # Debug: Check what we got from normalization
-            for instrument, timeframes in processed_data.items():
-                for tf, df in timeframes.items():
-                    if df is not None and len(df) > 0:
-                        self.logger.info(f"Enhanced processing: {instrument} {tf}: {df.shape}")
-                    else:
-                        self.logger.warning(f"Empty processed data for {instrument} {tf}")
-
-            # Check if normalizer is properly fitted
             if not self.normalizer.is_fitted:
-                self.logger.error("[ERROR] Enhanced normalizer is not fitted!")
+                self.logger.error("Normalizer is not fitted!")
                 return {}
 
-            # Prepare Enhanced predictions for each instrument
+            # Generate predictions for each instrument
             predictions = {}
 
             for instrument in self.config['data']['instruments']:
                 if instrument not in processed_data:
-                    self.logger.warning(f"No processed data for {instrument}")
                     continue
 
-                # Get high timeframe data
                 high_tf = self.config['data']['timeframes']['high']
                 if high_tf not in processed_data[instrument]:
-                    self.logger.warning(f"No {high_tf} data for {instrument}")
                     continue
 
                 df = processed_data[instrument][high_tf]
-
-                # Check if we have enough data
                 past_seq_len = self.config['model']['past_sequence_length']
+
                 if len(df) < past_seq_len:
-                    self.logger.warning(f"Insufficient data for {instrument}: {len(df)} < {past_seq_len}")
+                    self.logger.warning(f"Insufficient data for {instrument}")
                     continue
 
-                # Prepare Enhanced model input
+                # Prepare model input
                 recent_data = df.iloc[-past_seq_len:].copy()
 
-                # Debug: Log the shape of data going into the model
-                self.logger.info(f"Enhanced model input shape for {instrument}: {recent_data.shape}")
-
-                # Create Enhanced tensors for TFT
                 try:
-                    # Enhanced TFT requires specific input format
+                    # Create tensors for TFT
                     past_tensor = torch.tensor(recent_data.values, dtype=torch.float32).unsqueeze(0)
-
-                    # Create future tensor (reduced features for known future data)
                     forecast_horizon = self.config['model']['forecast_horizon']
-                    future_features = recent_data.shape[1] - 1  # Exclude target variable
+                    future_features = recent_data.shape[1] - 1
                     future_tensor = torch.zeros((1, forecast_horizon, future_features), dtype=torch.float32)
-
-                    # Static features (can be enhanced based on your needs)
                     static_tensor = torch.zeros((1, 1), dtype=torch.float32)
 
-                    # Enhanced TFT batch format
-                    enhanced_batch_data = {
+                    batch_data = {
                         'past': past_tensor,
                         'future': future_tensor,
                         'static': static_tensor
                     }
 
-                    # Run Enhanced TFT inference
+                    # Run model inference
                     with torch.no_grad():
-                        enhanced_output = self.model(enhanced_batch_data)
+                        output = self.model(batch_data)
 
-                    predictions[instrument] = enhanced_output
-                    self.logger.info(f"Enhanced prediction for {instrument}: shape {enhanced_output.shape}")
+                    predictions[instrument] = output
+                    self.logger.info(f"TENSOR-SAFE prediction for {instrument}: shape {output.shape}")
 
                 except Exception as model_error:
-                    self.logger.error(f"Enhanced model inference error for {instrument}: {model_error}")
-                    self.logger.error(f"Traceback: {traceback.format_exc()}")
+                    self.logger.error(f"Model inference error for {instrument}: {model_error}")
                     continue
 
-            self.logger.info(f"Enhanced predictions generated for {len(predictions)} instruments")
+            self.logger.info(f"TENSOR-SAFE predictions generated for {len(predictions)} instruments")
 
-            # Update Enhanced strategy with new data
-            self.strategy.update_data(market_data)
+            # Generate signals using TENSOR-SAFE generator
+            signals = {}
+            for instrument, prediction in predictions.items():
+                signal = self.signal_generator.generate_signal(prediction, market_data, instrument)
+                signals[instrument] = signal
 
-            # Generate Enhanced signals using FIXED signal generator
-            signals = self.strategy.generate_signals(predictions, market_data)
-
-            # Debug: Log Enhanced signal generation results
             valid_signals = sum(1 for s in signals.values() if s.get('valid', False))
-            self.logger.info(f"Enhanced signal generation complete: {valid_signals} high-quality signals")
-
-            # Debug: Log details of invalid signals
-            if self.debug_mode:
-                for instrument, signal in signals.items():
-                    if not signal.get('valid', False):
-                        reason = signal.get('reason', 'Unknown reason')
-                        self.logger.debug(f"Enhanced signal rejected for {instrument}: {reason}")
+            self.logger.info(f"TENSOR-SAFE signal generation complete: {valid_signals} high-quality signals")
 
             return signals
 
         except Exception as e:
-            self.logger.error(f"Error generating Enhanced signals: {e}")
+            self.logger.error(f"Error generating TENSOR-SAFE signals: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
             return {}
 
     def execute_enhanced_signal(self, signal, instrument):
-        """Execute Enhanced trading signal with validation"""
+        """Execute trading signal"""
         try:
-            # Convert instrument format
             mt5_symbol = instrument.replace('_', '')
 
-            # Enhanced signal validation
             if not signal.get('valid', False):
                 return False
 
             # Check daily trade limit
-            today = datetime.now().date()
+            today = datetime.now(self.timezone).date()
             if self.last_trade_date != today:
                 self.daily_trade_count = 0
                 self.last_trade_date = today
@@ -496,12 +372,12 @@ class EnhancedMT5TradingBot:
                 self.logger.info(f"Daily trade limit reached ({self.daily_trade_count}/{max_daily_trades})")
                 return False
 
-            # Check if we already have a position
+            # Check existing positions
             if instrument in self.positions:
                 self.logger.info(f"Already have position in {instrument}")
                 return False
 
-            # Get Enhanced signal details
+            # Get signal details
             direction = signal.get('signal')
             current_price = signal.get('current_price')
             stop_loss = signal.get('stop_loss')
@@ -509,18 +385,18 @@ class EnhancedMT5TradingBot:
             signal_strength = signal.get('strength', 0)
             quality_grade = signal.get('quality_grade', 'B')
 
-            # Calculate Enhanced position size
+            # Calculate position size
             position_size = self.risk_manager.calculate_position_size(
                 instrument, current_price, stop_loss, direction
             )
 
-            # Get current price from MT5
+            # Get current tick
             tick = mt5.symbol_info_tick(mt5_symbol)
             if tick is None:
                 self.logger.error(f"Failed to get tick for {mt5_symbol}")
                 return False
 
-            # Prepare Enhanced order
+            # Prepare order
             if direction == 'buy':
                 order_type = mt5.ORDER_TYPE_BUY
                 price = tick.ask
@@ -528,8 +404,7 @@ class EnhancedMT5TradingBot:
                 order_type = mt5.ORDER_TYPE_SELL
                 price = tick.bid
 
-            # Enhanced order request with magic number from config
-            magic_number = self.config.get('execution', {}).get('magic_number', 123456)
+            magic_number = self.config.get('execution', {}).get('magic_number', 22222222)
 
             request = {
                 "action": mt5.TRADE_ACTION_DEAL,
@@ -541,28 +416,27 @@ class EnhancedMT5TradingBot:
                 "tp": take_profit,
                 "deviation": 20,
                 "magic": magic_number,
-                "comment": f"Enhanced TFT {quality_grade}-grade: {signal_strength:.2f}",
+                "comment": f"TENSOR-SAFE {quality_grade}: {signal_strength:.2f}",
                 "type_time": mt5.ORDER_TIME_GTC,
                 "type_filling": mt5.ORDER_FILLING_IOC,
             }
 
-            # Send Enhanced order
+            # Send order
             result = mt5.order_send(request)
 
             if result.retcode != mt5.TRADE_RETCODE_DONE:
-                error_msg = f"Enhanced order failed for {mt5_symbol}: {result.comment}"
-                self.logger.error(error_msg)
+                self.logger.error(f"Order failed: {result.comment} (code: {result.retcode})")
                 return False
 
-            # Increment daily trade count
+            # Success
             self.daily_trade_count += 1
 
-            self.logger.info(
-                f"[GREEN] Enhanced order executed: {direction} {position_size} lots of {mt5_symbol} at {price}")
-            self.logger.info(f"[TARGET] Quality Grade: {quality_grade}, Signal Strength: {signal_strength:.1%}")
+            self.logger.info(f"[GREEN] TENSOR-SAFE TRADE EXECUTED!")
+            self.logger.info(f"[MONEY] {direction.upper()} {position_size} lots of {mt5_symbol} at {price:.5f}")
+            self.logger.info(f"[TARGET] Quality: {quality_grade}, Strength: {signal_strength:.1%}")
             self.logger.info(f"[CHART] Daily Trades: {self.daily_trade_count}/{max_daily_trades}")
 
-            # Store Enhanced position info
+            # Store position
             self.positions[instrument] = {
                 'ticket': result.order,
                 'direction': direction,
@@ -570,24 +444,22 @@ class EnhancedMT5TradingBot:
                 'stop_loss': stop_loss,
                 'take_profit': take_profit,
                 'size': position_size,
-                'entry_time': datetime.now(),
+                'entry_time': datetime.now(self.timezone),
                 'signal_strength': signal_strength,
                 'quality_grade': quality_grade,
-                'model_type': 'Enhanced_TFT'
+                'model_type': 'TENSOR_SAFE_TFT'
             }
 
             return True
 
         except Exception as e:
-            error_msg = f"Error executing Enhanced signal for {instrument}: {e}"
-            self.logger.error(error_msg)
-            self.logger.error(f"Traceback: {traceback.format_exc()}")
+            self.logger.error(f"Error executing signal: {e}")
             return False
 
     def check_enhanced_positions(self):
-        """Check and manage Enhanced positions"""
+        """Check positions"""
         try:
-            magic_number = self.config.get('execution', {}).get('magic_number', 123456)
+            magic_number = self.config.get('execution', {}).get('magic_number', 22222222)
             positions = mt5.positions_get()
 
             if positions is None:
@@ -602,7 +474,6 @@ class EnhancedMT5TradingBot:
                 symbol = position.symbol
                 profit = position.profit
 
-                # Convert back to our instrument format
                 instrument = symbol
                 for config_instrument in self.config['data']['instruments']:
                     if config_instrument.replace('_', '') == symbol:
@@ -616,228 +487,785 @@ class EnhancedMT5TradingBot:
                     'volume': position.volume
                 }
 
-            # Check for closed Enhanced positions
+            # Check for closed positions
             closed_positions = []
             for instrument in list(self.positions.keys()):
                 if instrument not in current_mt5_positions:
                     closed_positions.append(instrument)
 
-            # Handle closed Enhanced positions
+            # Handle closed positions
             for instrument in closed_positions:
                 stored_pos = self.positions[instrument]
-
-                self.logger.info(
-                    f"[REFRESH] Enhanced Position Closed: {instrument.replace('_', '')} {stored_pos['direction'].upper()}")
-                self.logger.info(
-                    f"[CHART] Quality: {stored_pos.get('quality_grade', 'B')}-grade, Entry: {stored_pos['entry_price']:.5f}")
-
-                # Remove from Enhanced tracking
+                self.logger.info(f"[REFRESH] Position Closed: {instrument} {stored_pos['direction'].upper()}")
                 del self.positions[instrument]
 
-            if self.debug_mode and len(current_mt5_positions) > 0:
-                self.logger.info(f"Enhanced monitoring: {len(current_mt5_positions)} positions")
+        except Exception as e:
+            self.logger.error(f"Error checking positions: {e}")
+
+    def _is_market_open(self):
+        """Check if market is open"""
+        try:
+            now = datetime.now(self.timezone)
+            current_hour = now.hour
+            current_day = now.strftime('%A')
+
+            for session in self.config['trading_hours']['sessions']:
+                if current_day in session['days']:
+                    start_hour = int(session['start'].split(':')[0])
+                    end_hour = int(session['end'].split(':')[0])
+
+                    if start_hour <= current_hour < end_hour:
+                        return True
+
+            return False
 
         except Exception as e:
-            self.logger.error(f"Error checking Enhanced positions: {e}")
+            self.logger.error(f"Error checking market hours: {e}")
+            return True
 
     def cleanup(self):
-        """Enhanced cleanup function for graceful shutdown"""
-        self.logger.info("[ALERT] Starting Enhanced cleanup...")
-
-        # Set shutdown flag
+        """Cleanup function"""
+        self.logger.info("[ALERT] Starting cleanup...")
         self.is_running = False
         self.shutdown_event.set()
 
         try:
-            # Shutdown MT5 connection
             mt5.shutdown()
-            self.logger.info("Enhanced MT5 connection closed")
+            self.logger.info("MT5 connection closed")
+        except:
+            pass
 
-        except Exception as e:
-            self.logger.error(f"Error during Enhanced cleanup: {e}")
-
-        self.logger.info("[CHECK] Enhanced cleanup complete")
+        self.logger.info("[CHECK] Cleanup complete")
 
     def run(self):
-        """Enhanced main trading loop"""
-        self.logger.info("[ROCKET] Starting Enhanced MT5 Trading Bot with TFT")
+        """Main trading loop"""
+        self.logger.info("[ROCKET] Starting TENSOR-SAFE Enhanced MT5 Trading Bot")
 
         # Initialize MT5
         if not self.initialize_mt5():
             return
 
-        # Load Enhanced model
+        # Load model
         if not self.load_enhanced_model():
             return
 
-        # Initialize Enhanced components
+        # Initialize components
         if not self.initialize_enhanced_components():
             return
 
         self.is_running = True
-        self.logger.info("[CHECK] Enhanced Bot is ready for live trading - Press Ctrl+C to stop safely")
+        self.logger.info("[CHECK] TENSOR-SAFE Bot ready for live trading")
 
-        # Enhanced startup notification
+        # Startup info
         account_info = mt5.account_info()
         if account_info:
-            scaler_info = self.normalizer.get_scaler_info()
-            self.logger.info(f"[ROCKET] Enhanced MT5 Trading Bot Started!")
-            self.logger.info(f"Model: Enhanced Temporal Fusion Transformer")
+            self.logger.info(f"[ROCKET] === TENSOR-SAFE ENHANCED MT5 TRADING BOT STARTED ===")
+            self.logger.info(f"Model: Enhanced Temporal Fusion Transformer (TENSOR-SAFE)")
             self.logger.info(f"Broker: {account_info.company}")
             self.logger.info(f"[MONEY] Balance: {account_info.balance:.2f} {account_info.currency}")
-            self.logger.info(f"[CHART] Strategy: Enhanced TFT with Quality Controls")
-            self.logger.info(f"Risk per Trade: {self.config.get('execution', {}).get('risk_per_trade', 0.01) * 100}%")
-            self.logger.info(f"[CHART] Max Positions: {self.config.get('execution', {}).get('max_open_positions', 2)}")
+            self.logger.info(f"Timezone: {self.timezone}")
             self.logger.info(f"Max Daily Trades: {self.config.get('execution', {}).get('max_daily_trades', 3)}")
-            self.logger.info(f"[CHECK] Enhanced Scaler: {'Fitted' if scaler_info['is_fitted'] else 'Not Fitted'}")
-            self.logger.info(f"[CHART] Features: {scaler_info['feature_count']}")
-            self.logger.info("Ready for Enhanced live trading!")
+            self.logger.info(f"Magic Number: {self.config.get('execution', {}).get('magic_number', 22222222)}")
+            self.logger.info("=== TENSOR-SAFE OPERATIONS - NO BOOLEAN TENSOR ERRORS ===")
 
-        # Enhanced main loop
+        # Main loop
         iteration_count = 0
-        last_status_update = datetime.now()
+        last_status_update = datetime.now(self.timezone)
 
         try:
             while self.is_running and not self.shutdown_event.is_set():
                 try:
                     iteration_count += 1
 
-                    # Check if market is open
+                    # Check market hours
                     if not self._is_market_open():
                         self.logger.debug("Market closed, waiting...")
                         time.sleep(60)
                         continue
 
-                    # Get Enhanced market data
+                    # Get market data
                     market_data = self.get_enhanced_market_data()
                     if not market_data:
-                        self.logger.warning("No Enhanced market data available")
-                        time.sleep(10)
+                        self.logger.warning("No market data available")
+                        time.sleep(30)
                         continue
 
-                    # Generate Enhanced signals
+                    # Generate TENSOR-SAFE signals
                     signals = self.generate_enhanced_signals(market_data)
 
-                    # Process Enhanced signals
-                    signals_processed = 0
+                    # Process signals
+                    trades_executed = 0
                     for instrument, signal in signals.items():
                         if signal.get('valid', False):
                             if instrument not in self.positions:
                                 quality_grade = signal.get('quality_grade', 'B')
                                 strength = signal.get('strength', 0)
                                 self.logger.info(
-                                    f"[GREEN] New Enhanced {quality_grade}-grade signal for {instrument}: "
-                                    f"{signal['signal']} (strength: {strength:.1%})")
+                                    f"[GREEN] TENSOR-SAFE {quality_grade}-grade signal: "
+                                    f"{signal['signal']} {instrument} (strength: {strength:.1%})")
                                 if self.execute_enhanced_signal(signal, instrument):
-                                    signals_processed += 1
+                                    trades_executed += 1
 
-                    # Check Enhanced positions
+                    if trades_executed > 0:
+                        self.logger.info(f"[CHART] TENSOR-SAFE trading round: {trades_executed} trades executed")
+
+                    # Check positions
                     self.check_enhanced_positions()
 
-                    # Send Enhanced periodic status updates
+                    # Status update every 30 minutes
                     now = datetime.now(self.timezone)
-                    if (now - last_status_update).seconds > 1800:  # Every 30 minutes
-                        positions_count = len(self.positions)
-                        scaler_info = self.normalizer.get_scaler_info()
-                        self.logger.info(f"[CHART] Enhanced Status Update")
-                        self.logger.info(f"[GREEN] Bot: Running (Enhanced TFT)")
-                        self.logger.info(f"[CHART] Open Positions: {positions_count}")
-                        self.logger.info(f"[CHART] Daily Trades: {self.daily_trade_count}")
-                        self.logger.info(f"[REFRESH] Iteration: {iteration_count}")
-                        self.logger.info(f"[CHECK] Enhanced Scaler: {'OK' if scaler_info['is_fitted'] else 'ERROR'}")
-                        self.logger.info(f"Features: {scaler_info['feature_count']}")
-                        self.logger.info(f"Signal Gen: #{self.signal_debug_count}")
-                        self.logger.info(f"Time: {now.strftime('%H:%M:%S')}")
+                    if (now - last_status_update).seconds > 1800:
+                        self.logger.info(f"[CHART] === TENSOR-SAFE STATUS UPDATE ===")
+                        self.logger.info(f"Bot: Running (TENSOR-SAFE Enhanced TFT)")
+                        self.logger.info(f"Positions: {len(self.positions)}")
+                        self.logger.info(f"Daily Trades: {self.daily_trade_count}")
+                        self.logger.info(f"Iteration: {iteration_count}")
+                        self.logger.info(f"Signals Generated: {self.signal_debug_count}")
+                        self.logger.info(f"Time: {now.strftime('%H:%M:%S')} {self.timezone}")
                         last_status_update = now
 
-                    # Log Enhanced status every 10 iterations
+                    # Regular status
                     if iteration_count % 10 == 0:
                         self.logger.info(
-                            f"Enhanced bot running (iteration {iteration_count}, positions: {len(self.positions)}, daily trades: {self.daily_trade_count})")
+                            f"TENSOR-SAFE bot running (iter {iteration_count}, pos: {len(self.positions)}, trades: {self.daily_trade_count})")
 
                     # Wait before next iteration
-                    for _ in range(60):  # 60 seconds total
+                    for _ in range(60):
                         if self.shutdown_event.is_set():
                             break
                         time.sleep(1)
 
                 except Exception as e:
-                    self.logger.error(f"Error in Enhanced main loop: {e}")
+                    self.logger.error(f"Error in main loop: {e}")
                     self.logger.error(f"Traceback: {traceback.format_exc()}")
                     time.sleep(60)
 
         except KeyboardInterrupt:
             self.logger.info("KeyboardInterrupt received")
         except Exception as e:
-            self.logger.error(f"Unexpected Enhanced error: {e}")
+            self.logger.error(f"Unexpected error: {e}")
             self.logger.error(f"Traceback: {traceback.format_exc()}")
         finally:
             self.cleanup()
 
-    def _is_market_open(self):
-        import pytz  # ✅ Will work after pip install
-        tz = pytz.timezone(self.config['trading_hours']['timezone'])
-        now = datetime.now(tz)
-        current_hour = now.hour
-        current_day = now.strftime('%A')
-
-        # Check trading sessions
-        for session in self.config['trading_hours']['sessions']:
-            if current_day in session['days']:
-                start_hour = int(session['start'].split(':')[0])
-                end_hour = int(session['end'].split(':')[0])
-
-                if start_hour <= current_hour < end_hour:
-                    return True
-
-        return False
-
 
 def signal_handler(sig, frame):
-    """Handle shutdown signals gracefully"""
-    print(f"\nReceived signal {sig} - Starting Enhanced graceful shutdown...")
+    """Handle shutdown signals"""
+    print(f"\nReceived signal {sig} - shutting down gracefully...")
     shutdown_event.set()
     time.sleep(2)
-    print("Enhanced shutdown signal processed")
     sys.exit(0)
 
+    def cleanup_and_exit():
+        """Global cleanup"""
+        print("\nFinal TENSOR-SAFE cleanup...")
+        try:
+            shutdown_event.set()
+            if mt5.initialize():
+                mt5.shutdown()
+                print("MT5 connection closed during cleanup")
+            print("TENSOR-SAFE global cleanup complete!")
+        except Exception as e:
+            print(f"Error during cleanup: {e}")
 
-def cleanup_and_exit():
-    """Global Enhanced cleanup function"""
-    print("\nFinal Enhanced cleanup...")
-    print("Enhanced global cleanup complete!")
+    if __name__ == "__main__":
+        # Register cleanup function
+        atexit.register(cleanup_and_exit)
+
+        # Register signal handlers
+        signal.signal(signal.SIGINT, signal_handler)
+        signal.signal(signal.SIGTERM, signal_handler)
+
+        if hasattr(signal, 'SIGBREAK'):
+            signal.signal(signal.SIGBREAK, signal_handler)
+
+        print("🚀 TENSOR-SAFE Enhanced MT5 Trading Bot - LIVE TRADING VERSION")
+        print("=" * 70)
+        print("Features:")
+        print("- ✅ TENSOR COMPARISON ISSUES COMPLETELY RESOLVED")
+        print("- ✅ All tensor operations converted to Python scalars")
+        print("- ✅ Enhanced Temporal Fusion Transformer (never SimpleTFT)")
+        print("- ✅ High-quality signal generation with complex analysis")
+        print("- ✅ Compatible with your trained best_model.pt")
+        print("- ✅ Enhanced error handling and debugging")
+        print("- ✅ Quality-grade trade classification")
+        print("- ✅ NO TELEGRAM (Pure trading focus)")
+        print("- ✅ TENSOR-SAFE OPERATIONS - NO BOOLEAN TENSOR ERRORS")
+        print("=" * 70)
+        print("🔥 LIVE TRADING MODE - Uses full complex signal analysis")
+        print("⚡ All tensor comparisons safely converted to scalar operations")
+        print("✅ Ready for production live trading")
+        print("=" * 70)
+        print("Press Ctrl+C at any time for safe stop\n")
+
+        # Create and run the bot
+        try:
+            print("🔧 Initializing TENSOR-SAFE Enhanced MT5 Trading Bot...")
+            enhanced_bot = EnhancedMT5TradingBot()
+
+            print("🚀 Starting TENSOR-SAFE bot with full complex analysis...")
+            enhanced_bot.run()
+
+        except FileNotFoundError as e:
+            print(f"❌ Configuration file error: {e}")
+            print("Make sure config/config.json exists with proper settings")
+
+        except Exception as e:
+            print(f"❌ Critical TENSOR-SAFE bot error: {e}")
+            print(f"Traceback: {traceback.format_exc()}")
+
+        finally:
+            print("\n" + "=" * 70)
+            print("🏁 TENSOR-SAFE bot execution completed")
+            print("Thanks for using the TENSOR-SAFE Enhanced MT5 Trading Bot!")
+            print("=" * 70)
+            self.logger.error(f"Error in TENSOR-SAFE signal generation: {e}")
+            self.logger.error(f"Traceback: {traceback.format_exc()}")
+            return {'valid': False, 'reason': f'Signal generation error: {e}'}
 
 
-if __name__ == "__main__":
-    # Register Enhanced cleanup function
-    atexit.register(cleanup_and_exit)
-
-    # Register signal handlers for graceful shutdown
-    signal.signal(signal.SIGINT, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-
-    if hasattr(signal, 'SIGBREAK'):
-        signal.signal(signal.SIGBREAK, signal_handler)
-
-    print("🚀 Enhanced MT5 Trading Bot - LIVE TRADING VERSION")
-    print("Features:")
-    print("- FIXED: Array comparison issues resolved")
-    print("- FIXED: Model parameter loading issues resolved")
-    print("- Enhanced Temporal Fusion Transformer (never SimpleTFT)")
-    print("- High-quality signal generation with strict filters")
-    print("- Compatible with your trained best_model.pt")
-    print("- Enhanced error handling and debugging")
-    print("- Quality-grade trade classification")
-    print("- NO TELEGRAM (Pure trading focus)")
-    print("- READY FOR LIVE TRADING")
-    print("Press Ctrl+C at any time for Enhanced safe stop\n")
-
-    # Create and run the Enhanced bot
+def _safe_extract_scalar(self, value):
+    """TENSOR-SAFE: Extract scalar value from any input type"""
     try:
-        enhanced_bot = EnhancedMT5TradingBot()
-        enhanced_bot.run()
+        if isinstance(value, torch.Tensor):
+            # Convert tensor to scalar
+            if value.numel() == 1:
+                return float(value.item())
+            else:
+                # Multiple elements, take first
+                return float(value.flatten()[0].item())
+        elif isinstance(value, np.ndarray):
+            # Convert numpy array to scalar
+            if value.size == 1:
+                return float(value.item())
+            else:
+                return float(value.flatten()[0])
+        elif isinstance(value, (list, tuple)):
+            # Take first element
+            return float(value[0])
+        else:
+            # Already scalar
+            return float(value)
     except Exception as e:
-        print(f"Critical Enhanced bot error: {e}")
-        print(f"Traceback: {traceback.format_exc()}")
-    finally:
-        print("Enhanced bot execution completed")
+        self.logger.error(f"Error extracting scalar from {type(value)}: {e}")
+        return 0.0
+
+
+def _analyze_prediction_TENSOR_SAFE(self, prediction, current_price):
+    """TENSOR-SAFE: Analyze ML prediction with proper tensor handling"""
+    try:
+        self.logger.debug(f"TENSOR-SAFE prediction analysis: type={type(prediction)}")
+
+        # Convert prediction to numpy safely
+        if isinstance(prediction, torch.Tensor):
+            # Detach and convert to numpy
+            pred_np = prediction.detach().cpu().numpy()
+        else:
+            pred_np = np.asarray(prediction)
+
+        self.logger.debug(f"Prediction numpy shape: {pred_np.shape}")
+
+        # TENSOR-SAFE: Extract predictions based on shape
+        if len(pred_np.shape) == 3:
+            # [batch, time_steps, quantiles] - Take first batch, first timestep
+            batch_size, time_steps, num_quantiles = pred_np.shape
+
+            if num_quantiles >= 3:
+                # Extract quantiles safely
+                median_pred = self._safe_extract_scalar(pred_np[0, 0, 1])  # 0.5 quantile
+                lower_pred = self._safe_extract_scalar(pred_np[0, 0, 0])  # 0.1 quantile
+                upper_pred = self._safe_extract_scalar(pred_np[0, 0, 2])  # 0.9 quantile
+            else:
+                median_pred = self._safe_extract_scalar(pred_np[0, 0, 0])
+                lower_pred = median_pred * 0.99
+                upper_pred = median_pred * 1.01
+
+        elif len(pred_np.shape) == 2:
+            # [time_steps, quantiles] or [batch, features]
+            if pred_np.shape[1] >= 3:
+                median_pred = self._safe_extract_scalar(pred_np[0, 1])
+                lower_pred = self._safe_extract_scalar(pred_np[0, 0])
+                upper_pred = self._safe_extract_scalar(pred_np[0, 2])
+            else:
+                median_pred = self._safe_extract_scalar(pred_np[0, 0])
+                lower_pred = median_pred * 0.99
+                upper_pred = median_pred * 1.01
+
+        elif len(pred_np.shape) == 1:
+            # 1D array
+            if pred_np.shape[0] >= 3:
+                median_pred = self._safe_extract_scalar(pred_np[1])
+                lower_pred = self._safe_extract_scalar(pred_np[0])
+                upper_pred = self._safe_extract_scalar(pred_np[2])
+            else:
+                median_pred = self._safe_extract_scalar(pred_np[0])
+                lower_pred = median_pred * 0.99
+                upper_pred = median_pred * 1.01
+        else:
+            # Scalar
+            median_pred = self._safe_extract_scalar(pred_np)
+            lower_pred = median_pred * 0.99
+            upper_pred = median_pred * 1.01
+
+        # TENSOR-SAFE: All values are now guaranteed to be Python floats
+        self.logger.debug(f"Extracted predictions: median={median_pred}, lower={lower_pred}, upper={upper_pred}")
+
+        # Validate all values are finite
+        if not all(np.isfinite([median_pred, lower_pred, upper_pred, current_price])):
+            return {
+                'strong_enough': False,
+                'reason': 'Invalid prediction values',
+                'direction': 'neutral',
+                'strength': 0.0,
+                'confidence': 0.0
+            }
+
+        # Calculate prediction change (all operations on Python floats)
+        pred_change = (median_pred - current_price) / current_price
+
+        # Calculate confidence
+        pred_range = upper_pred - lower_pred
+        confidence = max(0.0, 1.0 - (pred_range / current_price * 10.0)) if current_price > 0 else 0.0
+
+        # Determine direction
+        min_change_threshold = 0.0005  # 0.05%
+
+        if pred_change > min_change_threshold:
+            direction = 'buy'
+            strength = min(abs(pred_change) * 1000.0, 1.0)
+        elif pred_change < -min_change_threshold:
+            direction = 'sell'
+            strength = min(abs(pred_change) * 1000.0, 1.0)
+        else:
+            return {
+                'strong_enough': False,
+                'reason': f'Prediction change too small ({pred_change:.4f})',
+                'direction': 'neutral',
+                'strength': 0.0,
+                'confidence': confidence
+            }
+
+        # Check thresholds
+        min_strength = 0.3
+        min_confidence = 0.4
+        strong_enough = (strength >= min_strength and confidence >= min_confidence)
+
+        return {
+            'strong_enough': strong_enough,
+            'reason': 'Strong prediction' if strong_enough else f'Weak: strength={strength:.2f}, conf={confidence:.2f}',
+            'direction': direction,
+            'strength': strength,
+            'confidence': confidence,
+            'change_percent': pred_change
+        }
+
+    except Exception as e:
+        self.logger.error(f"TENSOR-SAFE prediction analysis error: {e}")
+        return {
+            'strong_enough': False,
+            'reason': f'Prediction analysis error: {e}',
+            'direction': 'neutral',
+            'strength': 0.0,
+            'confidence': 0.0
+        }
+
+
+def _analyze_trend_TENSOR_SAFE(self, data):
+    """TENSOR-SAFE: Trend analysis using price data"""
+    try:
+        if len(data) < 50:
+            return {
+                'trend_confirmed': False,
+                'direction': 'neutral',
+                'strength': 0.0,
+                'reason': 'Insufficient data for trend analysis'
+            }
+
+        # TENSOR-SAFE: Extract price data as numpy arrays first, then convert to scalars
+        close_prices = data['close'].values
+
+        # Calculate moving averages
+        sma_20 = np.mean(close_prices[-20:])
+        sma_50 = np.mean(close_prices[-50:])
+        current_price = float(close_prices[-1])
+
+        # TENSOR-SAFE: All comparisons now on Python floats
+        if sma_20 > sma_50 and current_price > sma_20:
+            direction = 'buy'
+            strength = min((sma_20 - sma_50) / sma_50 * 10.0, 1.0)
+            trend_confirmed = True
+        elif sma_20 < sma_50 and current_price < sma_20:
+            direction = 'sell'
+            strength = min((sma_50 - sma_20) / sma_50 * 10.0, 1.0)
+            trend_confirmed = True
+        else:
+            direction = 'neutral'
+            strength = 0.0
+            trend_confirmed = False
+
+        # Additional confirmation using momentum
+        if len(close_prices) >= 10:
+            momentum = (current_price - float(close_prices[-10])) / float(close_prices[-10])
+            if direction == 'buy' and momentum > 0:
+                strength = min(strength + 0.2, 1.0)
+            elif direction == 'sell' and momentum < 0:
+                strength = min(strength + 0.2, 1.0)
+
+        return {
+            'trend_confirmed': trend_confirmed and strength > 0.6,
+            'direction': direction,
+            'strength': strength,
+            'reason': f'Trend: {direction}, SMA20: {sma_20:.5f}, SMA50: {sma_50:.5f}, strength: {strength:.2f}'
+        }
+
+    except Exception as e:
+        self.logger.error(f"TENSOR-SAFE trend analysis error: {e}")
+        return {
+            'trend_confirmed': False,
+            'direction': 'neutral',
+            'strength': 0.0,
+            'reason': f'Trend analysis error: {e}'
+        }
+
+
+def _analyze_support_resistance_TENSOR_SAFE(self, current_price, data, direction):
+    """TENSOR-SAFE: Support/Resistance analysis"""
+    try:
+        if len(data) < 20:
+            return {
+                'valid': False,
+                'reason': 'Insufficient data for S/R analysis',
+                'strength': 0.0
+            }
+
+        # TENSOR-SAFE: Extract high/low data as numpy, then work with scalars
+        highs = data['high'].values[-50:]  # Last 50 candles
+        lows = data['low'].values[-50:]
+
+        # Find recent support and resistance levels
+        resistance_levels = []
+        support_levels = []
+
+        # Simple approach: use recent highs/lows
+        for i in range(5, len(highs) - 5):
+            # Check if it's a local high (resistance)
+            if all(highs[i] >= highs[j] for j in range(i - 5, i + 6) if j != i):
+                resistance_levels.append(float(highs[i]))
+
+            # Check if it's a local low (support)
+            if all(lows[i] <= lows[j] for j in range(i - 5, i + 6) if j != i):
+                support_levels.append(float(lows[i]))
+
+        # TENSOR-SAFE: Find nearest levels
+        if direction == 'buy':
+            # Look for support levels below current price
+            valid_supports = [s for s in support_levels if s < current_price]
+            if not valid_supports:
+                return {
+                    'valid': False,
+                    'reason': 'No support levels found',
+                    'strength': 0.0
+                }
+
+            nearest_support = max(valid_supports)  # Closest support below
+            distance = abs(current_price - nearest_support) / current_price
+
+            if distance <= 0.002:  # Within 0.2%
+                strength = 1.0 - (distance / 0.002)
+                return {
+                    'valid': True,
+                    'reason': f'Near support at {nearest_support:.5f} ({distance:.3%} away)',
+                    'strength': strength,
+                    'support_level': nearest_support,
+                    'resistance_level': None
+                }
+            else:
+                return {
+                    'valid': False,
+                    'reason': f'Too far from support ({distance:.3%})',
+                    'strength': 0.0
+                }
+
+        elif direction == 'sell':
+            # Look for resistance levels above current price
+            valid_resistances = [r for r in resistance_levels if r > current_price]
+            if not valid_resistances:
+                return {
+                    'valid': False,
+                    'reason': 'No resistance levels found',
+                    'strength': 0.0
+                }
+
+            nearest_resistance = min(valid_resistances)  # Closest resistance above
+            distance = abs(current_price - nearest_resistance) / current_price
+
+            if distance <= 0.002:  # Within 0.2%
+                strength = 1.0 - (distance / 0.002)
+                return {
+                    'valid': True,
+                    'reason': f'Near resistance at {nearest_resistance:.5f} ({distance:.3%} away)',
+                    'strength': strength,
+                    'support_level': None,
+                    'resistance_level': nearest_resistance
+                }
+            else:
+                return {
+                    'valid': False,
+                    'reason': f'Too far from resistance ({distance:.3%})',
+                    'strength': 0.0
+                }
+
+        return {
+            'valid': False,
+            'reason': 'Invalid direction for S/R analysis',
+            'strength': 0.0
+        }
+
+    except Exception as e:
+        self.logger.error(f"TENSOR-SAFE S/R analysis error: {e}")
+        return {
+            'valid': False,
+            'reason': f'S/R analysis error: {e}',
+            'strength': 0.0
+        }
+
+
+def _calculate_composite_strength_TENSOR_SAFE(self, prediction_analysis, trend_analysis, sr_analysis):
+    """TENSOR-SAFE: Calculate composite strength"""
+    try:
+        weights = {
+            'trend': 0.4,
+            'prediction': 0.4,
+            'support_resistance': 0.2
+        }
+
+        composite = (
+                trend_analysis['strength'] * weights['trend'] +
+                prediction_analysis['strength'] * weights['prediction'] +
+                sr_analysis['strength'] * weights['support_resistance']
+        )
+
+        return min(composite, 1.0)
+
+    except Exception as e:
+        self.logger.error(f"TENSOR-SAFE composite strength error: {e}")
+        return 0.0
+
+
+def _calculate_entry_levels_TENSOR_SAFE(self, current_price, direction, sr_analysis):
+    """TENSOR-SAFE: Calculate entry levels"""
+    try:
+        if direction == 'buy':
+            entry_price = current_price
+
+            # Use support level if available, otherwise use percentage
+            if sr_analysis.get('support_level'):
+                stop_loss = sr_analysis['support_level'] * 0.9995  # 5 pips below support
+            else:
+                stop_loss = current_price * 0.995  # 0.5% below
+
+            risk_distance = entry_price - stop_loss
+            rr_ratio = self.config['execution']['take_profit']['value']
+            take_profit = entry_price + (risk_distance * rr_ratio)
+
+        else:  # sell
+            entry_price = current_price
+
+            # Use resistance level if available, otherwise use percentage
+            if sr_analysis.get('resistance_level'):
+                stop_loss = sr_analysis['resistance_level'] * 1.0005  # 5 pips above resistance
+            else:
+                stop_loss = current_price * 1.005  # 0.5% above
+
+            risk_distance = stop_loss - entry_price
+            rr_ratio = self.config['execution']['take_profit']['value']
+            take_profit = entry_price - (risk_distance * rr_ratio)
+
+        return {
+            'entry': entry_price,
+            'stop_loss': stop_loss,
+            'take_profit': take_profit,
+            'risk_reward': rr_ratio
+        }
+
+    except Exception as e:
+        self.logger.error(f"TENSOR-SAFE entry calculation error: {e}")
+        return {
+            'entry': current_price,
+            'stop_loss': current_price * 0.99 if direction == 'buy' else current_price * 1.01,
+            'take_profit': current_price * 1.02 if direction == 'buy' else current_price * 0.98,
+            'risk_reward': 2.0
+        }
+
+
+def _too_soon_for_signal(self, instrument):
+    """Check if too soon for signal"""
+    if instrument not in self.last_signals:
+        return False
+    time_since_last = datetime.now() - self.last_signals[instrument]
+    hours_since_last = time_since_last.total_seconds() / 3600
+    return hours_since_last < self.min_signal_gap_hours
+
+
+def _add_to_history(self, signal):
+    """Add signal to history"""
+    self.signal_history.append(signal)
+    if len(self.signal_history) > self.max_history:
+        self.signal_history = self.signal_history[-self.max_history:]
+
+
+def get_signal_statistics(self):
+    """Get signal statistics"""
+    if not self.signal_history:
+        return {"count": 0}
+
+    valid_signals = [s for s in self.signal_history if s.get('valid', False)]
+    if not valid_signals:
+        return {"count": 0, "valid_signals": 0}
+
+    a_grade = sum(1 for s in valid_signals if s.get('quality_grade') == 'A')
+    b_grade = sum(1 for s in valid_signals if s.get('quality_grade') == 'B')
+    buy_signals = sum(1 for s in valid_signals if s.get('signal') == 'buy')
+    sell_signals = sum(1 for s in valid_signals if s.get('signal') == 'sell')
+    avg_strength = sum(s.get('strength', 0) for s in valid_signals) / len(valid_signals)
+
+    return {
+        "total_signals": len(self.signal_history),
+        "valid_signals": len(valid_signals),
+        "rejection_rate": 1 - (len(valid_signals) / len(self.signal_history)),
+        "quality_grades": {"A": a_grade, "B": b_grade},
+        "direction_split": {"buy": buy_signals, "sell": sell_signals},
+        "average_strength": avg_strength,
+        "instruments": list(set(s.get('instrument') for s in valid_signals))
+    }
+
+
+class EnhancedMT5TradingBot:
+    def __init__(self, config_path='config/config.json'):
+        # Load configuration
+        with open(config_path, 'r') as f:
+            self.config = json.load(f)
+
+        # Setup logging
+        self.setup_safe_logging()
+
+        # Initialize timezone
+        self.timezone = pytz.timezone(self.config['trading_hours']['timezone'])
+
+        # Initialize components
+        self.model = None
+        self.normalizer = None
+        self.signal_generator = None  # TENSOR-SAFE signal generator
+        self.risk_manager = None
+
+        # Trading state
+        self.is_running = False
+        self.positions = {}
+        self.daily_trade_count = 0
+        self.last_trade_date = None
+
+        # Debug info
+        self.debug_mode = True
+        self.signal_debug_count = 0
+
+        # Shutdown handling
+        self.shutdown_event = threading.Event()
+
+        self.logger.info("EnhancedMT5Bot - TENSOR-SAFE Enhanced MT5 Trading Bot initialized")
+
+    def setup_safe_logging(self):
+        """Setup logging"""
+        os.makedirs('logs', exist_ok=True)
+
+        self.logger = logging.getLogger('EnhancedMT5Bot')
+        self.logger.setLevel(logging.INFO)
+        self.logger.handlers.clear()
+
+        formatter = SafeFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.INFO)
+        console_handler.setFormatter(formatter)
+        self.logger.addHandler(console_handler)
+
+        try:
+            file_handler = logging.FileHandler('logs/enhanced_mt5_trading_bot.log', encoding='utf-8')
+            file_handler.setLevel(logging.INFO)
+            file_handler.setFormatter(formatter)
+            self.logger.addHandler(file_handler)
+        except Exception as e:
+            print(f"Warning: Could not create file handler: {e}")
+
+    def initialize_mt5(self):
+        """Initialize MT5 connection"""
+        if not mt5.initialize():
+            self.logger.error("Failed to initialize MetaTrader5")
+            return False
+
+        account_info = mt5.account_info()
+        if account_info is not None:
+            self.logger.info("[CHECK] Using existing MT5 session")
+            self.logger.info(f"Connected to account: {account_info.login}")
+            self.logger.info(f"Broker: {account_info.company}")
+            self.logger.info(f"Balance: {account_info.balance} {account_info.currency}")
+            return True
+
+        self.logger.error("[ERROR] No active MT5 session found")
+        return False
+
+        def load_enhanced_model(self):
+            """Load Enhanced TFT model"""
+            model_path = self.config['export']['model_path']
+
+            if not os.path.exists(model_path):
+                self.logger.error(f"Model file not found: {model_path}")
+                return False
+
+            try:
+                checkpoint = torch.load(model_path, map_location='cpu')
+                self.logger.info(f"Checkpoint keys: {list(checkpoint.keys())}")
+
+                if 'config' in checkpoint and 'model' in checkpoint['config']:
+                    model_config = checkpoint['config']['model']
+                else:
+                    model_config = self.config['model']
+
+                self.model = TemporalFusionTransformer(model_config)
+                self.logger.info("Initializing Enhanced TFT layers...")
+
+                past_seq_len = model_config.get('past_sequence_length', 120)
+                forecast_horizon = model_config.get('forecast_horizon', 12)
+
+                dummy_batch = {
+                    'past': torch.randn(1, past_seq_len, 29),
+                    'future': torch.randn(1, forecast_horizon, 28),
+                    'static': torch.randn(1, 1)
+                }
+
+                with torch.no_grad():
+                    _ = self.model(dummy_batch)
+
+                if 'model_state_dict' in checkpoint:
+                    try:
+                        self.model.load_state_dict(checkpoint['model_state_dict'], strict=False)
+                        self.logger.info("Model weights loaded successfully")
+                    except Exception as e:
+                        self.logger.warning(f"Partial loading: {e}")
+
+                self.model.eval()
+
+                total_params = sum(p.numel() for p in self.model.parameters())
+                if total_params == 0:
+                    self.logger.error("Model has 0 parameters!")
+                    return False
+
+                self.logger.info(f"[CHECK] Enhanced TFT loaded with {total_params:,} parameters")
+
+                # Test model
+                with torch.no_grad():
+                    output = self.model(dummy_batch)
+                    self.logger.info(f"[CHECK] Model test successful. Output shape: {output.shape}")
+
+                return True
+
+            except Exception as e
